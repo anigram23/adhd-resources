@@ -1,5 +1,6 @@
 package io.github.anigaut.adhdresources.city;
 
+import io.github.anigaut.adhdresources.professional.Professional;
 import io.github.anigaut.adhdresources.state.State;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "city")
@@ -27,4 +30,7 @@ public class City {
     @NotNull
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Professional> professionals;
 }

@@ -1,6 +1,8 @@
-package io.github.anigaut.adhdresources.reviewer;
+package io.github.anigaut.adhdresources.professional;
 
 import io.github.anigaut.adhdresources.review.Review;
+import io.github.anigaut.adhdresources.city.City;
+import io.github.anigaut.adhdresources.professionalType.ProfessionalType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,12 +16,12 @@ import java.time.Instant;
 import java.util.Set;
 
 @Entity
-@Table(name = "reviewer")
+@Table(name = "professional")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reviewer {
+public class Professional {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -29,11 +31,18 @@ public class Reviewer {
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(name = "email", unique = true)
-    private String email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "professional_type_id", nullable = false)
+    private ProfessionalType professionalType;
 
-    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", nullable = false)
+    private City city;
+
+    @Column(name = "average_rating")
+    private Short averageRating;
+
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
 
     @CreationTimestamp
