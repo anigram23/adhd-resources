@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -17,11 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Otp {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
-
-    @NotNull
     @Column(name = "email")
     private String email;
 
@@ -34,6 +30,7 @@ public class Otp {
     private LocalDateTime expiresAt;
 
     @NotNull
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
