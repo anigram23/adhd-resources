@@ -2,6 +2,7 @@ package io.github.anigaut.adhdresources.professionalType;
 
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeRequestDTO;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeResponseDTO;
+import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ProfessionalTypeController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProfessionalTypeResponseDTO> updateProfessionalType(@PathVariable int id, @RequestBody ProfessionalTypeRequestDTO professionalTypeRequest) {
+    public ResponseEntity<ProfessionalTypeResponseDTO> updateProfessionalType(@PathVariable int id, @RequestBody ProfessionalTypeUpdateDTO professionalTypeRequest) {
         ProfessionalTypeResponseDTO updatedType = professionalTypeService.updateProfessionalType(id, professionalTypeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedType);
     }

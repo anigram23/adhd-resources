@@ -1,9 +1,12 @@
 package io.github.anigaut.adhdresources.professionalType;
 
+import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeRequestDTO;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeResponseDTO;
+import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeUpdateDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +30,8 @@ public class ProfessionalTypeService {
     }
 
     public ProfessionalTypeResponseDTO getProfessionalTypeById(int id) {
-        ProfessionalType type = professionalTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Professional type not found with id: " + id));
+        ProfessionalType type = professionalTypeRepository.findById(id)
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
         return professionalTypeMapper.toResponseDTO(type);
     }
 
@@ -36,16 +40,18 @@ public class ProfessionalTypeService {
     }
 
     @Transactional
-    public ProfessionalTypeResponseDTO updateProfessionalType(int id, ProfessionalTypeRequestDTO requestDTO) {
-        ProfessionalType type = professionalTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Professional type not found with id: " + id));
-        professionalTypeMapper.updateProfessionalTypeFromDTO(requestDTO, type);
+    public ProfessionalTypeResponseDTO updateProfessionalType(int id, ProfessionalTypeUpdateDTO updateDTO) {
+        ProfessionalType type = professionalTypeRepository.findById(id).
+                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
+        professionalTypeMapper.updateProfessionalTypeFromDTO(updateDTO, type);
         ProfessionalType updatedType = professionalTypeRepository.save(type);
         return professionalTypeMapper.toResponseDTO(updatedType);
     }
 
     @Transactional
     public void deleteProfessionalType(int id) {
-        ProfessionalType type = professionalTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Professional type not found with id: " + id));
+        ProfessionalType type = professionalTypeRepository.findById(id).
+                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
         professionalTypeRepository.delete(type);
     }
 }

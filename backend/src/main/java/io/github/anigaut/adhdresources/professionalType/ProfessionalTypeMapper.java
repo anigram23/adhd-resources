@@ -2,6 +2,7 @@ package io.github.anigaut.adhdresources.professionalType;
 
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeRequestDTO;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeResponseDTO;
+import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -19,5 +20,5 @@ public interface ProfessionalTypeMapper {
 
     List<ProfessionalTypeResponseDTO> toResponseDTOList(List<ProfessionalType> types);
 
-    void updateProfessionalTypeFromDTO(ProfessionalTypeRequestDTO dto, @MappingTarget ProfessionalType type);
+    void updateProfessionalTypeFromDTO(ProfessionalTypeUpdateDTO dto, @MappingTarget ProfessionalType type);
 }
