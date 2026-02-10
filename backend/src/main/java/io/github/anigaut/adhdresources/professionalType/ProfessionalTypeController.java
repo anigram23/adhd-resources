@@ -3,6 +3,7 @@ package io.github.anigaut.adhdresources.professionalType;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeRequestDTO;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeResponseDTO;
 import io.github.anigaut.adhdresources.professionalType.dto.ProfessionalTypeUpdateDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProfessionalTypeController {
     }
 
     @PostMapping("/")
-    public ProfessionalTypeResponseDTO createProfessionalType(@RequestBody ProfessionalTypeRequestDTO professionalTypeRequest) {
+    public ProfessionalTypeResponseDTO createProfessionalType(@Valid @RequestBody ProfessionalTypeRequestDTO professionalTypeRequest) {
         return professionalTypeService.createProfessionalType(professionalTypeRequest);
     }
 
