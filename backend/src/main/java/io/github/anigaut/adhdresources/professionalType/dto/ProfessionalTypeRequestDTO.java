@@ -17,11 +17,11 @@ public class ProfessionalTypeRequestDTO {
     private String title;
 
     @NotNull(message = "Please mention if these professionals are medical doctors")
-    private Boolean isDoctor;
+    private boolean doctor;
 
     @NotNull(message = "Please mention if these professionals can diagnose ADHD")
-    private Boolean canDiagnose;
+    private boolean canDiagnose;
 
     @NotNull(message = "Please mention if these professionals can prescribe medications for ADHD")
-    private Boolean canPrescribeMeds;
+    private boolean canPrescribeMeds;
 }

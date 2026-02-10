@@ -28,7 +28,7 @@ public class ProfessionalType {
 
     @NotNull
     @Column(name = "is_doctor")
-    private boolean isDoctor;
+    private boolean doctor;
 
     @NotNull
     @Column(name = "can_diagnose")

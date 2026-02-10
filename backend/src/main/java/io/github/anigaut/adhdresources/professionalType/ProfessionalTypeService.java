@@ -24,6 +24,9 @@ public class ProfessionalTypeService {
 
     @Transactional
     public ProfessionalTypeResponseDTO createProfessionalType(ProfessionalTypeRequestDTO requestDTO) {
+        if (professionalTypeRepository.existsByTitle(requestDTO.getTitle())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "A professional type with this title already exists.");
+        }
         ProfessionalType professionalType = professionalTypeMapper.toEntity(requestDTO);
         ProfessionalType savedProfessionalType = professionalTypeRepository.save(professionalType);
         return professionalTypeMapper.toResponseDTO(savedProfessionalType);
@@ -44,8 +47,7 @@ public class ProfessionalTypeService {
         ProfessionalType type = professionalTypeRepository.findById(id).
                 orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
         professionalTypeMapper.updateProfessionalTypeFromDTO(updateDTO, type);
-        ProfessionalType updatedType = professionalTypeRepository.save(type);
-        return professionalTypeMapper.toResponseDTO(updatedType);
+        return professionalTypeMapper.toResponseDTO(type);
     }
 
     @Transactional

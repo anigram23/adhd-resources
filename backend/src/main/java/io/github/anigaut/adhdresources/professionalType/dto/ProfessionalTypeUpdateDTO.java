@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProfessionalTypeUpdateDTO {
     private String title;
-    private Boolean isDoctor;
+    private Boolean doctor;
     private Boolean canDiagnose;
     private Boolean canPrescribeMeds;
 }
