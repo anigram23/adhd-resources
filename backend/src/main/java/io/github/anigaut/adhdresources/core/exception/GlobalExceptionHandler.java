@@ -14,6 +14,7 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Couldn't find entity, invalid request data, etc.
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorResponse> handleHttpException(HttpException ex, WebRequest req) {
         String path = req.getDescription(false).replace("uri=", "");
@@ -28,6 +29,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, ex.getStatus());
     }
 
+    // Wrong form data - missing fields, invalid values, etc.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleFormValidationException(MethodArgumentNotValidException ex, WebRequest req) {
         String path = req.getDescription(false).replace("uri=", "");
@@ -49,6 +51,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    // Generic exceptions that don't match the above ones
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, WebRequest req) {
         String path = req.getDescription(false).replace("uri=", "");
