@@ -33,4 +33,4 @@ build/
 .vscode/
 
 # Ignore local Spring Boot property files
-**/application-local.properties
+src/main/resources/application-local.properties

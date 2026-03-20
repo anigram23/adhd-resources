@@ -1,4 +1,4 @@
-package io.github.anigaut.adhdresources.core.security;
+package io.github.anigaut.adhdresources.core.security.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -30,5 +30,23 @@ public class JwtUtil {
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSecretKey())
                 .compact();
+    }
+
+    public String extractEmail(String token) {
+        return Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    public String extractRole(String token) {
+        return Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
     }
 }
