@@ -3,6 +3,7 @@ package io.github.anigaut.adhdresources.core.security.jwt;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter { // takes place once for every request
     private final JwtUtil jwtUtil;
 
     @Override
@@ -31,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     {
         String token = extractTokenFromCookie(request);
         if (token == null) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response); // continue with the chain
             return;
         }
 
@@ -39,15 +40,18 @@ public class JwtFilter extends OncePerRequestFilter {
             String email = jwtUtil.extractEmail(token);
             String role = jwtUtil.extractRole(token);
 
+            // check and add authentication details only if not authenticated
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
+                // container to hold the authentication details in spring security
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         email,
                         null,
                         authorities
                 );
 
+                // set authentication details in the spring environment
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (JwtException e) {
@@ -65,7 +69,7 @@ public class JwtFilter extends OncePerRequestFilter {
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("jwt"))
                 .findFirst()
-                .map(cookie -> cookie.getValue())
+                .map(Cookie::getValue) // same as cookie -> cookie.getValue()
                 .orElse(null);
     }
 }
