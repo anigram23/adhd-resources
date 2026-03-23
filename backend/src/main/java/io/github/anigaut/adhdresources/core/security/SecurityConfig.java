@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
@@ -25,10 +26,10 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("api/admin/auth").permitAll()
-                    .requestMatchers("api/reviewer/auth").permitAll()
-                    .requestMatchers("api/admin/**").hasRole("ADMIN")
-                    .requestMatchers("api/reviewer/**").hasRole("REVIEWER")
+                    .requestMatchers("/api/admin/register").permitAll()
+                    .requestMatchers("/api/reviewer/login").permitAll()
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/reviewer/**").hasRole("REVIEWER")
                     //.anyRequest().authenticated()
                     .anyRequest().permitAll()
             )
