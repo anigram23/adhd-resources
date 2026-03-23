@@ -20,4 +20,15 @@ public class CookieUtil {
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
     }
+
+    public void clearJwtCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0) // Expire immediately
+                .sameSite("Strict")
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
+    }
 }
