@@ -26,8 +26,7 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/admin/register").permitAll()
-                    .requestMatchers("/api/reviewer/login").permitAll()
+                    .requestMatchers("/api/admin/register", "/api/admin/login", "/api/admin/logout").permitAll()
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/reviewer/**").hasRole("REVIEWER")
                     //.anyRequest().authenticated()

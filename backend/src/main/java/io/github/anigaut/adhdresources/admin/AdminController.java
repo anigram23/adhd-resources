@@ -17,15 +17,21 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerAdmin(@Valid @RequestBody AdminRegisterDTO dto, HttpServletResponse response) {
-        adminService.registerAdmin(dto, response);
+    public ResponseEntity<String> register(@Valid @RequestBody AdminRegisterDTO dto, HttpServletResponse response) {
+        adminService.register(dto, response);
         return ResponseEntity.status(HttpStatus.CREATED).body("Registered successfully");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAdmin(@Valid @RequestBody AdminLoginDTO dto, HttpServletResponse response) {
-        adminService.loginAdmin(dto, response);
+    public ResponseEntity<String> login(@Valid @RequestBody AdminLoginDTO dto, HttpServletResponse response) {
+        adminService.login(dto, response);
         return ResponseEntity.status(HttpStatus.OK).body("Logged in successfully");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        adminService.logout(response);
+        return ResponseEntity.status(HttpStatus.OK).body("Logged out successfully");
     }
 
     @GetMapping("/test")
