@@ -13,13 +13,13 @@ type LinksProps = {
 export default function Links({ isMobile = true }: LinksProps) {
     const StackType = isMobile ? VStack : HStack;
     return (
-        <StackType>
+        <StackType gap={isMobile ? 4 : 8} align={isMobile ? "start" : "center"}>
             {links.map(link => (
                 <a key={link.name} href={link.path}>{link.name}</a>
             ))}
 
             <Button>Login</Button>
-            <Button>Sign Up</Button>
+            <Button>Register</Button>
         </StackType>
     )
 }
