@@ -20,22 +20,22 @@ public class AdminService {
     private final CookieUtil cookieUtil;
     private final JwtUtil jwtUtil;
 
-    @Transactional
-    public void register(AdminRegisterDTO dto, HttpServletResponse response) {
-        if (adminRepository.existsByEmail(dto.getEmail())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "An admin with this email already exists, please enter a different one");
-        }
-
-        Admin newAdmin = new Admin();
-        newAdmin.setName(dto.getName());
-        newAdmin.setEmail(dto.getEmail());
-        newAdmin.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
-        newAdmin.setSuper(false);
-        adminRepository.save(newAdmin);
-
-        String token = jwtUtil.generateToken(newAdmin.getEmail(), "ADMIN");
-        cookieUtil.attachJwtCookie(response, token);
-    }
+//    @Transactional
+//    public void register(AdminRegisterDTO dto, HttpServletResponse response) {
+//        if (adminRepository.existsByEmail(dto.getEmail())) {
+//            throw new HttpException(HttpStatus.BAD_REQUEST, "An admin with this email already exists, please enter a different one");
+//        }
+//
+//        Admin newAdmin = new Admin();
+//        newAdmin.setName(dto.getName());
+//        newAdmin.setEmail(dto.getEmail());
+//        newAdmin.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
+//        newAdmin.setSuper(false);
+//        adminRepository.save(newAdmin);
+//
+//        String token = jwtUtil.generateToken(newAdmin.getEmail(), "ADMIN");
+//        cookieUtil.attachJwtCookie(response, token);
+//    }
 
     @Transactional
     public void login(AdminLoginDTO dto, HttpServletResponse response) {

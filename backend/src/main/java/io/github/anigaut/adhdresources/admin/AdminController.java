@@ -16,11 +16,11 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody AdminRegisterDTO dto, HttpServletResponse response) {
-        adminService.register(dto, response);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Registered successfully");
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@Valid @RequestBody AdminRegisterDTO dto, HttpServletResponse response) {
+//        adminService.register(dto, response);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Registered successfully");
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody AdminLoginDTO dto, HttpServletResponse response) {
