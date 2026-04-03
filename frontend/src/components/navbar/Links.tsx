@@ -18,8 +18,8 @@ export default function Links({ isMobile = true }: LinksProps) {
                 <a key={link.name} href={link.path}>{link.name}</a>
             ))}
 
-            <Button>Login</Button>
-            <Button>Register</Button>
+            <Button variant="outline" asChild><a href="/login">Login</a></Button>
+            <Button variant="outline">Register</Button>
         </StackType>
     )
 }

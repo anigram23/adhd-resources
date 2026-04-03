@@ -11,7 +11,7 @@ export default function Navbar() {
             align="center"
             justify="space-between"
             wrap="wrap"
-            gap={{base: 6, lg: 12}}
+            gap={{base: 5, lg: 12}}
             py={3}
             maxW="full"
             mx="auto"
@@ -20,11 +20,11 @@ export default function Navbar() {
         >
                 <Logo />
 
-                <Box display={{smDown: "block", md: "none"}}>
+                <Box display={{smDown: "block", sm: "none"}}>
                     <MobileDrawer />
                 </Box>
 
-                <Box display={{smDown: "none", md: "block"}}>
+                <Box display={{smDown: "none", sm: "block"}}>
                     <Links isMobile={false} />
                 </Box>
         </Flex>
