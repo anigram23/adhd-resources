@@ -1,4 +1,5 @@
 import { Button, HStack, VStack } from "@chakra-ui/react";
+import {useAuth} from "@/AuthContext.tsx";
 
 const links = [
     { name: "Home", path: "/" },
@@ -11,6 +12,7 @@ type LinksProps = {
 };
 
 export default function Links({ isMobile = true }: LinksProps) {
+    const { isAuthenticated, isLoading } = useAuth();
     const StackType = isMobile ? VStack : HStack;
     return (
         <StackType gap={isMobile ? 4 : 8} align={isMobile ? "start" : "center"}>
@@ -18,8 +20,15 @@ export default function Links({ isMobile = true }: LinksProps) {
                 <a key={link.name} href={link.path}>{link.name}</a>
             ))}
 
-            <Button variant="outline" asChild><a href="/login">Login</a></Button>
-            <Button variant="outline">Register</Button>
+            {(isAuthenticated && !isLoading) ? (
+                <Button variant="outline">Logout</Button>
+            ): (
+                <>
+                    <Button variant="outline" asChild><a href="/login">Login</a></Button><Button
+                    variant="outline">Register</Button>
+                </>
+            )}
+
         </StackType>
     )
 }
