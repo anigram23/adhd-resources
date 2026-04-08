@@ -3,6 +3,7 @@ package io.github.anigaut.adhdresources.admin;
 import io.github.anigaut.adhdresources.admin.dto.AdminLoginDTO;
 import io.github.anigaut.adhdresources.admin.dto.AdminRegisterDTO;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
+import io.github.anigaut.adhdresources.core.security.auth.UserDetailsDTO;
 import io.github.anigaut.adhdresources.core.security.jwt.JwtUtil;
 import io.github.anigaut.adhdresources.core.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,5 +55,20 @@ public class AdminService {
 
     public void logout(HttpServletResponse response) {
         cookieUtil.clearJwtCookie(response);
+    }
+
+    public UserDetailsDTO getCurrentAdmin(String email) {
+        Admin admin = adminRepository.findByEmail(email);
+        if (admin == null) {
+            throw new HttpException(HttpStatus.NOT_FOUND, "An admin with this email doesn't exist");
+        }
+
+        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
+        userDetailsDTO.setId(admin.getId());
+        userDetailsDTO.setEmail(admin.getEmail());
+        userDetailsDTO.setName(admin.getName());
+        userDetailsDTO.setRole("ADMIN");
+
+        return userDetailsDTO;
     }
 }
