@@ -1,12 +1,13 @@
 import login from "@/api_service/admin";
 import { Button, Card, Center, Field, Input, Stack, Text } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function AdminLoginForm() {
 
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const [form, setForm] = useState({
         email: "",
@@ -15,8 +16,10 @@ export default function AdminLoginForm() {
 
     const mutation = useMutation({
         mutationFn: login,
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             console.log("Login successful:", data);
+            await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
             navigate("/admin");
         },
     });
@@ -60,15 +63,15 @@ export default function AdminLoginForm() {
                                     />
                                 </Field.Root>
 
-                                <Button type="submit" colorPalette="green" width="30%" disabled={mutation.isPending}>
-                                    {mutation.isPending ? "Logging in..." : "Login"}
-                                </Button>
-
                                 {mutation.isError && (
                                     <Text color="red.500" fontSize="sm">
                                         {mutation.error.message}
                                     </Text>
                                 )}
+
+                                <Button type="submit" colorPalette="green" width="30%" disabled={mutation.isPending}>
+                                    {mutation.isPending ? "Logging in..." : "Login"}
+                                </Button>
 
                             </Stack>
                         </Card.Body>
