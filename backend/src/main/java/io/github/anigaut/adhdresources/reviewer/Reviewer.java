@@ -33,6 +33,10 @@ public class Reviewer {
     @Column(name = "email", unique = true)
     private String email;
 
+    @NotNull
+    @Column(name = "password_hash")
+    private String passwordHash;
+
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
 
