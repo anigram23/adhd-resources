@@ -1,6 +1,7 @@
 package io.github.anigaut.adhdresources.core.security.auth;
 
 import io.github.anigaut.adhdresources.admin.AdminService;
+import io.github.anigaut.adhdresources.reviewer.ReviewerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
     private final AdminService adminService;
-    // add reviewer service too
+    private final ReviewerService reviewerService;
 
     @GetMapping("/me")
     public ResponseEntity<UserDetailsDTO> getCurrentUser(Authentication authentication) {
@@ -24,7 +25,11 @@ public class AuthController {
         String email = authentication.getPrincipal().toString();
         String role = authentication.getAuthorities().stream().findFirst().orElseThrow().getAuthority().replace("ROLE_", ""); // remove "ROLE_" prefix
 
-        // later check for the role, and get the user according to it
-        return ResponseEntity.ok(adminService.getCurrentAdmin(email));
+        if (role.equals("ADMIN")) {
+            return ResponseEntity.ok(adminService.getCurrentAdmin(email));
+        } else {
+            return ResponseEntity.ok(reviewerService.getCurrentReviewer(email));
+        }
+
     }
 }
