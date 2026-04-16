@@ -1,6 +1,7 @@
-package io.github.anigaut.adhdresources.admin.dto;
+package io.github.anigaut.adhdresources.admin;
 
-import io.github.anigaut.adhdresources.admin.Admin;
+import io.github.anigaut.adhdresources.admin.dto.AdminLoginDTO;
+import io.github.anigaut.adhdresources.admin.dto.AdminRegisterDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
