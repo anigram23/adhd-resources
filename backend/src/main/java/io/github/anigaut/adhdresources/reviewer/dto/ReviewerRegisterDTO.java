@@ -14,9 +14,9 @@ public class ReviewerRegisterDTO {
     @NotBlank(message = "Please enter your email ID")
     private String email;
 
-    @NotBlank(message = "Please enter your name")
-    private String name;
-
     @NotBlank(message = "Please enter a password")
     private String password;
+
+    @NotBlank(message = "Please confirm your password")
+    public String confirmPassword;
 }

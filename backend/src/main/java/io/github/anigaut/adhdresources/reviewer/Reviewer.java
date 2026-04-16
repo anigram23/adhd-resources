@@ -26,10 +26,6 @@ public class Reviewer {
     private int id;
 
     @NotNull
-    @Column(name = "name")
-    private String name;
-
-    @NotNull
     @Column(name = "email", unique = true)
     private String email;
 

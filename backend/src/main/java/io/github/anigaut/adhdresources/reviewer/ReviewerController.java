@@ -1,9 +1,7 @@
 package io.github.anigaut.adhdresources.reviewer;
 
-import io.github.anigaut.adhdresources.admin.dto.AdminLoginDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

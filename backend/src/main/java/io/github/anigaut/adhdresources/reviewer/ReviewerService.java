@@ -27,9 +27,12 @@ public class ReviewerService {
             throw new HttpException(HttpStatus.BAD_REQUEST, "A user with this email already exists");
         }
 
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Passwords do not match");
+        }
+
         Reviewer reviewer = new Reviewer();
         reviewer.setEmail(dto.getEmail());
-        reviewer.setName(dto.getName());
         reviewer.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         reviewerRepository.save(reviewer);
 
@@ -64,7 +67,6 @@ public class ReviewerService {
 
         UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
         userDetailsDTO.setId(reviewer.getId());
-        userDetailsDTO.setName(reviewer.getName());
         userDetailsDTO.setEmail(reviewer.getEmail());
         userDetailsDTO.setRole("REVIEWER");
 
