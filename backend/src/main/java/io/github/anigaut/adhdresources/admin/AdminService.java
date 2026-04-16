@@ -46,7 +46,7 @@ public class AdminService {
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), admin.getPasswordHash())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Incorrect password");
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "Incorrect password");
         }
 
         String token = jwtUtil.generateToken(admin.getEmail(), "ADMIN");
