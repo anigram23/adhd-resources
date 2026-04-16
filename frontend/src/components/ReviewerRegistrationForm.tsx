@@ -2,7 +2,7 @@ import {Button, Card, Center, Field, FieldRequiredIndicator, Input, Stack, Text}
 import {useState} from "react";
 import * as React from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import register from "@/api_service/reviewer.ts";
+import {register} from "@/api_service/reviewer.ts";
 import {useNavigate} from "react-router";
 
 export default function ReviewerRegistrationForm() {
