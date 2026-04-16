@@ -3,6 +3,7 @@ import ReviewerHome from "../pages/ReviewerHome"
 import ReviewerLogin from "../pages/ReviewerLogin"
 import Layout from "./Layout"
 import AdminLogin from "@/pages/AdminLogin"
+import ReviewerRegister from "@/pages/ReviewerRegister.tsx";
 
 
 const adminRoutes = [
@@ -14,13 +15,18 @@ const adminRoutes = [
     }
 ]
 
+const reviewerRoutes = [
+    { path: "/register", element: <ReviewerRegister /> },
+    {path: "/login", element: <ReviewerLogin /> }
+]
+
 const router = createBrowserRouter([
     { 
         path: "/", 
         element: <Layout /> ,
         children: [
             { index: true, element: <ReviewerHome /> },
-            { path: "login", element: <ReviewerLogin /> },
+            ...reviewerRoutes,
             ...adminRoutes
         ]
     },

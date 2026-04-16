@@ -24,8 +24,8 @@ export default function Links({ isMobile = true }: LinksProps) {
                 <Button variant="outline">Logout</Button>
             ): (
                 <>
-                    <Button variant="outline" asChild><a href="/login">Login</a></Button><Button
-                    variant="outline">Register</Button>
+                    <Button variant="outline"><a href="/login">Login</a></Button>
+                    <Button variant="outline"><a href="/register">Register</a></Button>
                 </>
             )}
 
