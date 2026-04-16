@@ -1,8 +1,9 @@
-import login from "@/api_service/admin";
+import {login} from "@/api_service/admin";
 import { Button, Card, Center, Field, Input, Stack, Text } from "@chakra-ui/react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import * as React from "react";
 
 export default function AdminLoginForm() {
 
@@ -36,7 +37,6 @@ export default function AdminLoginForm() {
                     <Card.Root w={{smDown: "100%", sm: "80%", lg: "70%"}}>
                         <Card.Header>
                             <Card.Title fontSize={{smDown: "lg", sm: "2xl"}}>Admin Login</Card.Title>
-
                             <Card.Description>If you have forgotten your credentials, contact the administrator.</Card.Description>
                         </Card.Header>
 
@@ -45,9 +45,9 @@ export default function AdminLoginForm() {
 
                                 <Field.Root required>
                                     <Field.Label>Email ID</Field.Label>
-                                    <Input 
-                                        type="email" 
-                                        placeholder="Enter your email ID" 
+                                    <Input
+                                        type="email"
+                                        placeholder="Enter your email ID"
                                         value={form.email}
                                         onChange={(e) => setForm({...form, email: e.target.value})}
                                     />
@@ -55,9 +55,9 @@ export default function AdminLoginForm() {
 
                                 <Field.Root required>
                                     <Field.Label>Password</Field.Label>
-                                    <Input 
-                                        type="password" 
-                                        placeholder="Enter your password" 
+                                    <Input
+                                        type="password"
+                                        placeholder="Enter your password"
                                         value={form.password}
                                         onChange={(e) => setForm({...form, password: e.target.value})}
                                     />

@@ -1,6 +1,6 @@
 import {createContext, type ReactNode, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
-import getCurrentUser from "@/api_service/auth.ts";
+import {getCurrentUser} from "@/api_service/auth.ts";
 
 interface AuthContextType {
     user: void | null | undefined,
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     const isAuthenticated = !!user;
-
+    console.log(user);
     const value = {isAuthenticated, user, isLoading, isError};
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
