@@ -3,11 +3,9 @@ package io.github.anigaut.adhdresources.staticPage;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageRequestDTO;
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageResponseDTO;
-import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +36,7 @@ public class StaticPageService {
     }
 
     public StaticPageResponseDTO findStaticPageById(int id) {
-        StaticPage staticPage = staticPageRepository.findWithSectionsById(id)
+        StaticPage staticPage = staticPageRepository.findWithSectionsAndBlocksById(id)
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,

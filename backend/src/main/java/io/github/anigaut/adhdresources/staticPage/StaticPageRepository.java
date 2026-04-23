@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface StaticPageRepository extends JpaRepository<StaticPage, Integer> {
     boolean existsBySlug(String slug);
 
-    @EntityGraph(value = "StaticPage.withSections")
-    Optional<StaticPage> findWithSectionsById(int id);
+    @EntityGraph(value = "StaticPage.withSectionsAndBlocks")
+    Optional<StaticPage> findWithSectionsAndBlocksById(int id);
 }
