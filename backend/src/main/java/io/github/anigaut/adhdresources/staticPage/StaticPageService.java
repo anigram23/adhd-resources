@@ -38,7 +38,7 @@ public class StaticPageService {
     }
 
     public StaticPageResponseDTO findStaticPageById(int id) {
-        StaticPage staticPage = staticPageRepository.findById(id)
+        StaticPage staticPage = staticPageRepository.findWithSectionsById(id)
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,

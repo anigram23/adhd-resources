@@ -19,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@NamedEntityGraph(name = "StaticPage.withSections", attributeNodes = @NamedAttributeNode("sections"))
 public class StaticPage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
