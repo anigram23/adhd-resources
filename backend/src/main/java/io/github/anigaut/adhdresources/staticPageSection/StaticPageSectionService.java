@@ -60,7 +60,7 @@ public class StaticPageSectionService {
         StaticPageSection newSection = staticPageSectionRepository.save(section);
 
         return new StaticPageSectionResponseDTO(
-                newSection.getId(), newSection.getTitle(), newSection.getOrderIndex()
+                newSection.getId(), newSection.getTitle(), newSection.getOrderIndex(), null
         );
     }
 
@@ -76,7 +76,7 @@ public class StaticPageSectionService {
         List<StaticPageSectionResponseDTO> responseDTOs = new ArrayList<>();
         for (StaticPageSection section : sections) {
             responseDTOs.add(new StaticPageSectionResponseDTO(
-                    section.getId(), section.getTitle(), section.getOrderIndex()
+                    section.getId(), section.getTitle(), section.getOrderIndex(), null
             ));
         }
 
@@ -108,8 +108,10 @@ public class StaticPageSectionService {
             }
         }
 
+        staticPageSectionRepository.save(section);
+
         return new StaticPageSectionResponseDTO(
-                section.getId(), section.getTitle(), section.getOrderIndex()
+                section.getId(), section.getTitle(), section.getOrderIndex(), null
         );
     }
 
