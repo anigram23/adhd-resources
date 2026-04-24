@@ -35,8 +35,8 @@ public class StaticPageService {
         return staticPageMapper.toDto(savedStaticPage);
     }
 
-    public StaticPageResponseDTO findStaticPageById(int id) {
-        StaticPage staticPage = staticPageRepository.findWithSectionsAndBlocksById(id)
+    public StaticPageResponseDTO findStaticPageBySlug(String slug) {
+        StaticPage staticPage = staticPageRepository.findWithSectionsAndBlocksBySlug(slug)
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,

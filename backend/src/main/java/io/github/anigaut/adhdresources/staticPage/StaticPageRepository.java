@@ -9,5 +9,5 @@ public interface StaticPageRepository extends JpaRepository<StaticPage, Integer>
     boolean existsBySlug(String slug);
 
     @EntityGraph(value = "StaticPage.withSectionsAndBlocks")
-    Optional<StaticPage> findWithSectionsAndBlocksById(int id);
+    Optional<StaticPage> findWithSectionsAndBlocksBySlug(String slug);
 }

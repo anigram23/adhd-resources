@@ -20,9 +20,9 @@ public class StaticPageController {
         this.staticPageService = staticPageService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<StaticPageResponseDTO> findStaticPageById(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(staticPageService.findStaticPageById(id));
+    @GetMapping("/{slug}")
+    public ResponseEntity<StaticPageResponseDTO> findStaticPageBySlug(@PathVariable String slug) {
+        return ResponseEntity.status(HttpStatus.OK).body(staticPageService.findStaticPageBySlug(slug));
     }
 
     @PostMapping("/")
