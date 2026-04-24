@@ -4,13 +4,18 @@ import ReviewerLogin from "../pages/ReviewerLogin"
 import Layout from "./Layout"
 import AdminLogin from "@/pages/AdminLogin"
 import ReviewerRegister from "@/pages/ReviewerRegister.tsx";
+import AdminHome from "@/pages/AdminHome.tsx";
+import StaticPages from "@/pages/StaticPages.tsx";
 
 
 const adminRoutes = [
     {
-        path: "/admin", 
+        path: "/admin",
         children: [
+            {index: true, element: <AdminHome />},
             { path: "login", element: <AdminLogin /> },
+            { path: "static-pages", element: <StaticPages /> }
+
         ]
     }
 ]
