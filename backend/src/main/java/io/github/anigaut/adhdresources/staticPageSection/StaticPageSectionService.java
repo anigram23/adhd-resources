@@ -29,13 +29,6 @@ public class StaticPageSectionService {
             );
         }
 
-        if (staticPageSectionRepository.existsByOrderIndex(dto.getOrderIndex())) {
-            throw new HttpException(
-                    HttpStatus.BAD_REQUEST,
-                    "A section with this order index already exists, please enter a different one or edit the existing one"
-            );
-        }
-
         StaticPage page = staticPageRepository.findById(dto.getStaticPageId())
                 .orElseThrow(
                         () -> new HttpException(
@@ -43,6 +36,13 @@ public class StaticPageSectionService {
                                 "A page with this ID doesn't exist."
                         )
                 );
+
+        if (staticPageSectionRepository.existsByOrderIndexAndStaticPage(dto.getOrderIndex(), page)) {
+            throw new HttpException(
+                    HttpStatus.BAD_REQUEST,
+                    "A section with this order index already exists, please enter a different one or edit the existing one"
+            );
+        }
 
         StaticPageSection newSection = staticPageSectionRepository.save(staticPageSectionMapper.toEntity(dto, page));
 
@@ -72,7 +72,7 @@ public class StaticPageSectionService {
                 );
 
         if (dto.getOrderIndex() != null && dto.getOrderIndex() != section.getOrderIndex()) {
-            if (staticPageSectionRepository.existsByOrderIndex(dto.getOrderIndex())) {
+            if (staticPageSectionRepository.existsByOrderIndexAndStaticPage(dto.getOrderIndex(), section.getStaticPage())) {
                 throw new HttpException(
                         HttpStatus.BAD_REQUEST,
                         "Another section with this order index already exists, please enter a different one"

@@ -8,12 +8,13 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StaticPageSectionMapper {
 
-    @Mapping(target = "staticPage", source = "staticPage")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "sectionBlocks", ignore = true)
+    @Mapping(target = "staticPage", source = "staticPage")
+    @Mapping(target = "title", source = "dto.title")
+    @Mapping(target = "orderIndex", source = "dto.orderIndex")
     StaticPageSection toEntity(StaticPageSectionRequestDTO dto, StaticPage staticPage);
 
     @Mapping(target = "sectionBlocks", ignore = true)

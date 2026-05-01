@@ -14,7 +14,7 @@ public abstract class AdminMapper {
 
     @Mapping(target = "passwordHash", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "isSuper", ignore = true)
+    @Mapping(target = "super", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     public abstract Admin toEntity(AdminRegisterDTO dto);

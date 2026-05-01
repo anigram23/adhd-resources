@@ -6,11 +6,13 @@ import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockUpdateDTO;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSection;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SectionBlockMapper {
 
-    @Mapping(target = "staticPageSection", source = "staticPageSection")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "staticPageSection", source = "staticPageSection")
+    @Mapping(target = "content", source = "dto.content")
+    @Mapping(target = "orderIndex", source = "dto.orderIndex")
     SectionBlock toEntity(SectionBlockRequestDTO dto, StaticPageSection staticPageSection);
 
     SectionBlockResponseDTO toDto(SectionBlock sectionBlock);

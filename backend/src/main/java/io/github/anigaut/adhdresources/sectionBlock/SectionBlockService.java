@@ -20,12 +20,6 @@ public class SectionBlockService {
 
     @Transactional
     public SectionBlockResponseDTO createSectionBlock(SectionBlockRequestDTO sectionBlockRequestDTO) {
-        if (sectionBlockRepository.existsByOrderIndex(sectionBlockRequestDTO.getOrderIndex())) {
-            throw new HttpException(
-                    HttpStatus.BAD_REQUEST,
-                    "A section block already exists with the same order index"
-            );
-        }
 
         StaticPageSection section = staticPageSectionRepository.findById(sectionBlockRequestDTO.getStaticPageSectionId())
                 .orElseThrow(
@@ -34,6 +28,13 @@ public class SectionBlockService {
                                 "A section with this ID doesn't exist"
                         )
                 );
+
+        if (sectionBlockRepository.existsByOrderIndexAndStaticPageSection(sectionBlockRequestDTO.getOrderIndex(), section)) {
+            throw new HttpException(
+                    HttpStatus.BAD_REQUEST,
+                    "A section block already exists with the same order index"
+            );
+        }
 
         SectionBlock newBlock = sectionBlockRepository.save(sectionBlockMapper.toEntity(sectionBlockRequestDTO, section));
         return sectionBlockMapper.toDto(newBlock);
@@ -51,7 +52,7 @@ public class SectionBlockService {
 
 
         if (sectionBlockUpdateDTO.getOrderIndex() != null && !sectionBlockUpdateDTO.getOrderIndex().equals(block.getOrderIndex())) {
-            if (sectionBlockRepository.existsByOrderIndex(sectionBlockUpdateDTO.getOrderIndex())) {
+            if (sectionBlockRepository.existsByOrderIndexAndStaticPageSection(sectionBlockUpdateDTO.getOrderIndex(), block.getStaticPageSection())) {
                 throw new HttpException(
                         HttpStatus.BAD_REQUEST,
                         "A section block already exists with the same order index"
