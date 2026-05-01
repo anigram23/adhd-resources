@@ -7,26 +7,18 @@ import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionRe
 import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionResponseDTO;
 import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionUpdateDTO;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StaticPageSectionService {
     private final StaticPageSectionRepository staticPageSectionRepository;
     private final StaticPageRepository staticPageRepository;
-
-    @Autowired
-    public StaticPageSectionService(
-            StaticPageSectionRepository staticPageSectionRepository,
-            StaticPageRepository staticPageRepository
-    ) {
-        this.staticPageSectionRepository = staticPageSectionRepository;
-        this.staticPageRepository = staticPageRepository;
-    }
+    private final StaticPageSectionMapper staticPageSectionMapper;
 
     @Transactional
     public StaticPageSectionResponseDTO createStaticPageSection(StaticPageSectionRequestDTO dto) {
@@ -52,16 +44,9 @@ public class StaticPageSectionService {
                         )
                 );
 
-        StaticPageSection section = new StaticPageSection();
-        section.setStaticPage(page);
-        section.setTitle(dto.getTitle());
-        section.setOrderIndex(dto.getOrderIndex());
+        StaticPageSection newSection = staticPageSectionRepository.save(staticPageSectionMapper.toEntity(dto, page));
 
-        StaticPageSection newSection = staticPageSectionRepository.save(section);
-
-        return new StaticPageSectionResponseDTO(
-                newSection.getId(), newSection.getTitle(), newSection.getOrderIndex(), null
-        );
+        return staticPageSectionMapper.toDto(newSection);
     }
 
     public List<StaticPageSectionResponseDTO> findAllSectionsInPage(int staticPageId) {
@@ -72,15 +57,8 @@ public class StaticPageSectionService {
             );
         }
 
-        List<StaticPageSection> sections =  staticPageSectionRepository.findAllByStaticPageId(staticPageId);
-        List<StaticPageSectionResponseDTO> responseDTOs = new ArrayList<>();
-        for (StaticPageSection section : sections) {
-            responseDTOs.add(new StaticPageSectionResponseDTO(
-                    section.getId(), section.getTitle(), section.getOrderIndex(), null
-            ));
-        }
-
-        return responseDTOs;
+        List<StaticPageSection> sections = staticPageSectionRepository.findAllByStaticPageId(staticPageId);
+        return staticPageSectionMapper.toDtoList(sections);
     }
 
     @Transactional
@@ -93,26 +71,19 @@ public class StaticPageSectionService {
                         )
                 );
 
-        if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
-            section.setTitle(dto.getTitle());
-        }
-
         if (dto.getOrderIndex() != null && dto.getOrderIndex() != section.getOrderIndex()) {
             if (staticPageSectionRepository.existsByOrderIndex(dto.getOrderIndex())) {
                 throw new HttpException(
                         HttpStatus.BAD_REQUEST,
                         "Another section with this order index already exists, please enter a different one"
                 );
-            } else {
-                section.setOrderIndex(dto.getOrderIndex());
             }
         }
 
+        staticPageSectionMapper.updateEntity(dto, section);
         staticPageSectionRepository.save(section);
 
-        return new StaticPageSectionResponseDTO(
-                section.getId(), section.getTitle(), section.getOrderIndex(), null
-        );
+        return staticPageSectionMapper.toDto(section);
     }
 
     @Transactional

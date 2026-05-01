@@ -7,24 +7,16 @@ import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockUpdateDTO;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSection;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSectionRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SectionBlockService {
     private final SectionBlockRepository sectionBlockRepository;
-    private final StaticPageSectionRepository  staticPageSectionRepository;
-
-    @Autowired
-    public SectionBlockService(
-            SectionBlockRepository sectionBlockRepository,
-            StaticPageSectionRepository staticPageSectionRepository
-    ) {
-        this.sectionBlockRepository = sectionBlockRepository;
-        this.staticPageSectionRepository = staticPageSectionRepository;
-    }
+    private final StaticPageSectionRepository staticPageSectionRepository;
+    private final SectionBlockMapper sectionBlockMapper;
 
     @Transactional
     public SectionBlockResponseDTO createSectionBlock(SectionBlockRequestDTO sectionBlockRequestDTO) {
@@ -43,15 +35,8 @@ public class SectionBlockService {
                         )
                 );
 
-        SectionBlock sectionBlock = new SectionBlock();
-        sectionBlock.setContent(sectionBlockRequestDTO.getContent());
-        sectionBlock.setOrderIndex(sectionBlockRequestDTO.getOrderIndex());
-        sectionBlock.setStaticPageSection(section);
-
-        SectionBlock newBlock = sectionBlockRepository.save(sectionBlock);
-        return new SectionBlockResponseDTO(
-                newBlock.getId(), newBlock.getContent(), newBlock.getOrderIndex()
-        );
+        SectionBlock newBlock = sectionBlockRepository.save(sectionBlockMapper.toEntity(sectionBlockRequestDTO, section));
+        return sectionBlockMapper.toDto(newBlock);
     }
 
     @Transactional
@@ -65,23 +50,18 @@ public class SectionBlockService {
                 );
 
 
-        if (sectionBlockUpdateDTO.getOrderIndex() != null &&  !sectionBlockUpdateDTO.getOrderIndex().equals(block.getOrderIndex())) {
+        if (sectionBlockUpdateDTO.getOrderIndex() != null && !sectionBlockUpdateDTO.getOrderIndex().equals(block.getOrderIndex())) {
             if (sectionBlockRepository.existsByOrderIndex(sectionBlockUpdateDTO.getOrderIndex())) {
                 throw new HttpException(
                         HttpStatus.BAD_REQUEST,
                         "A section block already exists with the same order index"
                 );
-            } else {
-                block.setOrderIndex(sectionBlockUpdateDTO.getOrderIndex());
             }
         }
 
-        if (sectionBlockUpdateDTO.getContent() != null && sectionBlockUpdateDTO.getContent().length() > 0) {
-            block.setContent(sectionBlockUpdateDTO.getContent());
-        }
-
+        sectionBlockMapper.updateEntity(sectionBlockUpdateDTO, block);
         sectionBlockRepository.save(block);
-        return new SectionBlockResponseDTO(block.getId(), block.getContent(), block.getOrderIndex());
+        return sectionBlockMapper.toDto(block);
     }
 
     @Transactional
