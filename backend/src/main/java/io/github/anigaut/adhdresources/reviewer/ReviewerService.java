@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewerService {
     private final ReviewerRepository reviewerRepository;
+    private final ReviewerMapper reviewerMapper;
     private final PasswordEncoder passwordEncoder;
     private final CookieUtil cookieUtil;
     private final JwtUtil jwtUtil;
@@ -31,9 +32,7 @@ public class ReviewerService {
             throw new HttpException(HttpStatus.BAD_REQUEST, "Passwords do not match");
         }
 
-        Reviewer reviewer = new Reviewer();
-        reviewer.setEmail(dto.getEmail());
-        reviewer.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
+        Reviewer reviewer = reviewerMapper.toEntity(dto);
         reviewerRepository.save(reviewer);
 
         String token = jwtUtil.generateToken(reviewer.getEmail(), "REVIEWER");
@@ -65,11 +64,6 @@ public class ReviewerService {
             throw new HttpException(HttpStatus.NOT_FOUND, "A user with this email does not exist");
         }
 
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
-        userDetailsDTO.setId(reviewer.getId());
-        userDetailsDTO.setEmail(reviewer.getEmail());
-        userDetailsDTO.setRole("REVIEWER");
-
-        return userDetailsDTO;
+        return reviewerMapper.toUserDetailsDTO(reviewer);
     }
 }
