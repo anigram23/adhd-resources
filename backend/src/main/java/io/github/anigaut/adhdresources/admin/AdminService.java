@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminService {
     private final AdminRepository adminRepository;
+    private final AdminMapper adminMapper;
     private final PasswordEncoder passwordEncoder;
     private final CookieUtil cookieUtil;
     private final JwtUtil jwtUtil;
@@ -63,12 +64,6 @@ public class AdminService {
             throw new HttpException(HttpStatus.NOT_FOUND, "An admin with this email doesn't exist");
         }
 
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
-        userDetailsDTO.setId(admin.getId());
-        userDetailsDTO.setEmail(admin.getEmail());
-        userDetailsDTO.setName(admin.getName());
-        userDetailsDTO.setRole("ADMIN");
-
-        return userDetailsDTO;
+        return adminMapper.toUserDetailsDTO(admin);
     }
 }
