@@ -3,6 +3,7 @@ package io.github.anigaut.adhdresources.staticPage;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageRequestDTO;
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageResponseDTO;
+import io.github.anigaut.adhdresources.staticPage.dto.StaticPageSummaryDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,8 @@ public class StaticPageService {
         return staticPageMapper.toDto(staticPage);
     }
 
-    public List<StaticPageResponseDTO> findAllStaticPages() {
-        return staticPageMapper.toDtoList(staticPageRepository.findAll());
+    public List<StaticPageSummaryDTO> findAllStaticPages() {
+        return staticPageMapper.toSummaryDtoList(staticPageRepository.findAll());
     }
 
     @Transactional

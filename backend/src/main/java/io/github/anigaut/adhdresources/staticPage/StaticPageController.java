@@ -2,6 +2,7 @@ package io.github.anigaut.adhdresources.staticPage;
 
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageRequestDTO;
 import io.github.anigaut.adhdresources.staticPage.dto.StaticPageResponseDTO;
+import io.github.anigaut.adhdresources.staticPage.dto.StaticPageSummaryDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class StaticPageController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<StaticPageResponseDTO>> getAllStaticPages() {
+    public ResponseEntity<List<StaticPageSummaryDTO>> getAllStaticPages() {
         return ResponseEntity.status(HttpStatus.OK).body(staticPageService.findAllStaticPages());
     }
 
