@@ -22,7 +22,7 @@ const adminRoutes = [
 
 const reviewerRoutes = [
     { path: "/register", element: <ReviewerRegister /> },
-    {path: "/login", element: <ReviewerLogin /> }
+    { path: "/login", element: <ReviewerLogin /> }
 ]
 
 const router = createBrowserRouter([
