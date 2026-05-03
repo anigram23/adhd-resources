@@ -47,6 +47,9 @@ public class StaticPage {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "is_active", columnDefinition = "boolean not null default false")
+    private boolean active = false;
+
     @OneToMany(mappedBy = "staticPage", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<StaticPageSection> sections;
 

@@ -16,4 +16,6 @@ public class StaticPageRequestDTO {
 
     @NotBlank(message = "Title is required")
     private String title;
+
+    private Boolean active;
 }

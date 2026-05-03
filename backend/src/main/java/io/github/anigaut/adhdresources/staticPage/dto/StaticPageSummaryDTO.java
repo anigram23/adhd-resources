@@ -13,4 +13,5 @@ public class StaticPageSummaryDTO {
     private int id;
     private String slug;
     private String title;
+    private boolean active;
 }

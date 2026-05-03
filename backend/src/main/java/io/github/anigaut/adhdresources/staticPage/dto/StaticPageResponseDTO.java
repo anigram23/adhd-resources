@@ -18,5 +18,6 @@ public class StaticPageResponseDTO {
     private int id;
     private String slug;
     private String title;
+    private boolean active;
     private Set<StaticPageSectionResponseDTO> sections;
 }
