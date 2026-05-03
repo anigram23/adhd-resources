@@ -9,3 +9,8 @@ export async function createStaticPage(credentials: {title: string, slug: string
     const response = await http.post("/static-page/", credentials);
     return response.data;
 }
+
+export async function getStaticPageBySlug(slug: string) {
+    const response = await http.get(`/static-page/${slug}`);
+    return response.data;
+}

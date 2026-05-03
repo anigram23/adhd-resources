@@ -5,7 +5,8 @@ import Layout from "./Layout"
 import AdminLogin from "@/pages/AdminLogin"
 import ReviewerRegister from "@/pages/ReviewerRegister.tsx";
 import AdminHome from "@/pages/AdminHome.tsx";
-import StaticPages from "@/pages/StaticPages.tsx";
+import AllStaticPages from "../pages/AllStaticPages.tsx";
+import StaticPage from "@/pages/StaticPage.tsx";
 
 
 const adminRoutes = [
@@ -14,7 +15,7 @@ const adminRoutes = [
         children: [
             {index: true, element: <AdminHome />},
             { path: "login", element: <AdminLogin /> },
-            { path: "static-pages", element: <StaticPages /> }
+            { path: "static-pages", element: <AllStaticPages /> }
 
         ]
     }
@@ -25,6 +26,10 @@ const reviewerRoutes = [
     { path: "/login", element: <ReviewerLogin /> }
 ]
 
+const commonRoutes = [
+    { path: "/:slug", element: <StaticPage /> },
+]
+
 const router = createBrowserRouter([
     { 
         path: "/", 
@@ -32,7 +37,8 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <ReviewerHome /> },
             ...reviewerRoutes,
-            ...adminRoutes
+            ...adminRoutes,
+            ...commonRoutes
         ]
     },
 ])
