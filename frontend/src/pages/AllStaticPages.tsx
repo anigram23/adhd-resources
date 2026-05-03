@@ -2,10 +2,11 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "@/components/FullPageLoader.tsx";
 import type {Key, ReactNode} from "react";
-import {Button, Card, CloseButton, Dialog, Flex, Grid, GridItem, Portal, VStack} from "@chakra-ui/react";
+import {Button, Card, Flex, Grid, GridItem, VStack} from "@chakra-ui/react";
 import CreateStaticPageForm from "@/components/CreateStaticPageForm.tsx";
+import GenericDialog from "@/components/GenericDialog.tsx";
 
-export default function StaticPages() {
+export default function AllStaticPages() {
     const {isPending, isError, data, error} = useQuery({
         queryKey: ["staticPages"],
         queryFn: getAllStaticPages
@@ -27,7 +28,9 @@ export default function StaticPages() {
                 {data.map((page: {
                     title: ReactNode;
                     slug: ReactNode;
-                    id: Key; }) => (
+                    id: Key;
+                    active: ReactNode;
+                }) => (
                     <GridItem key={page.id as Key}>
                         <Card.Root h="full">
                             <Card.Header minH="55%">
@@ -39,6 +42,7 @@ export default function StaticPages() {
                                 <Flex w="full" gap={2}>
                                     <Button colorPalette="blue">Edit</Button>
                                     <Button colorPalette="red">Delete</Button>
+                                    <Button colorPalette="green">{page.active ? "Deactivate" : "Activate"}</Button>
                                 </Flex>
 
                             </Card.Body>
@@ -48,29 +52,7 @@ export default function StaticPages() {
                 ))}
             </Grid>
 
-            <Dialog.Root size="md" placement="center" motionPreset="slide-in-bottom">
-                <Dialog.Trigger asChild>
-                    <Button colorPalette="green">Create new page</Button>
-                </Dialog.Trigger>
-
-                <Portal>
-                    <Dialog.Backdrop />
-                    <Dialog.Positioner>
-                        <Dialog.Content>
-                            <Dialog.Header>
-                                <Dialog.Title>Create New Page</Dialog.Title>
-                                <Dialog.CloseTrigger asChild>
-                                    <CloseButton size="sm" />
-                                </Dialog.CloseTrigger>
-                            </Dialog.Header>
-
-                            <Dialog.Body>
-                                <CreateStaticPageForm />
-                            </Dialog.Body>
-                        </Dialog.Content>
-                    </Dialog.Positioner>
-                </Portal>
-            </Dialog.Root>
+            <GenericDialog component={CreateStaticPageForm} title={"Create New Page"} buttonText={"Create New Page"} size={"md"} />
 
         </VStack>
     )
