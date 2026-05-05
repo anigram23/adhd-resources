@@ -15,18 +15,17 @@ export default function CreateStaticPageForm() {
     const mutation = useMutation({
         mutationFn: createStaticPage,
         onSuccess: (data: {title: string, slug: string}) => {
-            console.log("Static page created successfully", data);
             queryClient.setQueryData(["staticPages"], (oldData: Array<{title: string, slug: string}>) => {
                 oldData.push(data);
             });
             window.location.reload();
         }
-    })
+    });
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        mutation.mutate(form)
-    }
+        mutation.mutate(form);
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -57,11 +56,13 @@ export default function CreateStaticPageForm() {
 
                 <Button
                     type="submit"
+                    colorPalette="blue"
+                    w="full"
                     disabled={mutation.isPending}
                 >
-                    { mutation.isPending ? "Creating..." : "Create" }
+                    {mutation.isPending ? "Creating..." : "Create"}
                 </Button>
             </Stack>
         </form>
-    )
+    );
 }

@@ -5,7 +5,7 @@ export default function GenericDialog({component: Component, title, buttonText, 
     return (
         <Dialog.Root size={size} placement="center" motionPreset="slide-in-bottom">
             <Dialog.Trigger asChild>
-                <Button colorPalette="black">{buttonText}</Button>
+                <Button colorPalette="blue">{buttonText}</Button>
             </Dialog.Trigger>
 
             <Portal>
