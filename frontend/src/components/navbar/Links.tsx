@@ -1,4 +1,4 @@
-import { Button, HStack, VStack } from "@chakra-ui/react";
+import {Box, Button, HStack, VStack} from "@chakra-ui/react";
 import {useAuth} from "@/auth/AuthContext.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {adminLogout} from "@/api_service/admin.ts";
@@ -6,40 +6,32 @@ import {useNavigate} from "react-router";
 import {reviewerLogout} from "@/api_service/reviewer.ts";
 
 const links = [
-    { name: "Home", path: "/" },
-    { name: "Resources", path: "/resources" },
-    { name: "About", path: "/about" },
-]
+    {name: "Home", path: "/"},
+    {name: "Resources", path: "/resources"},
+    {name: "About", path: "/about"},
+];
 
-type LinksProps = {
-    isMobile?: boolean;
-};
+type LinksProps = { isMobile?: boolean };
 
-export default function Links({ isMobile = true }: LinksProps) {
-    const { isAuthenticated, user } = useAuth();
+export default function Links({isMobile = true}: LinksProps) {
+    const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const StackType = isMobile ? VStack : HStack;
 
-
     const handleLogout = () => {
-        // @ts-ignore
+        // @ts-expect-error - role will definitely exist if user does
         const role = user?.role;
-
-        if (role === "ADMIN") {
-            adminLogoutMutation.mutate();
-        } else if (role === "REVIEWER") {
-            reviewerLogoutMutation.mutate();
-        }
-    }
+        if (role === "ADMIN") adminLogoutMutation.mutate();
+        else if (role === "REVIEWER") reviewerLogoutMutation.mutate();
+    };
 
     const adminLogoutMutation = useMutation({
         mutationFn: adminLogout,
         onSuccess: () => {
             queryClient.setQueryData(["currentUser"], null);
-            // queryClient.removeQueries({ queryKey: ["currentUser"] });
             navigate("/admin/login");
-        }
+        },
     });
 
     const reviewerLogoutMutation = useMutation({
@@ -47,24 +39,39 @@ export default function Links({ isMobile = true }: LinksProps) {
         onSuccess: () => {
             queryClient.setQueryData(["currentUser"], null);
             navigate("/");
-        }
-    })
+        },
+    });
 
     return (
-        <StackType gap={isMobile ? 4 : 8} align={isMobile ? "start" : "center"}>
+        <StackType gap={isMobile ? 5 : 6} align={isMobile ? "start" : "center"}>
             {links.map(link => (
-                <a key={link.name} href={link.path}>{link.name}</a>
+                <Box
+                    key={link.name}
+                    asChild
+                    fontSize="sm"
+                    fontWeight="medium"
+                    color="gray.600"
+                    _hover={{color: "blue.600"}}
+                    transition="color 0.15s"
+                >
+                    <a href={link.path}>{link.name}</a>
+                </Box>
             ))}
 
             {isAuthenticated ? (
-                <Button variant="outline" onClick={handleLogout}>Logout</Button>
-            ): (
-                <>
-                    <Button variant="outline"><a href="/login">Login</a></Button>
-                    <Button variant="outline"><a href="/register">Register</a></Button>
-                </>
+                <Button size="sm" variant="outline" colorPalette="blue" onClick={handleLogout}>
+                    Logout
+                </Button>
+            ) : (
+                <HStack gap={2}>
+                    <Button size="sm" variant="outline" colorPalette="blue" asChild>
+                        <a href="/login">Login</a>
+                    </Button>
+                    <Button size="sm" colorPalette="blue" asChild>
+                        <a href="/register">Register</a>
+                    </Button>
+                </HStack>
             )}
-
         </StackType>
-    )
+    );
 }

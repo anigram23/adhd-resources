@@ -1,10 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react";
+import {Box, HStack, Text} from "@chakra-ui/react";
+import {TbBrain} from "react-icons/tb";
 
 export default function Logo() {
     return (
-        <Flex align="center" gap={2}>
-            {/* <img src="./navbar_pic.svg" alt="Logo" width={60} height={60} /> */}
-            <Text fontSize="xl" fontWeight="semibold">ADHD Resources</Text>
-        </Flex>
-    )
+        <HStack gap={2} align="center" flexShrink={0}>
+            <Box color="blue.500">
+                <TbBrain size={24}/>
+            </Box>
+            <Text fontSize="lg" fontWeight="bold" color="blue.900" whiteSpace="nowrap">
+                ADHD Resources
+            </Text>
+        </HStack>
+    );
 }
