@@ -1,30 +1,25 @@
-import {Button, Card, Center, Field, FieldRequiredIndicator, Input, Stack, Text} from "@chakra-ui/react";
+import {Box, Button, Card, Center, Field, FieldRequiredIndicator, HStack, Input, Stack, Text} from "@chakra-ui/react";
 import {useState} from "react";
 import * as React from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {register} from "@/api_service/reviewer.ts";
 import {useNavigate} from "react-router";
+import {FiAlertCircle, FiUserPlus} from "react-icons/fi";
 
 export default function ReviewerRegistrationForm() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const [form, setForm] = useState({
-        email: "",
-        password: "",
-        confirmPassword: ""
-    });
-
+    const [form, setForm] = useState({ email: "", password: "", confirmPassword: "" });
     const [passwordsNotMatching, setPasswordsNotMatching] = useState(false);
 
     const mutation = useMutation({
         mutationFn: register,
-        onSuccess: async(data) => {
-            console.log("Registered successfully", data);
-            await queryClient.invalidateQueries({ queryKey: ["currentUser"]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
             navigate("/");
-        }
-    })
+        },
+    });
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -35,86 +30,85 @@ export default function ReviewerRegistrationForm() {
             return;
         }
 
-        setPasswordsNotMatching(false);
         mutation.mutate(form);
-
-    }
+    };
 
     return (
-        <Center minH={{smDown: "auto", sm: "auto", lg: "50vh"}} px={{smDown: 4, sm: 0}} pt={{smDown: 4, sm: 8, lg: 4}}>
-            <form style={{width: "100%"}} onSubmit={handleSubmit}>
-                <Center>
-                    <Card.Root w={{smDown: "100%", sm: "80%", lg: "70%"}}>
-                        <Card.Header>
-                            <Card.Title fontSize={{smDown: "lg", sm: "2xl"}}>Register to Leave Reviews</Card.Title>
-                        </Card.Header>
+        <Center bg="blue.50" minH="80vh" px={4}>
+            <form style={{width: "100%", maxWidth: "420px"}} onSubmit={handleSubmit}>
+                <Card.Root shadow="md">
+                    <Card.Header pb={2}>
+                        <HStack gap={2} mb={1}>
+                            <Box color="blue.400">
+                                <FiUserPlus size={20}/>
+                            </Box>
+                            <Card.Title fontSize="2xl" fontWeight="bold" color="blue.900">
+                                Create an Account
+                            </Card.Title>
+                        </HStack>
+                    </Card.Header>
 
-                        <Card.Body>
-                            <Stack gap={4}>
-                                <Field.Root required>
-                                    <Field.Label>
-                                        Email ID
-                                        <FieldRequiredIndicator />
-                                    </Field.Label>
+                    <Card.Body>
+                        <Stack gap={5}>
+                            <Field.Root required>
+                                <Field.Label>
+                                    Email ID
+                                    <FieldRequiredIndicator/>
+                                </Field.Label>
+                                <Input
+                                    type="email"
+                                    placeholder="Enter your email ID"
+                                    value={form.email}
+                                    onChange={(e) => setForm({...form, email: e.target.value})}
+                                />
+                            </Field.Root>
 
-                                    <Input
-                                        type="email"
-                                        placeholder="Enter your email ID"
-                                        value={form.email}
-                                        onChange={(e) => setForm({...form, email: e.target.value})}
-                                    />
-                                </Field.Root>
+                            <Field.Root required>
+                                <Field.Label>
+                                    Password
+                                    <FieldRequiredIndicator/>
+                                </Field.Label>
+                                <Input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    onChange={(e) => setForm({...form, password: e.target.value})}
+                                />
+                            </Field.Root>
 
-                                <Field.Root required>
-                                    <Field.Label>
-                                        Password
-                                        <FieldRequiredIndicator />
-                                    </Field.Label>
+                            <Field.Root required>
+                                <Field.Label>
+                                    Confirm Password
+                                    <FieldRequiredIndicator/>
+                                </Field.Label>
+                                <Input
+                                    type="password"
+                                    placeholder="Confirm your password"
+                                    value={form.confirmPassword}
+                                    onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
+                                />
+                            </Field.Root>
 
-                                    <Input
-                                        type="password"
-                                        placeholder="Enter your password"
-                                        onChange={(e) => setForm({...form, password: e.target.value})}
-                                    />
-                                </Field.Root>
+                            {mutation.isError && (
+                                <HStack gap={2} color="red.500">
+                                    <FiAlertCircle size={16}/>
+                                    <Text fontSize="sm">{mutation.error.message}</Text>
+                                </HStack>
+                            )}
 
-                                <Field.Root required>
-                                    <Field.Label>
-                                        Confirm Password
-                                        <FieldRequiredIndicator />
-                                    </Field.Label>
+                            {passwordsNotMatching && (
+                                <HStack gap={2} color="red.500">
+                                    <FiAlertCircle size={16}/>
+                                    <Text fontSize="sm">Your passwords do not match</Text>
+                                </HStack>
+                            )}
 
-                                    <Input
-                                        type="password"
-                                        placeholder="Confirm Password"
-                                        value={form.confirmPassword}
-                                        onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
-                                    />
-                                </Field.Root>
-
-                                {mutation.isError && (
-                                    <Text color="red.500" fontSize="sm">
-                                        {mutation.error.message}
-                                    </Text>
-                                )}
-
-                                {passwordsNotMatching && (
-                                    <Text color="red.500" fontSize="sm">Your passwords do not match</Text>
-                                )}
-
-                                <Button
-                                    type="submit"
-                                    colorPalette="green"
-                                    width="30%"
-                                    disabled={mutation.isPending}
-                                >
-                                    {mutation.isPending ? "Registering..." : "Register"}
-                                </Button>
-                            </Stack>
-                        </Card.Body>
-                    </Card.Root>
-                </Center>
+                            <Button type="submit" colorPalette="blue" w="full" disabled={mutation.isPending}>
+                                {mutation.isPending ? "Registering..." : "Register"}
+                            </Button>
+                        </Stack>
+                    </Card.Body>
+                </Card.Root>
             </form>
         </Center>
-    )
+    );
 }
