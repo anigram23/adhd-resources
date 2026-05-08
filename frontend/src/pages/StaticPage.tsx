@@ -1,7 +1,7 @@
 import {useParams} from "react-router";
 import {useQuery} from "@tanstack/react-query";
 import {getStaticPageBySlug} from "@/api_service/staticPages.ts";
-import FullPageLoader from "@/components/FullPageLoader.tsx";
+import FullPageLoader from "../components/utils/FullPageLoader.tsx";
 import {Box, Container, Heading, HStack, Separator, Text, VStack} from "@chakra-ui/react";
 import type {Key} from "react";
 import {FiAlertCircle} from "react-icons/fi";
@@ -11,10 +11,10 @@ type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
 
 export default function StaticPage() {
-    const {slug} = useParams();
+    const { slug } = useParams();
 
     const {isPending, isError, data, error} = useQuery({
-        queryFn: ({queryKey}) => getStaticPageBySlug(queryKey[1] as string),
+        queryFn: () => getStaticPageBySlug(slug as unknown as string),
         queryKey: ["staticPage", slug],
     });
 

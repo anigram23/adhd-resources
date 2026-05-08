@@ -1,10 +1,11 @@
-import {Button, Field, FieldRequiredIndicator, Input, Stack} from "@chakra-ui/react";
+import {Button, Field, FieldRequiredIndicator, HStack, Input, Stack, Text} from "@chakra-ui/react";
 import {useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createStaticPage} from "@/api_service/staticPages.ts";
 import * as React from "react";
+import {FiAlertCircle} from "react-icons/fi";
 
-export default function CreateStaticPageForm() {
+export default function CreateStaticPageForm({ onClose }: { onClose?: () => void }) {
     const queryClient = useQueryClient();
 
     const [form, setForm] = useState({
@@ -14,11 +15,9 @@ export default function CreateStaticPageForm() {
 
     const mutation = useMutation({
         mutationFn: createStaticPage,
-        onSuccess: (data: {title: string, slug: string}) => {
-            queryClient.setQueryData(["staticPages"], (oldData: Array<{title: string, slug: string}>) => {
-                oldData.push(data);
-            });
-            window.location.reload();
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["staticPages"] });
+            onClose?.();
         }
     });
 
@@ -53,6 +52,13 @@ export default function CreateStaticPageForm() {
                         onChange={(e) => setForm({...form, slug: e.target.value})}
                     />
                 </Field.Root>
+
+                {mutation.isError && (
+                    <HStack gap={2} color="red.500">
+                        <FiAlertCircle size={16}/>
+                        <Text fontSize="sm">{mutation.error.message}</Text>
+                    </HStack>
+                )}
 
                 <Button
                     type="submit"
