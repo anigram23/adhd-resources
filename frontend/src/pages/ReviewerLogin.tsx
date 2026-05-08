@@ -1,4 +1,4 @@
-import ReviewerLoginForm from "../components/ReviewerLoginForm";
+import ReviewerLoginForm from "../components/auth/ReviewerLoginForm";
 
 export default function ReviewerLogin() {
     return (

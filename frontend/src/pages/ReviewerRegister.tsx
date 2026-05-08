@@ -1,4 +1,4 @@
-import ReviewerRegistrationForm from "@/components/ReviewerRegistrationForm.tsx";
+import ReviewerRegistrationForm from "../components/auth/ReviewerRegistrationForm.tsx";
 
 export default function ReviewerRegister() {
     return (
