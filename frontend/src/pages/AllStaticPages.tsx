@@ -1,12 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
-import FullPageLoader from "@/components/FullPageLoader.tsx";
+import FullPageLoader from "../components/utils/FullPageLoader.tsx";
 import type {Key} from "react";
-import {Box, Button, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
-import CreateStaticPageForm from "@/components/CreateStaticPageForm.tsx";
-import GenericDialog from "@/components/GenericDialog.tsx";
-import {FiAlertCircle, FiEdit2, FiTrash2} from "react-icons/fi";
-import {BsToggleOff, BsToggleOn} from "react-icons/bs";
+import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import CreateStaticPageForm from "../components/static_pages/page/CreateStaticPageForm.tsx";
+import GenericDialog from "../components/utils/GenericDialog.tsx";
+import {FiAlertCircle, FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
+import StaticPageDetails from "../components/static_pages/StaticPageDetails.tsx";
+import DeleteStaticPageConfirmation from "../components/static_pages/page/DeleteStaticPageConfirmation.tsx";
 
 type StaticPage = { id: Key; title: string; slug: string; active: boolean };
 
@@ -53,47 +54,65 @@ export default function AllStaticPages() {
                     >
                         {data.map((page: StaticPage) => (
                             <GridItem key={page.id}>
-                                <Card.Root h="full" shadow="sm">
-                                    <Card.Header>
-                                        <Card.Title color="gray.800" fontWeight="semibold">
-                                            {page.title}
-                                        </Card.Title>
-                                        <Card.Description color="blue.400" fontFamily="mono" fontSize="sm">
-                                            /{page.slug}
-                                        </Card.Description>
+                                <Card.Root h="full" shadow="sm" display="flex" flexDirection="column">
+                                    <Card.Header flex={1}>
+                                        <HStack justify="space-between" align="flex-start">
+                                            <Box flex={1}>
+                                                <Card.Title color="gray.800" fontWeight="semibold">
+                                                    {page.title}
+                                                </Card.Title>
+                                                <Card.Description color="blue.400" fontFamily="mono" fontSize="sm" mt={1}>
+                                                    /{page.slug}
+                                                </Card.Description>
+                                            </Box>
+                                            <Badge
+                                                colorPalette={page.active ? "green" : "gray"}
+                                                variant="subtle"
+                                                size="sm"
+                                                flexShrink={0}
+                                            >
+                                                {page.active ? "Active" : "Inactive"}
+                                            </Badge>
+                                        </HStack>
                                     </Card.Header>
 
-                                    <Card.Body>
-                                        <Flex gap={2} wrap="wrap">
-                                            <Button size="sm" colorPalette="blue" variant="subtle">
-                                                <FiEdit2/>
-                                                Edit
-                                            </Button>
-                                            <Button size="sm" colorPalette="red" variant="subtle">
-                                                <FiTrash2/>
-                                                Delete
-                                            </Button>
-                                            <Button
-                                                size="sm"
-                                                colorPalette={page.active ? "gray" : "green"}
+                                    <Card.Footer pt={2}>
+                                        <HStack gap={2}>
+                                            <GenericDialog
+                                                component={() => <StaticPageDetails slug={page.slug}/>}
+                                                title="Edit Page"
+                                                buttonText="Edit"
+                                                size={"full" as never}
                                                 variant="subtle"
-                                            >
-                                                {page.active ? <BsToggleOn/> : <BsToggleOff/>}
-                                                {page.active ? "Deactivate" : "Activate"}
-                                            </Button>
-                                        </Flex>
-                                    </Card.Body>
+                                                buttonSize="sm"
+                                                icon={<FiEdit2/>}
+                                            />
+                                            <GenericDialog
+                                                component={() => <DeleteStaticPageConfirmation pageId={page.id as number}/>}
+                                                title="Are you sure you want to delete this page?"
+                                                buttonText="Delete"
+                                                size={"md" as never}
+                                                colorPalette="red"
+                                                variant="subtle"
+                                                buttonSize="sm"
+                                                icon={<FiTrash2/>}
+                                            />
+                                        </HStack>
+                                    </Card.Footer>
                                 </Card.Root>
                             </GridItem>
                         ))}
                     </Grid>
 
-                    <GenericDialog
-                        component={CreateStaticPageForm}
-                        title="Create New Page"
-                        buttonText="Create New Page"
-                        size={"md" as never}
-                    />
+                    <Flex justify="flex-start">
+                        <GenericDialog
+                            component={CreateStaticPageForm}
+                            title="Create New Page"
+                            buttonText="Create New Page"
+                            size={"md" as never}
+                            icon={<FiPlus/>}
+                        />
+                    </Flex>
                 </VStack>
             </Container>
         </Box>
