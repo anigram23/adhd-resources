@@ -49,7 +49,7 @@ public class StaticPageService {
     }
 
     public List<StaticPageSummaryDTO> findAllStaticPages() {
-        return staticPageMapper.toSummaryDtoList(staticPageRepository.findAll());
+        return staticPageMapper.toSummaryDtoList(staticPageRepository.findAllByOrderByCreatedAtAsc());
     }
 
     @Transactional
