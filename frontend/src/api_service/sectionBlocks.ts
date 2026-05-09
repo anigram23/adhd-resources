@@ -5,8 +5,13 @@ export async function createSectionBlock(credentials: {staticPageSectionId: numb
     return response.data;
 }
 
-export async function updateSectionBlock(id: number, credentials: {content: string, orderIndex: number}) {
+export async function updateSectionBlock(id: number, credentials: {content: string}) {
     const response = await http.patch(`/section-block/${id}`, credentials);
+    return response.data;
+}
+
+export async function updateSectionBlockOrder(updates: {id: number, orderIndex: number}[]) {
+    const response = await http.patch("/section-block/", updates);
     return response.data;
 }
 

@@ -14,6 +14,7 @@ import DeleteStaticPageSectionConfirmation from "./section/DeleteStaticPageSecti
 import DeleteSectionBlockConfirmation from "./block/DeleteSectionBlockConfirmation.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ReorderStaticPageSectionsForm from "./section/ReorderStaticPageSectionsForm.tsx";
+import ReorderSectionBlocksForm from "./block/ReorderSectionBlocksForm.tsx";
 
 type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
@@ -42,6 +43,7 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
     const [reorderSectionsOpen, setReorderSectionsOpen] = useState(false);
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
     const [openBlockIds, setOpenBlockIds] = useState<Set<Key>>(new Set());
+    const [openReorderBlockSectionIds, setOpenReorderBlockSectionIds] = useState<Set<Key>>(new Set());
     const [openCreateBlockSectionIds, setOpenCreateBlockSectionIds] = useState<Set<Key>>(new Set());
 
     if (isPending) return <FullPageLoader/>;
@@ -224,6 +226,29 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                                         </Box>
                                     </Collapsible.Root>
                                 ))}
+
+                                <Collapsible.Root
+                                    open={openReorderBlockSectionIds.has(section.id)}
+                                    onOpenChange={() => setOpenReorderBlockSectionIds(prev => toggleId(prev, section.id))}
+                                >
+                                    <Collapsible.Trigger asChild>
+                                        <Button colorPalette="blue" variant="outline" size="sm">
+                                            <FiList/> Reorder Blocks
+                                        </Button>
+                                    </Collapsible.Trigger>
+                                    <Collapsible.Content>
+                                        <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
+                                            <ReorderSectionBlocksForm
+                                                blocks={section.sectionBlocks?.map((b: SectionBlock) => ({
+                                                    id: b.id as number,
+                                                    orderIndex: b.orderIndex,
+                                                })) ?? []}
+                                                slug={slug}
+                                                onSuccess={() => setOpenReorderBlockSectionIds(prev => removeId(prev, section.id))}
+                                            />
+                                        </Box>
+                                    </Collapsible.Content>
+                                </Collapsible.Root>
 
                                 <Collapsible.Root
                                     open={openCreateBlockSectionIds.has(section.id)}
