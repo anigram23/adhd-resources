@@ -2,13 +2,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {updateStaticPageSection} from "@/api_service/staticPageSections.ts";
 import * as React from "react";
-import {Button, Field, HStack, Input, NumberInput, Stack, Text} from "@chakra-ui/react";
+import {Button, Field, HStack, Input, Stack, Text} from "@chakra-ui/react";
 import {FiAlertCircle} from "react-icons/fi";
 
 type StaticPageSection = {
     id: number,
     title: string,
-    orderIndex: number
 }
 
 export default function EditStaticPageSectionForm({ section, slug, onSuccess }: { section: StaticPageSection, slug: string, onSuccess?: () => void }) {
@@ -16,14 +15,13 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
 
     const [form, setForm] = useState({
         title: section.title,
-        orderIndex: section.orderIndex,
     });
 
     const mutation = useMutation({
-        mutationFn: ({id, ...credentials}: {id: number, title: string, orderIndex: number}) =>
+        mutationFn: ({id, ...credentials}: {id: number, title: string}) =>
             updateStaticPageSection(id, credentials),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
             onSuccess?.();
         }
     });
@@ -45,19 +43,6 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})}
                     />
-                </Field.Root>
-
-                <Field.Root>
-                    <Field.Label>
-                        Order Index
-                    </Field.Label>
-                    <NumberInput.Root
-                        value={form.orderIndex as unknown as string}
-                        onValueChange={(e) => setForm({...form, orderIndex: e.value as unknown as number})}
-                    >
-                        <NumberInput.Control />
-                        <NumberInput.Input />
-                    </NumberInput.Root>
                 </Field.Root>
 
                 {mutation.isError && (

@@ -15,8 +15,8 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
 
     const mutation = useMutation({
         mutationFn: createStaticPage,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["staticPages"] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["staticPages"] });
             onClose?.();
         }
     });
@@ -47,7 +47,7 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
                         <FieldRequiredIndicator/>
                     </Field.Label>
                     <Input
-                        placeholder="/about"
+                        placeholder="about"
                         value={form.slug}
                         onChange={(e) => setForm({...form, slug: e.target.value})}
                     />

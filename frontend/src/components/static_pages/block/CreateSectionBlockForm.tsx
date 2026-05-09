@@ -17,8 +17,8 @@ export default function CreateSectionBlockForm({ sectionId, slug, onSuccess }: {
 
     const mutation = useMutation({
         mutationFn: createSectionBlock,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
             onSuccess?.();
         }
     });

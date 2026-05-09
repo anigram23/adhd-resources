@@ -22,8 +22,8 @@ export default function EditSectionBlockForm({ block, slug, onSuccess } : { bloc
     const mutation = useMutation({
         mutationFn: ({id, ...credentials}: {id: number, content: string, orderIndex: number}) =>
             updateSectionBlock(id, credentials),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
             onSuccess?.();
         }
     });

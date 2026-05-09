@@ -16,8 +16,8 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
     })
     const mutation = useMutation({
         mutationFn: createStaticPageSection,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
             onSuccess?.();
         }
     })
