@@ -2,7 +2,7 @@ import {Box, Button, Collapsible, Container, HStack, Tabs, Text, VStack} from "@
 import {useQuery} from "@tanstack/react-query";
 import {getStaticPageBySlug} from "@/api_service/staticPages.ts"
 import FullPageLoader from "@/components/utils/FullPageLoader"
-import {FiAlertCircle, FiPlus, FiTrash2} from "react-icons/fi";
+import {FiAlertCircle, FiList, FiPlus, FiTrash2} from "react-icons/fi";
 import EditStaticPageForm from "./page/EditStaticPageForm.tsx";
 import CreateStaticPageSectionForm from "./section/CreateStaticPageSectionForm.tsx";
 import type {Key} from "react";
@@ -13,6 +13,7 @@ import EditSectionBlockForm from "./block/EditSectionBlockForm.tsx";
 import DeleteStaticPageSectionConfirmation from "./section/DeleteStaticPageSectionConfirmation.tsx";
 import DeleteSectionBlockConfirmation from "./block/DeleteSectionBlockConfirmation.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
+import ReorderStaticPageSectionsForm from "./section/ReorderStaticPageSectionsForm.tsx";
 
 type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
@@ -38,6 +39,7 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
     });
 
     const [openSectionIds, setOpenSectionIds] = useState<Set<Key>>(new Set());
+    const [reorderSectionsOpen, setReorderSectionsOpen] = useState(false);
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
     const [openBlockIds, setOpenBlockIds] = useState<Set<Key>>(new Set());
     const [openCreateBlockSectionIds, setOpenCreateBlockSectionIds] = useState<Set<Key>>(new Set());
@@ -110,7 +112,6 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                                             section={{
                                                 id: section.id as number,
                                                 title: section.title,
-                                                orderIndex: section.orderIndex
                                             }}
                                             slug={slug}
                                             onSuccess={() => setOpenSectionIds(prev => removeId(prev, section.id))}
@@ -120,6 +121,30 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                             </Box>
                         </Collapsible.Root>
                     ))}
+
+                    <Collapsible.Root
+                        open={reorderSectionsOpen}
+                        onOpenChange={() => setReorderSectionsOpen(prev => !prev)}
+                    >
+                        <Collapsible.Trigger asChild>
+                            <Button colorPalette="blue" variant="outline" size="sm">
+                                <FiList/> Reorder Sections
+                            </Button>
+                        </Collapsible.Trigger>
+                        <Collapsible.Content>
+                            <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
+                                <ReorderStaticPageSectionsForm
+                                    sections={data.sections.map((s: Section) => ({
+                                        id: s.id as number,
+                                        title: s.title,
+                                        orderIndex: s.orderIndex,
+                                    }))}
+                                    slug={slug}
+                                    onSuccess={() => setReorderSectionsOpen(false)}
+                                />
+                            </Box>
+                        </Collapsible.Content>
+                    </Collapsible.Root>
 
                     <Collapsible.Root
                         open={createSectionOpen}

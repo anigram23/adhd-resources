@@ -5,8 +5,13 @@ export async function createStaticPageSection(credentials: { staticPageId: numbe
     return response.data;
 }
 
-export async function updateStaticPageSection(id: number, credentials: { title: string, orderIndex: number }) {
+export async function updateStaticPageSection(id: number, credentials: { title: string }) {
     const response = await http.patch(`/static-page-section/${id}`, credentials);
+    return response.data;
+}
+
+export async function updateStaticPageSectionOrder(updates: { id: number, orderIndex: number }[]) {
+    const response = await http.patch("/static-page-section/", updates);
     return response.data;
 }
 
