@@ -3,15 +3,16 @@ package io.github.anigaut.adhdresources.staticPageSection;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.staticPage.StaticPage;
 import io.github.anigaut.adhdresources.staticPage.StaticPageRepository;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionRequestDTO;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionResponseDTO;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionUpdateDTO;
+import io.github.anigaut.adhdresources.staticPageSection.dto.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +63,7 @@ public class StaticPageSectionService {
     }
 
     @Transactional
-    public StaticPageSectionResponseDTO updateStaticPageSection(int id, StaticPageSectionUpdateDTO dto) {
+    public StaticPageSectionResponseDTO updateStaticPageSectionTitle(int id, StaticPageSectionTitleUpdateDTO dto) {
         StaticPageSection section = staticPageSectionRepository.findById(id)
                 .orElseThrow(
                         () -> new HttpException(
@@ -71,19 +72,41 @@ public class StaticPageSectionService {
                         )
                 );
 
-        if (dto.getOrderIndex() != null && dto.getOrderIndex() != section.getOrderIndex()) {
-            if (staticPageSectionRepository.existsByOrderIndexAndStaticPage(dto.getOrderIndex(), section.getStaticPage())) {
-                throw new HttpException(
-                        HttpStatus.BAD_REQUEST,
-                        "Another section with this order index already exists, please enter a different one"
-                );
-            }
-        }
 
         staticPageSectionMapper.updateEntity(dto, section);
         staticPageSectionRepository.save(section);
 
         return staticPageSectionMapper.toDto(section);
+    }
+
+    @Transactional
+    public List<StaticPageSectionResponseDTO> updateStaticPageSectionsOrder(List<StaticPageSectionOrderUpdateDTO> newOrderDTO) {
+        List<StaticPageSectionResponseDTO> updatedSections = new ArrayList<>();
+        Set<Integer> indices = new HashSet<>();
+
+        for (StaticPageSectionOrderUpdateDTO dto : newOrderDTO) {
+            StaticPageSection section = staticPageSectionRepository.findById(dto.getId())
+                    .orElseThrow(
+                            () -> new HttpException(
+                                    HttpStatus.NOT_FOUND,
+                                    "A section with this ID doesn't exist."
+                            )
+                    );
+
+            if (dto.getOrderIndex() > newOrderDTO.size() || dto.getOrderIndex() < 1 || indices.contains(dto.getOrderIndex())) {
+                throw new HttpException(
+                        HttpStatus.BAD_REQUEST,
+                        "Invalid order index"
+                );
+            }
+
+            indices.add(dto.getOrderIndex());
+
+            staticPageSectionMapper.updateEntity(dto, section);
+            staticPageSectionRepository.save(section);
+            updatedSections.add(staticPageSectionMapper.toDto(section));
+        }
+        return updatedSections;
     }
 
     @Transactional

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +16,5 @@ public class StaticPageSectionResponseDTO {
     private int id;
     private String title;
     private int orderIndex;
-    private Set<SectionBlockResponseDTO> sectionBlocks;
+    private List<SectionBlockResponseDTO> sectionBlocks;
 }

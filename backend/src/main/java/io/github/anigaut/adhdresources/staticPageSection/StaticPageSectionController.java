@@ -1,8 +1,9 @@
 package io.github.anigaut.adhdresources.staticPageSection;
 
+import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionOrderUpdateDTO;
 import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionRequestDTO;
 import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionResponseDTO;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionUpdateDTO;
+import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionTitleUpdateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,18 @@ public class StaticPageSectionController {
                 .body(staticPageSectionService.findAllSectionsInPage(pageId));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<StaticPageSectionResponseDTO> updateStaticPageSection(@PathVariable int id, @RequestBody StaticPageSectionUpdateDTO staticPageSectionUpdateDTO) {
+    @PatchMapping("/")
+    public ResponseEntity<List<StaticPageSectionResponseDTO>> updateStaticPageSectionOrder(@RequestBody List<StaticPageSectionOrderUpdateDTO> dtoList) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(staticPageSectionService.updateStaticPageSection(id, staticPageSectionUpdateDTO));
+                .body(staticPageSectionService.updateStaticPageSectionsOrder(dtoList));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<StaticPageSectionResponseDTO> updateStaticPageSectionTitle(@PathVariable int id, @RequestBody StaticPageSectionTitleUpdateDTO staticPageSectionTitleUpdateDTO) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(staticPageSectionService.updateStaticPageSectionTitle(id, staticPageSectionTitleUpdateDTO));
     }
 
     @DeleteMapping("/{id}")

@@ -1,9 +1,7 @@
 package io.github.anigaut.adhdresources.staticPageSection;
 
 import io.github.anigaut.adhdresources.staticPage.StaticPage;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionRequestDTO;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionResponseDTO;
-import io.github.anigaut.adhdresources.staticPageSection.dto.StaticPageSectionUpdateDTO;
+import io.github.anigaut.adhdresources.staticPageSection.dto.*;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -23,5 +21,8 @@ public interface StaticPageSectionMapper {
     List<StaticPageSectionResponseDTO> toDtoList(List<StaticPageSection> sections);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntity(StaticPageSectionUpdateDTO dto, @MappingTarget StaticPageSection section);
+    void updateEntity(StaticPageSectionTitleUpdateDTO dto, @MappingTarget StaticPageSection section);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntity(StaticPageSectionOrderUpdateDTO dto, @MappingTarget StaticPageSection section);
 }

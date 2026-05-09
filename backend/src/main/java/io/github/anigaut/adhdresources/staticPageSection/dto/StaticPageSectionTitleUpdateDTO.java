@@ -10,7 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StaticPageSectionUpdateDTO {
+public class StaticPageSectionTitleUpdateDTO {
+
+    @NotBlank(message = "Title is required")
     private String title;
-    private Integer orderIndex;
 }
