@@ -1,15 +1,21 @@
 package io.github.anigaut.adhdresources.sectionBlock;
 
 import io.github.anigaut.adhdresources.core.exception.HttpException;
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockContentUpdateDTO;
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockOrderUpdateDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockRequestDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockResponseDTO;
-import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockUpdateDTO;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSection;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSectionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +47,8 @@ public class SectionBlockService {
     }
 
     @Transactional
-    public SectionBlockResponseDTO updateSectionBlock(int id, SectionBlockUpdateDTO sectionBlockUpdateDTO) {
-        SectionBlock block =  sectionBlockRepository.findById(id)
+    public SectionBlockResponseDTO updateSectionBlockContent(int id, SectionBlockContentUpdateDTO dto) {
+        SectionBlock block = sectionBlockRepository.findById(id)
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,
@@ -50,19 +56,39 @@ public class SectionBlockService {
                         )
                 );
 
-
-        if (sectionBlockUpdateDTO.getOrderIndex() != null && !sectionBlockUpdateDTO.getOrderIndex().equals(block.getOrderIndex())) {
-            if (sectionBlockRepository.existsByOrderIndexAndStaticPageSection(sectionBlockUpdateDTO.getOrderIndex(), block.getStaticPageSection())) {
-                throw new HttpException(
-                        HttpStatus.BAD_REQUEST,
-                        "A section block already exists with the same order index"
-                );
-            }
-        }
-
-        sectionBlockMapper.updateEntity(sectionBlockUpdateDTO, block);
+        sectionBlockMapper.updateEntity(dto, block);
         sectionBlockRepository.save(block);
         return sectionBlockMapper.toDto(block);
+    }
+
+    @Transactional
+    public List<SectionBlockResponseDTO> updateSectionBlocksOrder(List<SectionBlockOrderUpdateDTO> newOrderDTO) {
+        List<SectionBlockResponseDTO> updatedBlocks = new ArrayList<>();
+        Set<Integer> indices = new HashSet<>();
+
+        for (SectionBlockOrderUpdateDTO dto : newOrderDTO) {
+            SectionBlock block = sectionBlockRepository.findById(dto.getId())
+                    .orElseThrow(
+                            () -> new HttpException(
+                                    HttpStatus.NOT_FOUND,
+                                    "A section block with this ID doesn't exist"
+                            )
+                    );
+
+            if (dto.getOrderIndex() > newOrderDTO.size() || dto.getOrderIndex() < 1 || indices.contains(dto.getOrderIndex())) {
+                throw new HttpException(
+                        HttpStatus.BAD_REQUEST,
+                        "Invalid order index"
+                );
+            }
+
+            indices.add(dto.getOrderIndex());
+
+            sectionBlockMapper.updateEntity(dto, block);
+            sectionBlockRepository.save(block);
+            updatedBlocks.add(sectionBlockMapper.toDto(block));
+        }
+        return updatedBlocks;
     }
 
     @Transactional

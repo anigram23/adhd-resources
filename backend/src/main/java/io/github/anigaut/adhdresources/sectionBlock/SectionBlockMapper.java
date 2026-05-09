@@ -1,8 +1,9 @@
 package io.github.anigaut.adhdresources.sectionBlock;
 
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockContentUpdateDTO;
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockOrderUpdateDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockRequestDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockResponseDTO;
-import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockUpdateDTO;
 import io.github.anigaut.adhdresources.staticPageSection.StaticPageSection;
 import org.mapstruct.*;
 
@@ -18,5 +19,8 @@ public interface SectionBlockMapper {
     SectionBlockResponseDTO toDto(SectionBlock sectionBlock);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntity(SectionBlockUpdateDTO dto, @MappingTarget SectionBlock sectionBlock);
+    void updateEntity(SectionBlockContentUpdateDTO dto, @MappingTarget SectionBlock sectionBlock);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntity(SectionBlockOrderUpdateDTO dto, @MappingTarget SectionBlock sectionBlock);
 }

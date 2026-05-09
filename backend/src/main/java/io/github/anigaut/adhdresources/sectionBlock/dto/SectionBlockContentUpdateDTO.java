@@ -1,5 +1,6 @@
 package io.github.anigaut.adhdresources.sectionBlock.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectionBlockUpdateDTO {
+public class SectionBlockContentUpdateDTO {
+
+    @NotBlank(message = "Content is required")
     private String content;
-    private Integer orderIndex;
 }

@@ -1,13 +1,16 @@
 package io.github.anigaut.adhdresources.sectionBlock;
 
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockContentUpdateDTO;
+import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockOrderUpdateDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockRequestDTO;
 import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockResponseDTO;
-import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockUpdateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/section-block")
@@ -26,11 +29,18 @@ public class SectionBlockController {
                 .body(sectionBlockService.createSectionBlock(dto));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SectionBlockResponseDTO> updateSectionBlock(@PathVariable int id, @RequestBody SectionBlockUpdateDTO dto) {
+    @PatchMapping("/")
+    public ResponseEntity<List<SectionBlockResponseDTO>> updateSectionBlocksOrder(@RequestBody List<SectionBlockOrderUpdateDTO> dtoList) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(sectionBlockService.updateSectionBlock(id, dto));
+                .body(sectionBlockService.updateSectionBlocksOrder(dtoList));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<SectionBlockResponseDTO> updateSectionBlockContent(@PathVariable int id, @RequestBody SectionBlockContentUpdateDTO dto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(sectionBlockService.updateSectionBlockContent(id, dto));
     }
 
     @DeleteMapping("/{id}")
