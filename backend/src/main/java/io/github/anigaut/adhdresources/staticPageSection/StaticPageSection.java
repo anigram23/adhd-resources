@@ -37,5 +37,6 @@ public class StaticPageSection {
     private int orderIndex;
 
     @OneToMany(mappedBy = "staticPageSection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("orderIndex ASC")
     private Set<SectionBlock> sectionBlocks;
 }

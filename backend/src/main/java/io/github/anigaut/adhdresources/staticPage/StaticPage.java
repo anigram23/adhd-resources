@@ -51,6 +51,7 @@ public class StaticPage {
     private boolean active = false;
 
     @OneToMany(mappedBy = "staticPage", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("orderIndex ASC")
     private Set<StaticPageSection> sections;
 
     @CreationTimestamp
