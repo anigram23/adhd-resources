@@ -2,4 +2,8 @@ package io.github.anigaut.adhdresources.city;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CityRepository extends JpaRepository<City, Integer> {}
+import java.util.List;
+
+public interface CityRepository extends JpaRepository<City, Integer> {
+    List<City> findByStateId(int stateId);
+}
