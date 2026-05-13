@@ -40,7 +40,7 @@ public class Professional {
     private City city;
 
     @Column(name = "average_rating")
-    private Short averageRating;
+    private Double averageRating;
 
     @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
