@@ -39,9 +39,6 @@ public class Professional {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @Column(name = "average_rating")
-    private Double averageRating;
-
     @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
 

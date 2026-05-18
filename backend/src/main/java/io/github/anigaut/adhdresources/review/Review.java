@@ -54,5 +54,5 @@ public class Review {
 
     @NotNull
     @Column(name = "rating")
-    private Short rating;
+    private float rating;
 }
