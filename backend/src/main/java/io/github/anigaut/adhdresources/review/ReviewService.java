@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -23,6 +25,17 @@ public class ReviewService {
     private final ReviewerRepository reviewerRepository;
     private final ProfessionalRepository professionalRepository;
     private final ProfessionalService professionalService;
+
+    public List<ReviewResponseDTO> getReviewsByProfessionalId(int professionalId) {
+        if (!professionalRepository.existsById(professionalId)) {
+            throw new HttpException(HttpStatus.NOT_FOUND, "professional not found");
+        }
+
+        return reviewRepository.findByProfessionalId(professionalId)
+                .stream()
+                .map(reviewMapper::toResponseDTO)
+                .toList();
+    }
 
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
