@@ -33,9 +33,4 @@ public class AdminController {
         adminService.logout(response);
         return ResponseEntity.status(HttpStatus.OK).body("Logged out successfully");
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Hello, admin!";
-    }
 }
