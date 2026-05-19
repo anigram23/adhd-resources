@@ -7,6 +7,7 @@ import io.github.anigaut.adhdresources.professional.ProfessionalService;
 import io.github.anigaut.adhdresources.professional.dto.ProfessionalRequestDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewRequestDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewResponseDTO;
+import io.github.anigaut.adhdresources.review.dto.ReviewUpdateDTO;
 import io.github.anigaut.adhdresources.reviewer.Reviewer;
 import io.github.anigaut.adhdresources.reviewer.ReviewerRepository;
 import jakarta.transaction.Transactional;
@@ -53,5 +54,27 @@ public class ReviewService {
 
         Review newReview = reviewRepository.save(reviewMapper.toEntity(reviewRequestDTO, reviewer, professional));
         return reviewMapper.toResponseDTO(newReview);
+    }
+
+    @Transactional
+    public ReviewResponseDTO updateReview(int id, ReviewUpdateDTO reviewUpdateDTO) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Review Not Found"));
+
+        reviewMapper.updateEntity(reviewUpdateDTO, review);
+        reviewRepository.save(review);
+
+        return reviewMapper.toResponseDTO(review);
+    }
+
+    @Transactional
+    public String deleteReview(int id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(
+                        () -> new HttpException(HttpStatus.NOT_FOUND, "Review not found")
+                );
+
+        reviewRepository.delete(review);
+        return "Deleted Review Successfully";
     }
 }
