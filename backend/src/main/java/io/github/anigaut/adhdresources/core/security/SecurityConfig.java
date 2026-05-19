@@ -4,6 +4,7 @@ import io.github.anigaut.adhdresources.core.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,10 +30,36 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/admin/login", "/api/admin/logout").permitAll()
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/api/reviewer/**").hasRole("REVIEWER")
-                    //.anyRequest().authenticated()
+                    .requestMatchers("/admin/**").permitAll()
+
+                    .requestMatchers("/reviewer/**").permitAll()
+
+                    .requestMatchers("/city/**").permitAll()
+
+                    .requestMatchers("/state/**").permitAll()
+
+                    .requestMatchers("/me").permitAll()
+
+                    .requestMatchers(HttpMethod.GET, "/professional/**").permitAll()
+
+                    .requestMatchers(HttpMethod.GET, "/professional-type/**").permitAll()
+                    .requestMatchers("/professional-type/**").hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.POST, "/review").hasRole("REVIEWER")
+                    .requestMatchers(HttpMethod.PATCH, "/review/**").hasRole("REVIEWER")
+                    .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
+
+                    .requestMatchers(HttpMethod.GET, "/static-page/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/static-page").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PATCH, "/static-page/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/static-page/**").hasRole("ADMIN")
+
+                    .requestMatchers(HttpMethod.GET, "/static-page-section/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/static-page-section").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PATCH, "/static-page-section/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/static-page-section/**").hasRole("ADMIN")
+
+                    .requestMatchers("/section-block/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
