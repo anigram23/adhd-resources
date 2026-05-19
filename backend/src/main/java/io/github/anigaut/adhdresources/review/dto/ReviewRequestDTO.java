@@ -12,9 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewRequestDTO {
-    @NotNull(message = "Reviewer ID is required")
-    private int reviewerId;
-
     // if review is for an existing professional, ID is required. If not, name, city and type needs to be provided
 
     private String professionalName;

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,23 +17,30 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/")
-    public ResponseEntity<ReviewResponseDTO> createReview(@Valid @RequestBody ReviewRequestDTO reviewRequestDTO) {
+    public ResponseEntity<ReviewResponseDTO> createReview(
+            @Valid @RequestBody ReviewRequestDTO reviewRequestDTO,
+            @AuthenticationPrincipal String reviewerEmail) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(reviewService.createReview(reviewRequestDTO));
+                .body(reviewService.createReview(reviewRequestDTO, reviewerEmail));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ReviewResponseDTO> updateReview(@PathVariable int id, @Valid @RequestBody ReviewUpdateDTO reviewUpdateDTO) {
+    public ResponseEntity<ReviewResponseDTO> updateReview(
+            @PathVariable int id,
+            @Valid @RequestBody ReviewUpdateDTO reviewUpdateDTO,
+            @AuthenticationPrincipal String reviewerEmail) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(reviewService.updateReview(id, reviewUpdateDTO));
+                .body(reviewService.updateReview(id, reviewUpdateDTO, reviewerEmail));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteReview(@PathVariable int id) {
+    public ResponseEntity<String> deleteReview(
+            @PathVariable int id,
+            @AuthenticationPrincipal String reviewerEmail) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(reviewService.deleteReview(id));
+                .body(reviewService.deleteReview(id, reviewerEmail));
     }
 }

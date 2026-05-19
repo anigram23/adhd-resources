@@ -25,9 +25,9 @@ public class ReviewService {
     private final ProfessionalService professionalService;
 
     @Transactional
-    public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO) {
-        Reviewer reviewer = reviewerRepository.findById(reviewRequestDTO.getReviewerId())
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Reviewer Not Found"));
+    public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
+        Reviewer reviewer = reviewerRepository.findByEmail(reviewerEmail);
+        if (reviewer == null) throw new HttpException(HttpStatus.NOT_FOUND, "Reviewer Not Found");
 
         Professional professional;
         if (reviewRequestDTO.getProfessionalId() != null) {
@@ -57,9 +57,13 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDTO updateReview(int id, ReviewUpdateDTO reviewUpdateDTO) {
+    public ReviewResponseDTO updateReview(int id, ReviewUpdateDTO reviewUpdateDTO, String reviewerEmail) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Review Not Found"));
+
+        if (!review.getReviewer().getEmail().equals(reviewerEmail)) {
+            throw new HttpException(HttpStatus.FORBIDDEN, "You do not have permission to update this review");
+        }
 
         reviewMapper.updateEntity(reviewUpdateDTO, review);
         reviewRepository.save(review);
@@ -68,11 +72,13 @@ public class ReviewService {
     }
 
     @Transactional
-    public String deleteReview(int id) {
+    public String deleteReview(int id, String reviewerEmail) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(
-                        () -> new HttpException(HttpStatus.NOT_FOUND, "Review not found")
-                );
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Review not found"));
+
+        if (!review.getReviewer().getEmail().equals(reviewerEmail)) {
+            throw new HttpException(HttpStatus.FORBIDDEN, "You do not have permission to delete this review");
+        }
 
         reviewRepository.delete(review);
         return "Deleted Review Successfully";
