@@ -7,16 +7,21 @@ import ReviewerRegister from "@/pages/ReviewerRegister.tsx";
 import AdminHome from "@/pages/AdminHome.tsx";
 import AllStaticPages from "../pages/AllStaticPages.tsx";
 import StaticPage from "@/pages/StaticPage.tsx";
+import {ProtectedRoute} from "@/routing/ProtectedRoutes.tsx";
 
 
 const adminRoutes = [
     {
         path: "/admin",
         children: [
-            {index: true, element: <AdminHome />},
             { path: "login", element: <AdminLogin /> },
-            { path: "static-pages", element: <AllStaticPages /> }
-
+            {
+                element: <ProtectedRoute allowedRole="ADMIN" redirectTo="/" />,
+                children: [
+                    { index: true, element: <AdminHome /> },
+                    { path: "static-pages", element: <AllStaticPages /> },
+                ]
+            }
         ]
     }
 ]
