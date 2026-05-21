@@ -1,5 +1,5 @@
 import {type ReactNode} from "react";
-import {useAuth} from "@/auth/AuthContext.tsx";
+import {useAuth} from "@/auth/useAuth.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
 
 export default function AuthGate({ children } : {children: ReactNode}) {
