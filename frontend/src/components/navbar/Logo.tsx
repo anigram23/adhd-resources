@@ -8,7 +8,7 @@ export default function Logo() {
                 <TbBrain size={24}/>
             </Box>
             <Text fontSize="lg" fontWeight="bold" color="blue.900" whiteSpace="nowrap">
-                ADHD Resources
+                <a href="/">ADHD Resources</a>
             </Text>
         </HStack>
     );
