@@ -1,15 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
-import type {Key} from "react";
 import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import CreateStaticPageForm from "../components/static_pages/page/CreateStaticPageForm.tsx";
 import GenericDialog from "../components/utils/GenericDialog.tsx";
 import {FiAlertCircle, FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
 import StaticPageDetails from "../components/static_pages/StaticPageDetails.tsx";
 import DeleteStaticPageConfirmation from "../components/static_pages/page/DeleteStaticPageConfirmation.tsx";
-
-type StaticPage = { id: Key; title: string; slug: string; active: boolean };
+import type {StaticPage} from "@/utils/types.ts";
 
 export default function AllStaticPages() {
     const {isPending, isError, data, error} = useQuery({
