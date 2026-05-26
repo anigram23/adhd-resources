@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ProfessionalResponseDTO {
     private int id;
     private String name;
+    private String slug;
     private ProfessionalTypeResponseDTO professionalType;
     private CityResponseDTO city;
 }

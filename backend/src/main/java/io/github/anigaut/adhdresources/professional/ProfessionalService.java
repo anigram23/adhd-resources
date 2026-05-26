@@ -30,6 +30,14 @@ public class ProfessionalService {
         );
     }
 
+    private String generateSlug(String name, String type, String city) {
+        String base = (name + "-" + type + "-" + city).toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+        if (!professionalRepository.existsBySlug(base)) return base;
+        int suffix = 2;
+        while (professionalRepository.existsBySlug(base + "-" + suffix)) suffix++;
+        return base + "-" + suffix;
+    }
+
     @Transactional
     public Professional createProfessionalFromReview(ProfessionalRequestDTO professionalRequestDTO) {
 
@@ -39,6 +47,8 @@ public class ProfessionalService {
         ProfessionalType professionalType = professionalTypeRepository.findById(professionalRequestDTO.getProfessionalTypeId())
                 .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "Professional type not found"));
 
-        return professionalRepository.save(professionalMapper.toEntity(professionalRequestDTO, city, professionalType));
+        Professional professional = professionalMapper.toEntity(professionalRequestDTO, city, professionalType);
+        professional.setSlug(generateSlug(professionalRequestDTO.getName(), professionalType.getTitle(), city.getName()));
+        return professionalRepository.save(professional);
     }
 }

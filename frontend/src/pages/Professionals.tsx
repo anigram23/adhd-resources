@@ -98,7 +98,7 @@ export default function Professionals() {
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
                                     <Card.Header flex={1}>
                                         <Card.Title color="gray.800" fontWeight="semibold">
-                                            {professional.name}
+                                            {professional.type.doctor && (<div>Dr.</div>)}{professional.name}
                                         </Card.Title>
                                     </Card.Header>
                                     <Card.Footer pt={2}>

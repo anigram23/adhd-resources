@@ -31,6 +31,10 @@ public class Professional {
     @Column(name = "name")
     private String name;
 
+    @NotNull
+    @Column(name = "slug", unique = true)
+    private String slug;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professional_type_id", nullable = false)
     private ProfessionalType professionalType;

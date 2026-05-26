@@ -21,6 +21,7 @@ public interface ProfessionalMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "name", source = "dto.name")
+    @Mapping(target = "slug", ignore = true)
     Professional toEntity(ProfessionalRequestDTO dto, City city, ProfessionalType professionalType);
 
     ProfessionalResponseDTO toResponseDTO(Professional entity);
