@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CityRepository extends JpaRepository<City, Integer> {
     List<City> findByStateId(int stateId);
+
+    City findByName(String city);
 }

@@ -16,11 +16,11 @@ public class ProfessionalController {
     private final ProfessionalService professionalService;
     private final ReviewService reviewService;
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<ProfessionalResponseDTO>> getProfessionals(
-            @RequestParam int typeId,
-            @RequestParam int cityId) {
-        return ResponseEntity.ok(professionalService.getProfessionalsByTypeAndCity(typeId, cityId));
+            @RequestParam String type,
+            @RequestParam String city) {
+        return ResponseEntity.ok(professionalService.getProfessionalsByTypeAndCity(type, city));
     }
 
     @GetMapping("/{id}/reviews")

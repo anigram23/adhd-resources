@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProfessionalTypeRepository extends JpaRepository<ProfessionalType, Integer> {
         boolean existsByTitle(String title);
+
+    ProfessionalType findByTitle(String type);
 }

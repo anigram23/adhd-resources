@@ -22,9 +22,11 @@ public class ProfessionalService {
     private final CityRepository cityRepository;
     private final ProfessionalTypeRepository professionalTypeRepository;
 
-    public List<ProfessionalResponseDTO> getProfessionalsByTypeAndCity(int typeId, int cityId) {
+    public List<ProfessionalResponseDTO> getProfessionalsByTypeAndCity(String type, String city) {
+        ProfessionalType professionalType = professionalTypeRepository.findByTitle(type);
+        City professionalCity = cityRepository.findByName(city);
         return professionalMapper.toResponseDTOList(
-                professionalRepository.findByProfessionalTypeIdAndCityId(typeId, cityId)
+                professionalRepository.findByProfessionalTypeAndCity(professionalType, professionalCity)
         );
     }
 
