@@ -4,7 +4,7 @@ import {getAllProfessionalTypes} from "@/api_service/professionalType.ts";
 import {getAllStates} from "@/api_service/state.ts";
 import {getCitiesByState} from "@/api_service/city.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Button, Field, FieldRequiredIndicator, HStack, NativeSelect} from "@chakra-ui/react";
+import {Button, Field, FieldRequiredIndicator, Flex, NativeSelect} from "@chakra-ui/react";
 import type {City, ProfessionalType, State} from "@/utils/types.ts";
 import {useNavigate} from "react-router";
 
@@ -43,10 +43,10 @@ export default function FindProfessionals() {
     }
 
     return (
-        <HStack gap={2}>
-            <Field.Root required>
-                <Field.Label>
-                    Select Professional Type
+        <Flex gap={4} flexWrap="wrap" align="flex-end">
+            <Field.Root required flex="1" minW="160px">
+                <Field.Label color="gray.700">
+                    Professional Type
                     <FieldRequiredIndicator />
                 </Field.Label>
 
@@ -64,8 +64,8 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Field.Root required>
-                <Field.Label>
+            <Field.Root required flex="1" minW="160px">
+                <Field.Label color="gray.700">
                     State
                     <FieldRequiredIndicator />
                 </Field.Label>
@@ -84,8 +84,8 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Field.Root required>
-                <Field.Label>
+            <Field.Root required flex="1" minW="160px">
+                <Field.Label color="gray.700">
                     City
                     <FieldRequiredIndicator />
                 </Field.Label>
@@ -104,8 +104,9 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Button onClick={handleSubmit}>Go</Button>
-            
-        </HStack>
+            <Button colorPalette="blue" onClick={handleSubmit} alignSelf="flex-end">
+                Find
+            </Button>
+        </Flex>
     )
 }

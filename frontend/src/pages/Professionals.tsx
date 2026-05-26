@@ -1,5 +1,5 @@
 import {useSearchParams} from "react-router";
-import {VStack, Text, Box, Grid, GridItem, Card, Button, Container, HStack} from "@chakra-ui/react";
+import {Box, Button, Card, Container, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import getAllProfessionals from "@/api_service/professional.ts";
@@ -21,11 +21,25 @@ export default function Professionals() {
 
     if (!type || !city) {
         return (
-            <VStack gap={2}>
-                <Text fontSize="4xl">Find Professionals In Your City</Text>
-                <FindProfessionals />
-            </VStack>
-        )
+            <Box>
+                <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
+                    <Container maxW="5xl">
+                        <Heading
+                            as="h1"
+                            fontSize={{base: "3xl", md: "5xl"}}
+                            fontWeight="bold"
+                            color="blue.900"
+                            lineHeight="1.15"
+                        >
+                            Find Professionals In Your City
+                        </Heading>
+                    </Container>
+                </Box>
+                <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+                    <FindProfessionals />
+                </Container>
+            </Box>
+        );
     }
 
     if (isPending) {
@@ -36,7 +50,7 @@ export default function Professionals() {
         return (
             <Container maxW="5xl" py={20}>
                 <HStack gap={3} color="red.500" justify="center">
-                    <FiAlertCircle size={22}/>
+                    <FiAlertCircle size={22} />
                     <Text fontSize="lg">Failed to load: {error.message}</Text>
                 </HStack>
             </Container>
@@ -45,34 +59,59 @@ export default function Professionals() {
 
     return (
         <Box>
-            <Text fontSize="3xl">{type}s in {city}</Text>
-            { !data ? (
-                <Text>
-                    Currently, there are no reviews for {type}s in {city}s. If you have visited one,
-                    please leave a review.
-                </Text>
-            ) : (
-                <Grid
-                    templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
-                    gap={4}
-                >
-                    {data.map((professional: Professional) => (
-                        <GridItem key={professional.id}>
-                            <Card.Root>
-                                <Card.Header>
-                                    <Card.Title>{professional.name}</Card.Title>
-                                </Card.Header>
+            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
+                <Container maxW="5xl">
+                    <Heading
+                        as="h1"
+                        fontSize={{base: "3xl", md: "5xl"}}
+                        fontWeight="bold"
+                        color="blue.900"
+                        lineHeight="1.15"
+                    >
+                        {type}s in {city}
+                    </Heading>
+                </Container>
+            </Box>
 
-                                <Card.Footer>
-                                    <Button>Reviews</Button>
-                                </Card.Footer>
-                            </Card.Root>
-                        </GridItem>
-                    ))}
-                </Grid>
-            )}
+            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+                {data.length === 0 ? (
+                    <VStack gap={8} align="stretch">
+                        <Text color="gray.700" fontSize="md" lineHeight="1.8">
+                            Currently, there are no {type}s from {city} in our database. If you have visited
+                            one, please leave a review. You may also search for professionals of a different
+                            type or from a different city.
+                        </Text>
+                        <Box>
+                            <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
+                                Search Again
+                            </Heading>
+                            <FindProfessionals />
+                        </Box>
+                    </VStack>
+                ) : (
+                    <Grid
+                        templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
+                        gap={4}
+                    >
+                        {data.map((professional: Professional) => (
+                            <GridItem key={professional.id}>
+                                <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
+                                    <Card.Header flex={1}>
+                                        <Card.Title color="gray.800" fontWeight="semibold">
+                                            {professional.name}
+                                        </Card.Title>
+                                    </Card.Header>
+                                    <Card.Footer pt={2}>
+                                        <Button size="sm" colorPalette="blue" variant="subtle">
+                                            Reviews
+                                        </Button>
+                                    </Card.Footer>
+                                </Card.Root>
+                            </GridItem>
+                        ))}
+                    </Grid>
+                )}
+            </Container>
         </Box>
-    )
-
-
+    );
 }

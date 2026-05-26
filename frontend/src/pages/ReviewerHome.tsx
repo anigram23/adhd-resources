@@ -1,15 +1,22 @@
 import {
     Box,
     Card,
-    Grid, GridItem,
+    Container,
+    Grid,
+    GridItem,
+    Heading,
+    HStack,
     Text,
-    VStack
+    VStack,
+    Button
 } from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import type {StaticPage} from "@/utils/types.ts";
+import {FiAlertCircle} from "react-icons/fi";
+import {Link} from "react-router";
 
 export default function ReviewerHome() {
 
@@ -23,37 +30,69 @@ export default function ReviewerHome() {
     }
 
     return (
-        <VStack>
-            <Text fontSize="4xl" textAlign="center">ADHD Resources for Indians</Text>
-            <Text fontSize="xl" textAlign="center">
-                Crowdsourced reviews of psychologists and psychiatrists.
-            </Text>
+        <Box>
+            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
+                <Container maxW="5xl">
+                    <Heading
+                        as="h1"
+                        fontSize={{base: "3xl", md: "5xl"}}
+                        fontWeight="bold"
+                        color="blue.900"
+                        lineHeight="1.15"
+                    >
+                        ADHD Resources for Indians
+                    </Heading>
+                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mt={3}>
+                        Crowdsourced reviews of psychologists and psychiatrists.
+                    </Text>
+                </Container>
+            </Box>
 
-            <Text fontSize="2xl" textAlign="center">Find a professional:</Text>
-            <FindProfessionals />
+            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+                <VStack gap={12} align="stretch">
+                    <Box>
+                        <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
+                            Find a Professional
+                        </Heading>
+                        <FindProfessionals />
+                    </Box>
 
-            <Text fontSize="xl" textAlign="center">Learn About ADHD and How To Get Diagnosed</Text>
-            <Grid
-                templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
-                gap={4}
-            >
-                {staticPagesQuery.data.map((page: StaticPage) => (
-                    <GridItem key={page.id}>
-                        <Card.Root>
-                            <Card.Header>
-                                <Card.Title>{page.title}</Card.Title>
-                            </Card.Header>
+                    <Box>
+                        <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
+                            Learn About ADHD and How To Get Diagnosed
+                        </Heading>
 
-                            <Card.Footer>
-                                <Box asChild>
-                                    <a href={page.slug}>Read</a>
-                                </Box>
-                            </Card.Footer>
-                        </Card.Root>
-                    </GridItem>
-                ))}
-            </Grid>
-
-        </VStack>
-    )
+                        {staticPagesQuery.isError ? (
+                            <HStack gap={3} color="red.500">
+                                <FiAlertCircle size={22} />
+                                <Text fontSize="lg">Failed to load pages.</Text>
+                            </HStack>
+                        ) : (
+                            <Grid
+                                templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
+                                gap={4}
+                            >
+                                {staticPagesQuery.data.map((page: StaticPage) => (
+                                    <GridItem key={page.id}>
+                                        <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
+                                            <Card.Header flex={1}>
+                                                <Card.Title color="gray.800" fontWeight="semibold">
+                                                    {page.title}
+                                                </Card.Title>
+                                            </Card.Header>
+                                            <Card.Footer pt={2}>
+                                                <Button size="sm" colorPalette="blue" variant="subtle" asChild>
+                                                    <Link to={`/${page.slug}`}>Read</Link>
+                                                </Button>
+                                            </Card.Footer>
+                                        </Card.Root>
+                                    </GridItem>
+                                ))}
+                            </Grid>
+                        )}
+                    </Box>
+                </VStack>
+            </Container>
+        </Box>
+    );
 }
