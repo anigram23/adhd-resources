@@ -5,15 +5,15 @@ import {getAllStates} from "@/api_service/state.ts";
 import {getCitiesByState} from "@/api_service/city.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import {Button, Field, FieldRequiredIndicator, HStack, NativeSelect} from "@chakra-ui/react";
+import type {City, ProfessionalType, State} from "@/utils/types.ts";
+import {useNavigate} from "react-router";
 
-type State = {id: number, name: string};
-type ProfessionalType = {id: number, title: string, doctor: boolean, canDiagnose: boolean, canPrescribeMeds: boolean};
-type City = {id: number, name: string};
 
 export default function FindProfessionals() {
     const [selectedStateID, setSelectedStateID] = useState<number>();
     const [selectedType, setSelectedType] = useState<string>();
     const [selectedCity, setSelectedCity] = useState<string>();
+    const navigate = useNavigate();
 
     const professionalTypesQuery = useQuery({
         queryKey: ["professionalTypes"],
@@ -33,6 +33,13 @@ export default function FindProfessionals() {
 
     if (professionalTypesQuery.isPending || statesQuery.isPending) {
         return <FullPageLoader />;
+    }
+
+    const handleSubmit = () => {
+        navigate({
+            pathname: "/professionals",
+            search: `type=${selectedType}&city=${selectedCity}`,
+        })
     }
 
     return (
@@ -97,7 +104,7 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Button type="submit">Go</Button>         
+            <Button onClick={handleSubmit}>Go</Button>
             
         </HStack>
     )
