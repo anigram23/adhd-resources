@@ -7,6 +7,7 @@ import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import {Button, Field, FieldRequiredIndicator, Flex, NativeSelect} from "@chakra-ui/react";
 import type {City, ProfessionalType, State} from "@/utils/types.ts";
 import {useNavigate} from "react-router";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 
 export default function FindProfessionals() {
@@ -34,6 +35,20 @@ export default function FindProfessionals() {
     if (professionalTypesQuery.isPending || statesQuery.isPending) {
         return <FullPageLoader />;
     }
+
+    if (professionalTypesQuery.isError) {
+        return <ErrorDisplay message={professionalTypesQuery.error.message} />;
+    }
+
+    if (statesQuery.isError) {
+        return <ErrorDisplay message={statesQuery.error.message} />;
+    }
+
+    if (citiesQuery.isError) {
+        return <ErrorDisplay message={citiesQuery.error.message} />;
+    }
+
+
 
     const handleSubmit = () => {
         navigate({

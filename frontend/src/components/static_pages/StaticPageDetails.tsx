@@ -1,8 +1,8 @@
-import {Box, Button, Collapsible, Container, HStack, Tabs, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Collapsible, HStack, Tabs, Text, VStack} from "@chakra-ui/react";
 import {useQuery} from "@tanstack/react-query";
 import {getStaticPageBySlug} from "@/api_service/staticPages.ts"
 import FullPageLoader from "@/components/utils/FullPageLoader"
-import {FiAlertCircle, FiList, FiPlus, FiTrash2} from "react-icons/fi";
+import {FiList, FiPlus, FiTrash2} from "react-icons/fi";
 import EditStaticPageForm from "./page/EditStaticPageForm.tsx";
 import CreateStaticPageSectionForm from "./section/CreateStaticPageSectionForm.tsx";
 import type {Key} from "react";
@@ -15,6 +15,7 @@ import DeleteSectionBlockConfirmation from "./block/DeleteSectionBlockConfirmati
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ReorderStaticPageSectionsForm from "./section/ReorderStaticPageSectionsForm.tsx";
 import ReorderSectionBlocksForm from "./block/ReorderSectionBlocksForm.tsx";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
@@ -49,14 +50,7 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
     if (isPending) return <FullPageLoader/>;
 
     if (isError) {
-        return (
-            <Container maxW="3xl" py={20}>
-                <HStack gap={3} color="red.500" justify="center">
-                    <FiAlertCircle size={22}/>
-                    <Text fontSize="lg">Failed to load: {error.message}</Text>
-                </HStack>
-            </Container>
-        );
+        return <ErrorDisplay message={error.message} />;
     }
 
     return (

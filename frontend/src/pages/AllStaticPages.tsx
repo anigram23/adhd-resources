@@ -1,13 +1,14 @@
 import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
-import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
 import CreateStaticPageForm from "../components/static_pages/page/CreateStaticPageForm.tsx";
 import GenericDialog from "../components/utils/GenericDialog.tsx";
-import {FiAlertCircle, FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
+import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
 import StaticPageDetails from "../components/static_pages/StaticPageDetails.tsx";
 import DeleteStaticPageConfirmation from "../components/static_pages/page/DeleteStaticPageConfirmation.tsx";
 import type {StaticPage} from "@/utils/types.ts";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 export default function AllStaticPages() {
     const {isPending, isError, data, error} = useQuery({
@@ -18,14 +19,7 @@ export default function AllStaticPages() {
     if (isPending) return <FullPageLoader/>;
 
     if (isError) {
-        return (
-            <Container maxW="5xl" py={20}>
-                <HStack gap={3} color="red.500" justify="center">
-                    <FiAlertCircle size={22}/>
-                    <Text fontSize="lg">Failed to load: {error.message}</Text>
-                </HStack>
-            </Container>
-        );
+        return <ErrorDisplay message={error.message} />;
     }
 
     return (

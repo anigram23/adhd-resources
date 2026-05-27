@@ -5,7 +5,6 @@ import {
     Grid,
     GridItem,
     Heading,
-    HStack,
     Text,
     VStack,
     Button
@@ -15,8 +14,8 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import type {StaticPage} from "@/utils/types.ts";
-import {FiAlertCircle} from "react-icons/fi";
 import {Link} from "react-router";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 export default function ReviewerHome() {
 
@@ -63,10 +62,7 @@ export default function ReviewerHome() {
                         </Heading>
 
                         {staticPagesQuery.isError ? (
-                            <HStack gap={3} color="red.500">
-                                <FiAlertCircle size={22} />
-                                <Text fontSize="lg">Failed to load pages.</Text>
-                            </HStack>
+                            <ErrorDisplay message={"Failed to load pages"} />
                         ) : (
                             <Grid
                                 templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}

@@ -4,8 +4,8 @@ import {getStaticPageBySlug} from "@/api_service/staticPages.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
 import {Box, Container, Heading, HStack, Separator, Text, VStack} from "@chakra-ui/react";
 import type {Key} from "react";
-import {FiAlertCircle} from "react-icons/fi";
 import {BsBookmark} from "react-icons/bs";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
@@ -21,14 +21,7 @@ export default function StaticPage() {
     if (isPending) return <FullPageLoader/>;
 
     if (isError) {
-        return (
-            <Container maxW="3xl" py={20}>
-                <HStack gap={3} color="red.500" justify="center">
-                    <FiAlertCircle size={22}/>
-                    <Text fontSize="lg">Failed to load: {error.message}</Text>
-                </HStack>
-            </Container>
-        );
+        return <ErrorDisplay message={error.message} />;
     }
 
     return (

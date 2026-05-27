@@ -1,11 +1,11 @@
 import {useSearchParams} from "react-router";
-import {Box, Button, Card, Container, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Card, Container, Grid, GridItem, Heading, Text, VStack} from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import getAllProfessionals from "@/api_service/professional.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import type {Professional} from "@/utils/types.ts";
-import {FiAlertCircle} from "react-icons/fi";
+import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
 export default function Professionals() {
     const [searchParams] = useSearchParams();
@@ -47,14 +47,7 @@ export default function Professionals() {
     }
 
     if (isError) {
-        return (
-            <Container maxW="5xl" py={20}>
-                <HStack gap={3} color="red.500" justify="center">
-                    <FiAlertCircle size={22} />
-                    <Text fontSize="lg">Failed to load: {error.message}</Text>
-                </HStack>
-            </Container>
-        );
+        return <ErrorDisplay message={error.message} />;
     }
 
     return (
