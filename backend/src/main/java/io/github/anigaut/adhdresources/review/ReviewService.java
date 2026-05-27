@@ -28,7 +28,7 @@ public class ReviewService {
 
     public List<ReviewResponseDTO> getReviewsByProfessionalId(int professionalId) {
         if (!professionalRepository.existsById(professionalId)) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "professional not found");
+            throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Professional You Are Looking For. Please Try Again.");
         }
 
         return reviewRepository.findByProfessionalId(professionalId)
@@ -40,12 +40,12 @@ public class ReviewService {
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
         Reviewer reviewer = reviewerRepository.findByEmail(reviewerEmail);
-        if (reviewer == null) throw new HttpException(HttpStatus.NOT_FOUND, "Reviewer Not Found");
+        if (reviewer == null) throw new HttpException(HttpStatus.NOT_FOUND, "The User Trying to Post This Review Does Not Exist. Please Register To Post Reviews.");
 
         Professional professional;
         if (reviewRequestDTO.getProfessionalId() != null) {
             professional = professionalRepository.findById(reviewRequestDTO.getProfessionalId())
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Professional Not Found"));
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "The Professional You Tried to Review Does Not Exist."));
         } else if (
                 reviewRequestDTO.getCityId() != null
                         &&  reviewRequestDTO.getProfessionalName() != null
@@ -61,7 +61,7 @@ public class ReviewService {
         } else {
             throw new HttpException(
                     HttpStatus.BAD_REQUEST,
-                    "Please provide required details to identify existing professional or create new one."
+                    "Please Provide All The Required Details To Identify Existing An Existing Professional. You May Also Add a Professional To Our Database."
             );
         }
 
@@ -72,10 +72,10 @@ public class ReviewService {
     @Transactional
     public ReviewResponseDTO updateReview(int id, ReviewUpdateDTO reviewUpdateDTO, String reviewerEmail) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Review Not Found"));
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 
         if (!review.getReviewer().getEmail().equals(reviewerEmail)) {
-            throw new HttpException(HttpStatus.FORBIDDEN, "You do not have permission to update this review");
+            throw new HttpException(HttpStatus.FORBIDDEN, "You Do Not Have Permission To Update This Review.");
         }
 
         reviewMapper.updateEntity(reviewUpdateDTO, review);
@@ -87,10 +87,10 @@ public class ReviewService {
     @Transactional
     public String deleteReview(int id, String reviewerEmail) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Review not found"));
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 
         if (!review.getReviewer().getEmail().equals(reviewerEmail)) {
-            throw new HttpException(HttpStatus.FORBIDDEN, "You do not have permission to delete this review");
+            throw new HttpException(HttpStatus.FORBIDDEN, "You Do Not Have Permission To Delete This Review.");
         }
 
         reviewRepository.delete(review);

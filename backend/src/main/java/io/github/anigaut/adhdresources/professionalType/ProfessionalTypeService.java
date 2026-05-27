@@ -25,7 +25,7 @@ public class ProfessionalTypeService {
     @Transactional
     public ProfessionalTypeResponseDTO createProfessionalType(ProfessionalTypeRequestDTO requestDTO) {
         if (professionalTypeRepository.existsByTitle(requestDTO.getTitle())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "A professional type with this title already exists.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "A Professional Type With This Title Already Exists. Please Enter a Different One.");
         }
         ProfessionalType professionalType = professionalTypeMapper.toEntity(requestDTO);
         ProfessionalType savedProfessionalType = professionalTypeRepository.save(professionalType);
@@ -34,7 +34,7 @@ public class ProfessionalTypeService {
 
     public ProfessionalTypeResponseDTO getProfessionalTypeById(int id) {
         ProfessionalType type = professionalTypeRepository.findById(id)
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist. Please Try Again."));
         return professionalTypeMapper.toResponseDTO(type);
     }
 
@@ -45,7 +45,7 @@ public class ProfessionalTypeService {
     @Transactional
     public ProfessionalTypeResponseDTO updateProfessionalType(int id, ProfessionalTypeUpdateDTO updateDTO) {
         ProfessionalType type = professionalTypeRepository.findById(id).
-                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
+                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist. Please Try Again."));
         professionalTypeMapper.updateProfessionalTypeFromDTO(updateDTO, type);
         return professionalTypeMapper.toResponseDTO(type);
     }
@@ -53,7 +53,7 @@ public class ProfessionalTypeService {
     @Transactional
     public void deleteProfessionalType(int id) {
         ProfessionalType type = professionalTypeRepository.findById(id).
-                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist."));
+                orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this ID doesn't exist. Please Try Again."));
         professionalTypeRepository.delete(type);
     }
 }

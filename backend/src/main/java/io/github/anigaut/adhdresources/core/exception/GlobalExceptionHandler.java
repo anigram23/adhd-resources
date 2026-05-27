@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 500,
-                "Something went wrong: " + ex.getMessage(),
+                "Something went wrong. We Apologize For The Inconvenience.",
                 LocalDateTime.now(),
                 path
         );

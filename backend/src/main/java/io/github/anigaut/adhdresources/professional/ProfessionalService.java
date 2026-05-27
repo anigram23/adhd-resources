@@ -42,10 +42,10 @@ public class ProfessionalService {
     public Professional createProfessionalFromReview(ProfessionalRequestDTO professionalRequestDTO) {
 
         City city = cityRepository.findById(professionalRequestDTO.getCityId())
-                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "City not found"));
+                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "The City You Are Looking For Cannot be Found."));
 
         ProfessionalType professionalType = professionalTypeRepository.findById(professionalRequestDTO.getProfessionalTypeId())
-                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "Professional type not found"));
+                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "The Professional Type You Are Looking For Cannot be Found."));
 
         Professional professional = professionalMapper.toEntity(professionalRequestDTO, city, professionalType);
         professional.setSlug(generateSlug(professionalRequestDTO.getName(), professionalType.getTitle(), city.getName()));

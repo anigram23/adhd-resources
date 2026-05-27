@@ -1,7 +1,6 @@
 package io.github.anigaut.adhdresources.admin;
 
 import io.github.anigaut.adhdresources.admin.dto.AdminLoginDTO;
-import io.github.anigaut.adhdresources.admin.dto.AdminRegisterDTO;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.core.security.auth.UserDetailsDTO;
 import io.github.anigaut.adhdresources.core.security.jwt.JwtUtil;
@@ -47,7 +46,7 @@ public class AdminService {
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), admin.getPasswordHash())) {
-            throw new HttpException(HttpStatus.UNAUTHORIZED, "Incorrect password");
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "The Password You Entered Doesn't Match. Please Try Again.");
         }
 
         String token = jwtUtil.generateToken(admin.getEmail(), "ADMIN");
@@ -61,7 +60,7 @@ public class AdminService {
     public UserDetailsDTO getCurrentAdmin(String email) {
         Admin admin = adminRepository.findByEmail(email);
         if (admin == null) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "An admin with this email doesn't exist");
+            throw new HttpException(HttpStatus.NOT_FOUND, "An Admin With This Email ID doesn't exist.");
         }
 
         return adminMapper.toUserDetailsDTO(admin);

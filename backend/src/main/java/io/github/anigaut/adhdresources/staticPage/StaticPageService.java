@@ -41,7 +41,7 @@ public class StaticPageService {
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,
-                                "A page with this ID doesn't exist."
+                                "The Page You Are Looking For Does Not Exist. Please Try Again."
                         )
                 );
 
