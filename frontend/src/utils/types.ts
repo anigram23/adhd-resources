@@ -3,5 +3,20 @@ import type {Key} from "react";
 export type State = {id: number, name: string};
 export type ProfessionalType = {id: number, title: string, doctor: boolean, canDiagnose: boolean, canPrescribeMeds: boolean};
 export type City = {id: number, name: string};
-export type Professional = {id: number, name: string, slug: string, type: ProfessionalType, city: City};
+export type Professional = {id: number, name: string, slug: string, professionalType: ProfessionalType, city: City};
+export type Reviewer = {id: number, email: string, role: string};
 export type StaticPage = { id: Key; title: string; slug: string; active: boolean };
+export type Review = {
+    id: number,
+    content: string,
+    rating: number,
+    contactNumber: string,
+    address: string,
+    consultationFee: number,
+    diagnosisFee: number,
+    doesOnlineConsultations: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+    professional: Professional
+    reviewer: Reviewer
+};

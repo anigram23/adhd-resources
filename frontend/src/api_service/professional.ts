@@ -10,3 +10,8 @@ export default async function getAllProfessionals(type: string | null, city: str
 
     return response.data;
 }
+
+export async function getReviewsForProfessional(id: number) {
+    const response = await http.get(`/professional/${id}/reviews`);
+    return response.data;
+}
