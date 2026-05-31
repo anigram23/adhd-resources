@@ -38,7 +38,7 @@ export default function GenericDialog({
             <Portal>
                 <Dialog.Backdrop />
                 <Dialog.Positioner>
-                    <Dialog.Content>
+                    <Dialog.Content my={8} maxH="calc(100dvh - 4rem)" display="flex" flexDirection="column">
                         <Dialog.Header>
                             <Dialog.Title>{title}</Dialog.Title>
                             <Dialog.CloseTrigger asChild>
@@ -46,7 +46,7 @@ export default function GenericDialog({
                             </Dialog.CloseTrigger>
                         </Dialog.Header>
 
-                        <Dialog.Body>
+                        <Dialog.Body overflowY="auto">
                             <Component onClose={() => setOpen(false)} />
                         </Dialog.Body>
                     </Dialog.Content>
