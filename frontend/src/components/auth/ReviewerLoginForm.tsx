@@ -6,7 +6,7 @@ import * as React from "react";
 import {login} from "@/api_service/reviewer.ts";
 import {FiAlertCircle, FiLogIn} from "react-icons/fi";
 
-export default function ReviewerLoginForm() {
+export default function ReviewerLoginForm({ prev }: { prev: string | null }) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -16,7 +16,7 @@ export default function ReviewerLoginForm() {
         mutationFn: login,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-            navigate("/");
+            navigate(prev != null ? prev : "/");
         },
     });
 

@@ -3,7 +3,7 @@ import ReviewerRegistrationForm from "../components/auth/ReviewerRegistrationFor
 export default function ReviewerRegister() {
     return (
         <main>
-            <ReviewerRegistrationForm />
+            <ReviewerRegistrationForm prev={null} />
         </main>
     )
 }

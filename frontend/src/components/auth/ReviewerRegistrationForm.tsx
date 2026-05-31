@@ -6,7 +6,7 @@ import {register} from "@/api_service/reviewer.ts";
 import {useNavigate} from "react-router";
 import {FiAlertCircle, FiUserPlus} from "react-icons/fi";
 
-export default function ReviewerRegistrationForm() {
+export default function ReviewerRegistrationForm({ prev }: { prev: string | null }) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -17,7 +17,7 @@ export default function ReviewerRegistrationForm() {
         mutationFn: register,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-            navigate("/");
+            navigate(prev != null ? prev : "/");
         },
     });
 
