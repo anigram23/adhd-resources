@@ -25,4 +25,9 @@ public class CityController {
     public ResponseEntity<List<CityResponseDTO>> getCitiesByState(@PathVariable int stateId) {
         return ResponseEntity.status(HttpStatus.OK).body(cityService.getCitiesByState(stateId));
     }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<CityResponseDTO> getCityByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(cityService.getCityByName(name));
+    }
 }
