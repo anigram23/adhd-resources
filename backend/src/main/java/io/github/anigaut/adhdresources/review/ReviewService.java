@@ -47,13 +47,13 @@ public class ReviewService {
             professional = professionalRepository.findById(reviewRequestDTO.getProfessionalId())
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "The Professional You Tried to Review Does Not Exist."));
         } else if (
-                reviewRequestDTO.getCityId() != null
+                reviewRequestDTO.getCityName() != null
                         &&  reviewRequestDTO.getProfessionalName() != null
-                        &&  reviewRequestDTO.getProfessionalTypeId() != null
+                        &&  reviewRequestDTO.getProfessionalTypeTitle() != null
         ) {
             ProfessionalRequestDTO professionalRequestDTO = new ProfessionalRequestDTO(
-                    reviewRequestDTO.getCityId(),
-                    reviewRequestDTO.getProfessionalTypeId(),
+                    reviewRequestDTO.getCityName(),
+                    reviewRequestDTO.getProfessionalTypeTitle(),
                     reviewRequestDTO.getProfessionalName()
             );
 

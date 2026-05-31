@@ -16,9 +16,9 @@ public class ReviewRequestDTO {
 
     private String professionalName;
 
-    private Integer professionalTypeId;
+    private String professionalTypeTitle;
 
-    private Integer cityId;
+    private String cityName;
 
     private Integer professionalId;
 

@@ -23,8 +23,12 @@ public class ProfessionalService {
     private final ProfessionalTypeRepository professionalTypeRepository;
 
     public List<ProfessionalResponseDTO> getProfessionalsByTypeAndCity(String type, String city) {
-        ProfessionalType professionalType = professionalTypeRepository.findByTitle(type);
-        City professionalCity = cityRepository.findByName(city);
+        ProfessionalType professionalType = professionalTypeRepository.findByTitle(type)
+            .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "Professional type not found. Please try again."));
+
+        City professionalCity = cityRepository.findByName(city)
+                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "City not found. Please try again."));
+
         return professionalMapper.toResponseDTOList(
                 professionalRepository.findByProfessionalTypeAndCity(professionalType, professionalCity)
         );
@@ -41,10 +45,10 @@ public class ProfessionalService {
     @Transactional
     public Professional createProfessionalFromReview(ProfessionalRequestDTO professionalRequestDTO) {
 
-        City city = cityRepository.findById(professionalRequestDTO.getCityId())
+        City city = cityRepository.findByName(professionalRequestDTO.getCityName())
                 .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "The City You Are Looking For Cannot be Found."));
 
-        ProfessionalType professionalType = professionalTypeRepository.findById(professionalRequestDTO.getProfessionalTypeId())
+        ProfessionalType professionalType = professionalTypeRepository.findByTitle(professionalRequestDTO.getProfessionalTypeTitle())
                 .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "The Professional Type You Are Looking For Cannot be Found."));
 
         Professional professional = professionalMapper.toEntity(professionalRequestDTO, city, professionalType);
