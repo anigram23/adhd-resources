@@ -1,4 +1,4 @@
-import {useParams} from "react-router";
+import {useLocation, useParams} from "react-router";
 import {useQuery} from "@tanstack/react-query";
 import {getReviewsForProfessional} from "@/api_service/professional.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
@@ -35,6 +35,8 @@ import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 export default function Reviews() {
     const {id} = useParams();
     const {user} = useAuth();
+    const location = useLocation();
+    console.log(location);
 
     const {data, error, isPending, isError} = useQuery({
         queryKey: ["reviews", id],
@@ -97,17 +99,17 @@ export default function Reviews() {
                             <GenericDialog
                                 component={() => <CreateReviewForm
                                     id={id as unknown as number}
-                                    city={data[0].professional.city.id}
-                                    professionalType={data[0].professional.professionalType.id}
+                                    city={null}
+                                    professionalType={null}
                                     />}
                                 title="Share Your Thoughts"
                                 buttonText="Add a Review"
-                                size={"full" as never}
+                                size={"xl" as never}
                                 icon={<FiPlus />}
                             />
                         ) : (
                             <GenericDialog
-                                component={LoginOrRegister}
+                                component={() => <LoginOrRegister calledFrom={location.pathname} /> }
                                 title="Please Login or Register to Continue"
                                 buttonText="Add a Review"
                                 size={"md" as never}

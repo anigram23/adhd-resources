@@ -1,14 +1,20 @@
 import {useSearchParams} from "react-router";
-import {Box, Button, Card, Container, Flex, Grid, GridItem, Heading, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import getAllProfessionals from "@/api_service/professional.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import type {Professional} from "@/utils/types.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
+import GenericDialog from "@/components/utils/GenericDialog.tsx";
+import {useAuth} from "@/auth/useAuth.ts";
+import {FiPlus} from "react-icons/fi";
+import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
+import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 
 export default function Professionals() {
     const [searchParams] = useSearchParams();
+    const { user } = useAuth();
 
     const type = searchParams.get("type");
     const city = searchParams.get("city");
@@ -74,12 +80,13 @@ export default function Professionals() {
                             one, please leave a review. You may also search for professionals of a different
                             type or from a different city.
                         </Text>
-                        <Box>
-                            <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
-                                Search Again
-                            </Heading>
-                            <FindProfessionals />
-                        </Box>
+
+                        <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
+                            Search Again
+                        </Heading>
+
+                        <FindProfessionals />
+
                     </VStack>
                 ) : (
                     <Grid
@@ -104,6 +111,41 @@ export default function Professionals() {
                         ))}
                     </Grid>
                 )}
+
+                <Box mt={10} p={5} bg="blue.50" borderRadius="lg" borderLeft="4px solid" borderColor="blue.200">
+                    <VStack align="start" gap={3}>
+                        <HStack gap={2}>
+                            <Box color="blue.400"><FiPlus size={16} /></Box>
+                            <Heading as="h2" fontSize="lg" fontWeight="semibold" color="blue.900">
+                                Can't find the {type} you're looking for?
+                            </Heading>
+                        </HStack>
+                        <Text color="gray.700" fontSize="sm" lineHeight="1.8">
+                            If you've visited a {type} in {city} who isn't listed here, you can add them by leaving a review.
+                        </Text>
+                        {user ? (
+                            <GenericDialog
+                                component={() => <CreateReviewForm
+                                    id={null}
+                                    city={city}
+                                    professionalType={type}
+                                />}
+                                title="Share Your Thoughts"
+                                buttonText="Add a Review"
+                                size={"xl" as never}
+                                icon={<FiPlus />}
+                            />
+                        ) : (
+                            <GenericDialog
+                                component={() => <LoginOrRegister calledFrom={location.pathname} />}
+                                title="Please Login or Register to Continue"
+                                buttonText="Add a Review"
+                                size={"lg" as never}
+                                icon={<FiPlus />}
+                            />
+                        )}
+                    </VStack>
+                </Box>
             </Container>
         </Box>
     );
