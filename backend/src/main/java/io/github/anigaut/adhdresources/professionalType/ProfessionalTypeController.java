@@ -26,9 +26,15 @@ public class ProfessionalTypeController {
         return ResponseEntity.status(HttpStatus.OK).body(professionalTypeService.getAllProfessionalTypes());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProfessionalTypeResponseDTO> getProfessionalTypeById(@PathVariable int id) {
-        ProfessionalTypeResponseDTO type = professionalTypeService.getProfessionalTypeById(id);
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ProfessionalTypeResponseDTO> getProfessionalTypeById(@PathVariable int id) {
+//        ProfessionalTypeResponseDTO type = professionalTypeService.getProfessionalTypeById(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(type);
+//    }
+
+    @GetMapping("/{title}")
+    public ResponseEntity<ProfessionalTypeResponseDTO> getProfessionalTypeByTitle(@PathVariable String title) {
+        ProfessionalTypeResponseDTO type = professionalTypeService.getProfessionalTypeByTitle(title);
         return ResponseEntity.status(HttpStatus.OK).body(type);
     }
 

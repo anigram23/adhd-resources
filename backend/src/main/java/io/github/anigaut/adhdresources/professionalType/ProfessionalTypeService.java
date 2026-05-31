@@ -38,6 +38,12 @@ public class ProfessionalTypeService {
         return professionalTypeMapper.toResponseDTO(type);
     }
 
+    public ProfessionalTypeResponseDTO getProfessionalTypeByTitle(String title) {
+        ProfessionalType type = professionalTypeRepository.findByTitle(title)
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A professional type with this title doesn't exist. Please Try Again."));
+        return professionalTypeMapper.toResponseDTO(type);
+    }
+
     public List<ProfessionalTypeResponseDTO> getAllProfessionalTypes() {
         return professionalTypeMapper.toResponseDTOList(professionalTypeRepository.findAll());
     }
