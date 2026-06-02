@@ -14,23 +14,21 @@ import {
     GridItem,
     Heading,
     HStack,
-    Menu,
-    Portal,
     RatingGroup,
     Separator,
     Text,
     VStack,
 } from "@chakra-ui/react";
-import {CiMenuKebab} from "react-icons/ci";
 import type {Review} from "@/utils/types.ts";
 import {useAuth} from "@/auth/useAuth.ts";
 import {FaPhone, FaRupeeSign} from "react-icons/fa";
-import {HiOfficeBuilding} from "react-icons/hi";
+import {HiOfficeBuilding, HiOutlineFlag} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
+import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 
 export default function Reviews() {
     const {id} = useParams();
@@ -97,10 +95,11 @@ export default function Reviews() {
                     <Box>
                         { user ? (
                             <GenericDialog
-                                component={() => <CreateReviewForm
+                                component={({ onClose }) => <CreateReviewForm
                                     id={id as unknown as number}
                                     city={null}
                                     professionalType={null}
+                                    onClose={onClose}
                                     />}
                                 title="Share Your Thoughts"
                                 buttonText="Add a Review"
@@ -136,37 +135,29 @@ export default function Reviews() {
                                                 })}
                                             </Text>
                                         </VStack>
-                                        <Menu.Root positioning={{placement: "right-end"}}>
-                                            <Menu.Trigger asChild>
-                                                <Button variant="ghost" size="sm">
-                                                    <CiMenuKebab />
+                                        <HStack gap={1}>
+                                            {user?.email === review.reviewer.email ? (
+                                                <>
+                                                    <GenericDialog
+                                                        component={({ onClose }) => <EditReviewForm review={review} onClose={onClose} />}
+                                                        title="Edit Review"
+                                                        buttonText=""
+                                                        size={"xl" as never}
+                                                        icon={<FiEdit2 />}
+                                                        variant="ghost"
+                                                        colorPalette="blue"
+                                                        buttonSize="sm"
+                                                    />
+                                                    <Button variant="ghost" size="sm" color="red.400">
+                                                        <FiTrash2 />
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <Button variant="ghost" size="sm" color="gray.500">
+                                                    <HiOutlineFlag />
                                                 </Button>
-                                            </Menu.Trigger>
-                                            <Portal>
-                                                <Menu.Positioner>
-                                                    <Menu.Content>
-                                                        {user?.email === review.reviewer.email ? (
-                                                            <>
-                                                                <Menu.Item value="edit">
-                                                                    <HStack gap={2}>
-                                                                        <Box color="blue.400"><FiEdit2 /></Box>
-                                                                        Edit
-                                                                    </HStack>
-                                                                </Menu.Item>
-                                                                <Menu.Item value="delete" color="fg.error">
-                                                                    <HStack gap={2}>
-                                                                        <FiTrash2 />
-                                                                        Delete
-                                                                    </HStack>
-                                                                </Menu.Item>
-                                                            </>
-                                                        ) : (
-                                                            <Menu.Item value="report">Report</Menu.Item>
-                                                        )}
-                                                    </Menu.Content>
-                                                </Menu.Positioner>
-                                            </Portal>
-                                        </Menu.Root>
+                                            )}
+                                        </HStack>
                                     </HStack>
                                 </Card.Header>
 
