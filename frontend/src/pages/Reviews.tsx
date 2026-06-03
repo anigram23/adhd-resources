@@ -29,6 +29,7 @@ import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
+import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
 
 export default function Reviews() {
     const {id} = useParams();
@@ -148,9 +149,17 @@ export default function Reviews() {
                                                         colorPalette="blue"
                                                         buttonSize="sm"
                                                     />
-                                                    <Button variant="ghost" size="sm" color="red.400">
-                                                        <FiTrash2 />
-                                                    </Button>
+
+                                                    <GenericDialog
+                                                        component={({ onClose }) => <DeleteReviewConfirmation id={review.id} professionalId={review.professional.id} onClose={onClose} />}
+                                                        title="Delete this review?"
+                                                        buttonText=""
+                                                        size={"sm" as never}
+                                                        icon={<FiTrash2 />}
+                                                        variant="ghost"
+                                                        colorPalette="red.400"
+                                                        buttonSize="sm"
+                                                    />
                                                 </>
                                             ) : (
                                                 <Button variant="ghost" size="sm" color="gray.500">

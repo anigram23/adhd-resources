@@ -1,0 +1,70 @@
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {deleteReview} from "@/api_service/review.ts";
+import {Box, Button, HStack, Text, VStack} from "@chakra-ui/react";
+import {FiAlertCircle, FiAlertTriangle} from "react-icons/fi";
+
+export default function DeleteReviewConfirmation({
+    id,
+    professionalId,
+    onClose,
+}: {
+    id: number;
+    professionalId: number;
+    onClose?: () => void;
+}) {
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: () => deleteReview(id),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["reviews", String(professionalId)] });
+            onClose?.();
+        }
+    });
+
+    return (
+        <VStack gap={6} align="stretch">
+            <Box bg="red.50" borderRadius="lg" p={4} borderLeft="4px solid" borderColor="red.200">
+                <HStack gap={3} align="start">
+                    <Box color="red.500" mt={0.5} flexShrink={0}>
+                        <FiAlertTriangle size={18} />
+                    </Box>
+                    <VStack align="start" gap={1}>
+                        <Text fontWeight="semibold" color="red.800" fontSize="sm">
+                            This action cannot be undone
+                        </Text>
+                        <Text color="red.700" fontSize="sm" lineHeight="1.6">
+                            Your review will be permanently removed. Other users will no longer be able to see
+                            your experience with this professional.
+                        </Text>
+                    </VStack>
+                </HStack>
+            </Box>
+
+            {mutation.isError && (
+                <HStack gap={2} color="red.500">
+                    <FiAlertCircle size={16} />
+                    <Text fontSize="sm">{mutation.error.message}</Text>
+                </HStack>
+            )}
+
+            <HStack gap={3} justify="flex-end">
+                <Button
+                    variant="ghost"
+                    colorPalette="gray"
+                    disabled={mutation.isPending}
+                    onClick={onClose}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    colorPalette="red"
+                    onClick={() => mutation.mutate()}
+                    disabled={mutation.isPending}
+                >
+                    {mutation.isPending ? "Deleting..." : "Delete Review"}
+                </Button>
+            </HStack>
+        </VStack>
+    );
+}

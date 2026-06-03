@@ -33,3 +33,8 @@ export async function editReview(id: number, reviewDetails: UpdateReviewData){
     const response = await http.patch(`/review/${id}`, reviewDetails);
     return response.data;
 }
+
+export async function deleteReview(id: number){
+    const response = await http.delete(`/review/${id}`);
+    return response.data;
+}
