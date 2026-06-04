@@ -10,6 +10,7 @@ import StaticPage from "@/pages/StaticPage.tsx";
 import {ProtectedRoute} from "@/routing/ProtectedRoutes.tsx";
 import Professionals from "@/pages/Professionals.tsx";
 import Reviews from "@/pages/Reviews.tsx";
+import SearchResults from "@/pages/SearchResults.tsx";
 
 
 const adminRoutes = [
@@ -36,7 +37,8 @@ const reviewerRoutes = [
 const commonRoutes = [
     { path: "/:slug", element: <StaticPage /> },
     { path: "/professionals", element: <Professionals /> },
-    { path: "/reviews/:id/:slug", element: <Reviews /> }
+    { path: "/reviews/:id/:slug", element: <Reviews /> },
+    { path: "/search", element: <SearchResults /> }
 ]
 
 const router = createBrowserRouter([

@@ -1,9 +1,22 @@
 import {Box, HStack, Input} from "@chakra-ui/react";
 import {FiSearch} from "react-icons/fi";
+import {useNavigate} from "react-router";
+import * as React from "react";
 
 export default function SearchBar() {
+    const navigate = useNavigate();
+
+    const [searchQuery, setSearchQuery] = React.useState("");
+
+    const handleSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        navigate({
+            pathname: "/search",
+            search: `q=${searchQuery}`
+        })
+    }
     return (
-        <form style={{width: "100%"}}>
+        <form style={{width: "100%"}} onSubmit={handleSubmit}>
             <HStack
                 w="full"
                 bg="blue.50"
@@ -20,6 +33,8 @@ export default function SearchBar() {
                     <FiSearch size={15}/>
                 </Box>
                 <Input
+                    value={searchQuery}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                     border="none"
                     bg="transparent"
                     _focus={{boxShadow: "none", outline: "none"}}
