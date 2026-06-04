@@ -34,6 +34,12 @@ public class ProfessionalService {
         );
     }
 
+    public List<ProfessionalResponseDTO> getProfessionalsByName(String query) {
+        return professionalMapper.toResponseDTOList(
+                professionalRepository.findByNameContainingIgnoreCase(query)
+        );
+    }
+
     private String generateSlug(String name, String type, String city) {
         String base = (name + "-" + type + "-" + city).toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
         if (!professionalRepository.existsBySlug(base)) return base;

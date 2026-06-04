@@ -23,6 +23,11 @@ public class ProfessionalController {
         return ResponseEntity.ok(professionalService.getProfessionalsByTypeAndCity(type, city));
     }
 
+    @GetMapping("/search-by-name")
+    public ResponseEntity<List<ProfessionalResponseDTO>> getProfessionalsByName(@RequestParam String name) {
+        return ResponseEntity.ok(professionalService.getProfessionalsByName(name));
+    }
+
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsForProfessional(@PathVariable int id) {
         return ResponseEntity.ok(reviewService.getReviewsByProfessionalId(id));

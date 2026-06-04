@@ -10,4 +10,6 @@ public interface ProfessionalRepository extends JpaRepository<Professional, Inte
     List<Professional> findByProfessionalTypeAndCity(ProfessionalType type, City city);
 
     boolean existsBySlug(String slug);
+
+    List<Professional> findByNameContainingIgnoreCase(String name);
 }
