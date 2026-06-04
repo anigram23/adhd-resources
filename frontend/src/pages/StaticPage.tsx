@@ -24,6 +24,10 @@ export default function StaticPage() {
         return <ErrorDisplay message={error.message} />;
     }
 
+    if (!data.active) {
+        return <ErrorDisplay message={"The page you're looking for doesn't exist. Please try again."} />;
+    }
+
     return (
         <Box>
             <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
