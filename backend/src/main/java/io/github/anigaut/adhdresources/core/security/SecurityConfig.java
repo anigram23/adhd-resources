@@ -32,6 +32,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/admin/**").permitAll()
 
+                    .requestMatchers(HttpMethod.PATCH, "/reviewer/**").hasRole("REVIEWER")
                     .requestMatchers("/reviewer/**").permitAll()
 
                     .requestMatchers("/city/**").permitAll()

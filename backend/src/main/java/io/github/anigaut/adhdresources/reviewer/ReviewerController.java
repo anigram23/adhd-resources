@@ -1,16 +1,15 @@
 package io.github.anigaut.adhdresources.reviewer;
 
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
+import io.github.anigaut.adhdresources.reviewer.dto.ReviewerPasswordChangeDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,5 +33,13 @@ public class ReviewerController {
     public ResponseEntity<String> logout(HttpServletResponse response) {
         reviewerService.logout(response);
         return ResponseEntity.status(HttpStatus.OK).body("Logged out successfully");
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @Valid @RequestBody ReviewerPasswordChangeDTO dto,
+            @AuthenticationPrincipal String reviewerEmail
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(reviewerService.changePassword(dto, reviewerEmail));
     }
 }

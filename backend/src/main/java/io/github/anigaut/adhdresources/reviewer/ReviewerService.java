@@ -5,6 +5,7 @@ import io.github.anigaut.adhdresources.core.security.auth.UserDetailsDTO;
 import io.github.anigaut.adhdresources.core.security.jwt.JwtUtil;
 import io.github.anigaut.adhdresources.core.utils.CookieUtil;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
+import io.github.anigaut.adhdresources.reviewer.dto.ReviewerPasswordChangeDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -56,6 +57,30 @@ public class ReviewerService {
 
     public void logout(HttpServletResponse response) {
         cookieUtil.clearJwtCookie(response);
+    }
+
+    public String changePassword(ReviewerPasswordChangeDTO dto, String reviewerEmail) {
+        Reviewer reviewer = reviewerRepository.findByEmail(dto.getEmail());
+        if (reviewer == null) {
+            throw new HttpException(HttpStatus.NOT_FOUND, "User Does Not Exist");
+        }
+
+        if (!dto.getEmail().equals(reviewerEmail)) {
+            throw new HttpException(HttpStatus.FORBIDDEN, "Unauthorized.");
+        }
+
+        if (!passwordEncoder.matches(dto.getOldPassword(), reviewer.getPasswordHash())) {
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "Invalid Password");
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "New Passwords Do not Match");
+        }
+
+        reviewer.setPasswordHash(passwordEncoder.encode(dto.getNewPassword()));
+        reviewerRepository.save(reviewer);
+
+        return "Changed Password Successfully";
     }
 
     public UserDetailsDTO getCurrentReviewer(String email) {
