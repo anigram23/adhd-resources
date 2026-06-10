@@ -14,3 +14,10 @@ export async function reviewerLogout() {
     const response = await http.post("/reviewer/logout");
     return response.data;
 }
+
+export async function changePassword(
+    credentials: {email: string, oldPassword: string, newPassword: string, confirmNewPassword: string}
+) {
+    const response = await http.patch("/reviewer/change-password", credentials);
+    return response.data;
+}

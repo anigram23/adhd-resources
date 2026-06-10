@@ -1,4 +1,4 @@
-import {Box, Button, HStack, VStack} from "@chakra-ui/react";
+import {Avatar, Box, Button, HStack, VStack} from "@chakra-ui/react";
 import {useAuth} from "@/auth/useAuth.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {adminLogout} from "@/api_service/admin.ts";
@@ -6,10 +6,16 @@ import {useNavigate} from "react-router";
 import {reviewerLogout} from "@/api_service/reviewer.ts";
 
 const links = [
-    {name: "Home", path: "/"},
-    {name: "Resources", path: "/resources"},
+    {name: "Reviews", path: "/professionals"},
     {name: "About", path: "/about"},
+    {name: "Learn", path: "/what-is-adhd"},
 ];
+
+// const adminLinks = [
+//     {name: "Reviews", path: "/professionals"},
+//     {name: "Professional Types", path: "/professional-types"},
+//     {name: "Tickets", path: "/tickets"}
+// ]
 
 type LinksProps = { isMobile?: boolean };
 
@@ -58,9 +64,16 @@ export default function Links({isMobile = true}: LinksProps) {
             ))}
 
             {isAuthenticated ? (
-                <Button size="sm" variant="outline" colorPalette="blue" onClick={handleLogout}>
-                    Logout
-                </Button>
+                <HStack gap={2}>
+                    <a href="/profile">
+                        <Avatar.Root variant="outline">
+                            <Avatar.Fallback />
+                        </Avatar.Root>
+                    </a>
+                    <Button size="sm" variant="outline" colorPalette="blue" onClick={handleLogout}>
+                        Logout
+                    </Button>
+                </HStack>
             ) : (
                 <HStack gap={2}>
                     <Button size="sm" variant="outline" colorPalette="blue" asChild>

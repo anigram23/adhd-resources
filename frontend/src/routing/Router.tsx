@@ -11,6 +11,7 @@ import {ProtectedRoute} from "@/routing/ProtectedRoutes.tsx";
 import Professionals from "@/pages/Professionals.tsx";
 import Reviews from "@/pages/Reviews.tsx";
 import SearchResults from "@/pages/SearchResults.tsx";
+import Profile from "@/pages/Profile.tsx";
 
 
 const adminRoutes = [
@@ -31,7 +32,13 @@ const adminRoutes = [
 
 const reviewerRoutes = [
     { path: "/register", element: <ReviewerRegister /> },
-    { path: "/login", element: <ReviewerLogin /> }
+    { path: "/login", element: <ReviewerLogin /> },
+    {
+        element: <ProtectedRoute allowedRole="REVIEWER" redirectTo="/"/>,
+        children: [
+            { path: "/profile", element: <Profile /> },
+        ]
+    }
 ]
 
 const commonRoutes = [
