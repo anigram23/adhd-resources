@@ -2,10 +2,11 @@ import {useParams} from "react-router";
 import {useQuery} from "@tanstack/react-query";
 import {getStaticPageBySlug} from "@/api_service/staticPages.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
-import {Box, Container, Heading, HStack, Separator, Text, VStack} from "@chakra-ui/react";
+import {Box, Container, Heading, HStack, Separator, VStack} from "@chakra-ui/react";
 import type {Key} from "react";
 import {BsBookmark} from "react-icons/bs";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
+import {Prose} from "@/components/ui/prose.tsx";
 
 type SectionBlock = { id: Key; content: string; orderIndex: number };
 type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
@@ -60,14 +61,14 @@ export default function StaticPage() {
                             <Box pl={7}>
                                 <VStack gap={4} align="stretch">
                                     {section.sectionBlocks.map((block: SectionBlock) => (
-                                        <Text
+                                        <Prose
                                             key={block.id}
-                                            fontSize="md"
-                                            lineHeight="1.8"
+                                            size="lg"
                                             color="gray.700"
-                                        >
-                                            {block.content}
-                                        </Text>
+                                            lineHeight="1.8"
+                                            maxW="none"
+                                            dangerouslySetInnerHTML={{ __html: block.content }}
+                                        />
                                     ))}
                                 </VStack>
                             </Box>
