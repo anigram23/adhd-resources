@@ -25,6 +25,7 @@ import {FaPhone, FaRupeeSign} from "react-icons/fa";
 import {HiOfficeBuilding, HiOutlineFlag} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
+import {Prose} from "@/components/ui/prose.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
@@ -207,9 +208,13 @@ export default function Reviews() {
 
                                         <Separator />
 
-                                        <Text color="gray.700" fontSize="sm" lineHeight="1.8">
-                                            {review.content}
-                                        </Text>
+                                        <Prose
+                                            size="lg"
+                                            color="gray.700"
+                                            lineHeight="1.8"
+                                            maxW="none"
+                                            dangerouslySetInnerHTML={{ __html: review.content }}
+                                        />
                                     </VStack>
                                 </Card.Body>
                             </Card.Root>

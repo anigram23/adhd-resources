@@ -26,6 +26,9 @@ import {FiAlertCircle, FiEdit2, FiInfo, FiPhone, FiUser} from "react-icons/fi";
 import {FaRupeeSign} from "react-icons/fa";
 import {MdComputer} from "react-icons/md";
 import {HiOfficeBuilding} from "react-icons/hi";
+import {useEditor} from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import {Control, RichTextEditor} from "@/components/ui/rich-text-editor.tsx";
 
 function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }) {
     return (
@@ -69,6 +72,14 @@ export default function CreateReviewForm(
             await queryClient.invalidateQueries({queryKey: ["reviews", String(data.professional.id)]});
             await queryClient.invalidateQueries({ queryKey: ["professionals", professionalType, city] });
             onClose?.();
+        },
+    });
+
+    const editor = useEditor({
+        extensions: [StarterKit],
+        content: form.content,
+        onUpdate({ editor }) {
+            setForm(prev => ({ ...prev, content: editor.getHTML() }));
         },
     });
 
@@ -228,21 +239,37 @@ export default function CreateReviewForm(
                             <Field.Label color="gray.700">
                                 Share your experience <FieldRequiredIndicator />
                             </Field.Label>
-                            <Textarea
-                                bg="white"
-                                size="xl"
-                                variant="outline"
-                                placeholder="Describe your experience with this professional — what worked well, what to watch out for, etc."
-                                value={form.content}
-                                onChange={(e) => setForm({...form, content: e.currentTarget.value})}
-                            />
+                            <RichTextEditor.Root
+                                editor={editor}
+                                borderColor="blue.100"
+                                _focusWithin={{ borderColor: "blue.300", shadow: "sm" }}
+                                css={{ "--content-min-height": "160px" }}
+                            >
+                                <RichTextEditor.Toolbar>
+                                    <RichTextEditor.ControlGroup>
+                                        <Control.Bold />
+                                        <Control.Italic />
+                                        <Control.Underline />
+                                        <Control.Strikethrough />
+                                    </RichTextEditor.ControlGroup>
+                                    <RichTextEditor.ControlGroup>
+                                        <Control.BulletList />
+                                        <Control.OrderedList />
+                                    </RichTextEditor.ControlGroup>
+                                    <RichTextEditor.ControlGroup>
+                                        <Control.Undo />
+                                        <Control.Redo />
+                                    </RichTextEditor.ControlGroup>
+                                </RichTextEditor.Toolbar>
+                                <RichTextEditor.Content />
+                            </RichTextEditor.Root>
                         </Field.Root>
                     </Stack>
                 </Box>
 
                 {mutation.isError && (
                     <HStack gap={2} color="red.500">
-                        <FiAlertCircle size={16} />
+                        <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>
                     </HStack>
                 )}
