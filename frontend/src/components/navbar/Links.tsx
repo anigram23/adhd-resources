@@ -11,11 +11,11 @@ const links = [
     {name: "Learn", path: "/what-is-adhd"},
 ];
 
-// const adminLinks = [
-//     {name: "Reviews", path: "/professionals"},
-//     {name: "Professional Types", path: "/professional-types"},
-//     {name: "Tickets", path: "/tickets"}
-// ]
+const adminLinks = [
+    {name: "Pages", path: "/admin/static-pages"},
+    {name: "Professional Types", path: "/admin/professional-types"},
+    {name: "Reviews", path: "/admin/all-reviews"}
+]
 
 type LinksProps = { isMobile?: boolean };
 
@@ -49,7 +49,19 @@ export default function Links({isMobile = true}: LinksProps) {
 
     return (
         <StackType gap={isMobile ? 5 : 6} align={isMobile ? "start" : "center"}>
-            {links.map(link => (
+            { user?.role === "ADMIN" ? adminLinks.map((link) => (
+                <Box
+                    key={link.name}
+                    asChild
+                    fontSize="sm"
+                    fontWeight="medium"
+                    color="gray.600"
+                    _hover={{color: "blue.600"}}
+                    transition="color 0.15s"
+                >
+                    <a href={link.path}>{link.name}</a>
+                </Box>
+            )) : links.map((link) => (
                 <Box
                     key={link.name}
                     asChild
