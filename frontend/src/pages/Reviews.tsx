@@ -138,7 +138,10 @@ export default function Reviews() {
                                         </VStack>
 
                                         {user?.role === "ADMIN" && (
-                                            <Text fontSize="sm" color="black">{review.reviewer.email}</Text>
+                                            <>
+                                                <Text fontSize="sm" color="black">ID: {review.id}</Text>
+                                                <Text fontSize="sm" color="black">By: {review.reviewer.email}</Text>
+                                            </>
                                         )}
 
                                         <HStack gap={1}>
