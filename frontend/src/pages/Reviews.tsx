@@ -6,7 +6,6 @@ import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import {
     Badge,
     Box,
-    Button,
     Card,
     Container,
     Flex,
@@ -22,7 +21,7 @@ import {
 import type {Review} from "@/utils/types.ts";
 import {useAuth} from "@/auth/useAuth.ts";
 import {FaPhone, FaRupeeSign} from "react-icons/fa";
-import {HiOfficeBuilding, HiOutlineFlag} from "react-icons/hi";
+import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
 import {Prose} from "@/components/ui/prose.tsx";
@@ -137,8 +136,13 @@ export default function Reviews() {
                                                 })}
                                             </Text>
                                         </VStack>
+
+                                        {user?.role === "ADMIN" && (
+                                            <Text fontSize="sm" color="black">{review.reviewer.email}</Text>
+                                        )}
+
                                         <HStack gap={1}>
-                                            {user?.email === review.reviewer.email ? (
+                                            {(user?.email === review.reviewer.email || user?.role === "ADMIN") ? (
                                                 <>
                                                     <GenericDialog
                                                         component={({ onClose }) => <EditReviewForm review={review} onClose={onClose} />}
@@ -163,9 +167,10 @@ export default function Reviews() {
                                                     />
                                                 </>
                                             ) : (
-                                                <Button variant="ghost" size="sm" color="gray.500">
-                                                    <HiOutlineFlag />
-                                                </Button>
+                                                // <Button variant="ghost" size="sm" color="gray.500">
+                                                //     <HiOutlineFlag />
+                                                // </Button>
+                                                <></>
                                             )}
                                         </HStack>
                                     </HStack>

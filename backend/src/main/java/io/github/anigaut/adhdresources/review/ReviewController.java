@@ -38,9 +38,9 @@ public class ReviewController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteReview(
             @PathVariable int id,
-            @AuthenticationPrincipal String reviewerEmail) {
+            @AuthenticationPrincipal String userEmail) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(reviewService.deleteReview(id, reviewerEmail));
+                .body(reviewService.deleteReview(id, userEmail));
     }
 }

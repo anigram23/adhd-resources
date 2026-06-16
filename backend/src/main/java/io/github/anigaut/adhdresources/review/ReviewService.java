@@ -1,5 +1,6 @@
 package io.github.anigaut.adhdresources.review;
 
+import io.github.anigaut.adhdresources.admin.AdminRepository;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.professional.Professional;
 import io.github.anigaut.adhdresources.professional.ProfessionalRepository;
@@ -25,6 +26,7 @@ public class ReviewService {
     private final ReviewerRepository reviewerRepository;
     private final ProfessionalRepository professionalRepository;
     private final ProfessionalService professionalService;
+    private final AdminRepository adminRepository;
 
     public List<ReviewResponseDTO> getReviewsByProfessionalId(int professionalId) {
         if (!professionalRepository.existsById(professionalId)) {
@@ -85,11 +87,11 @@ public class ReviewService {
     }
 
     @Transactional
-    public String deleteReview(int id, String reviewerEmail) {
+    public String deleteReview(int id, String userEmail) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 
-        if (!review.getReviewer().getEmail().equals(reviewerEmail)) {
+        if (!review.getReviewer().getEmail().equals(userEmail) && !adminRepository.existsByEmail(userEmail)) {
             throw new HttpException(HttpStatus.FORBIDDEN, "You Do Not Have Permission To Delete This Review.");
         }
 
