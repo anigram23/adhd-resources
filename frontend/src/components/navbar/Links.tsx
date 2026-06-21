@@ -8,7 +8,7 @@ import {reviewerLogout} from "@/api_service/reviewer.ts";
 const links = [
     {name: "Reviews", path: "/professionals"},
     {name: "About", path: "/about"},
-    {name: "Learn", path: "/what-is-adhd"},
+    {name: "Talk To Us", path: "/my-tickets"},
 ];
 
 const adminLinks = [
@@ -77,11 +77,14 @@ export default function Links({isMobile = true}: LinksProps) {
 
             {isAuthenticated ? (
                 <HStack gap={2}>
-                    <a href="/profile">
-                        <Avatar.Root variant="outline">
-                            <Avatar.Fallback />
-                        </Avatar.Root>
-                    </a>
+                    {user!.role === "REVIEWER" && (
+                        <a href="/profile">
+                            <Avatar.Root variant="outline">
+                                <Avatar.Fallback />
+                            </Avatar.Root>
+                        </a>
+                    )}
+
                     <Button size="sm" variant="outline" colorPalette="blue" onClick={handleLogout}>
                         Logout
                     </Button>
