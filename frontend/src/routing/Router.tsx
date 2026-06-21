@@ -13,6 +13,7 @@ import Reviews from "@/pages/Reviews.tsx";
 import SearchResults from "@/pages/SearchResults.tsx";
 import Profile from "@/pages/Profile.tsx";
 import ProfessionalTypes from "@/pages/ProfessionalTypes.tsx";
+import TicketTypes from "@/pages/TicketTypes.tsx";
 
 
 const adminRoutes = [
@@ -25,7 +26,8 @@ const adminRoutes = [
                 children: [
                     { index: true, element: <AdminHome /> },
                     { path: "static-pages", element: <AllStaticPages /> },
-                    { path: "professional-types", element: <ProfessionalTypes /> }
+                    { path: "professional-types", element: <ProfessionalTypes /> },
+                    { path: "ticket-types", element: <TicketTypes /> }
                 ]
             }
         ]
