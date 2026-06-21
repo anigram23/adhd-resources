@@ -15,6 +15,7 @@ import Profile from "@/pages/Profile.tsx";
 import ProfessionalTypes from "@/pages/ProfessionalTypes.tsx";
 import TicketTypes from "@/pages/TicketTypes.tsx";
 import MyTickets from "@/pages/MyTickets.tsx";
+import AllTickets from "@/pages/AllTickets.tsx";
 
 
 const adminRoutes = [
@@ -28,7 +29,8 @@ const adminRoutes = [
                     { index: true, element: <AdminHome /> },
                     { path: "static-pages", element: <AllStaticPages /> },
                     { path: "professional-types", element: <ProfessionalTypes /> },
-                    { path: "ticket-types", element: <TicketTypes /> }
+                    { path: "ticket-types", element: <TicketTypes /> },
+                    { path: "tickets", element: <AllTickets /> }
                 ]
             }
         ]
@@ -39,7 +41,7 @@ const reviewerRoutes = [
     { path: "/register", element: <ReviewerRegister /> },
     { path: "/login", element: <ReviewerLogin /> },
     {
-        element: <ProtectedRoute allowedRole="REVIEWER" redirectTo="/"/>,
+        element: <ProtectedRoute allowedRole="REVIEWER" redirectTo="/login"/>,
         children: [
             { path: "/profile", element: <Profile /> },
             { path: "/my-tickets", element: <MyTickets />}

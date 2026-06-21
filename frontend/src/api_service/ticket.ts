@@ -16,6 +16,11 @@ export async function createTicket(data: { ticketTypeId: number; reviewerId: num
     return response.data;
 }
 
+export async function updateTicket(id: number, data: { status: string }) {
+    const response = await http.patch(`/ticket/${id}`, data);
+    return response.data;
+}
+
 export async function deleteTicket(id: number) {
     const response = await http.delete(`/ticket/${id}`);
     return response.data;
