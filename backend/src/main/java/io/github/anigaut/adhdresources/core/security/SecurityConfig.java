@@ -46,6 +46,9 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/professional-type/**").permitAll()
                     .requestMatchers("/professional-type/**").hasRole("ADMIN")
 
+                    .requestMatchers(HttpMethod.GET, "/ticket-type/**").permitAll()
+                    .requestMatchers("/ticket-type/**").hasRole("ADMIN")
+
                     .requestMatchers(HttpMethod.POST, "/review").hasRole("REVIEWER")
                     .requestMatchers(HttpMethod.PATCH, "/review/**").hasRole("REVIEWER")
                     .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
