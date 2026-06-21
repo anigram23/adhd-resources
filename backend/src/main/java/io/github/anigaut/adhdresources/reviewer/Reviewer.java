@@ -1,6 +1,7 @@
 package io.github.anigaut.adhdresources.reviewer;
 
 import io.github.anigaut.adhdresources.review.Review;
+import io.github.anigaut.adhdresources.ticket.Ticket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,9 @@ public class Reviewer {
 
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
+
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Ticket> tickets;
 
     @CreationTimestamp
     @Column(name = "created_at")
