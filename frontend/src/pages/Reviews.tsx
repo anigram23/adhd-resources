@@ -21,7 +21,7 @@ import {
 import type {Review} from "@/utils/types.ts";
 import {useAuth} from "@/auth/useAuth.ts";
 import {FaPhone, FaRupeeSign} from "react-icons/fa";
-import {HiOfficeBuilding} from "react-icons/hi";
+import {HiOfficeBuilding, HiOutlineFlag} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
 import {Prose} from "@/components/ui/prose.tsx";
@@ -30,6 +30,7 @@ import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
+import CreateTicketForm from "@/components/tickets/CreateTicketForm.tsx";
 
 export default function Reviews() {
     const {id} = useParams();
@@ -170,10 +171,26 @@ export default function Reviews() {
                                                     />
                                                 </>
                                             ) : (
-                                                // <Button variant="ghost" size="sm" color="gray.500">
-                                                //     <HiOutlineFlag />
-                                                // </Button>
-                                                <></>
+                                                user ? (
+                                                    <GenericDialog
+                                                        component={({onClose}) => <CreateTicketForm reviewerId={user!.id} onClose={onClose}/>}
+                                                        title="Report Review"
+                                                        buttonText=""
+                                                        size={"sm" as never}
+                                                        icon={<HiOutlineFlag />}
+                                                        variant="ghost"
+                                                        colorPalette="gray.500"
+                                                    />
+                                                ) : (
+                                                    <GenericDialog
+                                                        component={() => <LoginOrRegister calledFrom={location.pathname} /> }
+                                                        title="Please Login or Register to Continue"
+                                                        buttonText="Add a Review"
+                                                        size={"md" as never}
+                                                        icon={<FiPlus />}
+                                                    />
+                                                )
+
                                             )}
                                         </HStack>
                                     </HStack>
