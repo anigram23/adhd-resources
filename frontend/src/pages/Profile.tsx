@@ -2,7 +2,7 @@ import {useAuth} from "@/auth/useAuth.ts";
 import {Box, Button, Container, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ChangePasswordForm from "@/components/auth/ChangePasswordForm.tsx";
-import {FiMail, FiLock, FiTag} from "react-icons/fi";
+import {FiMail, FiLock, FiTag, FiStar} from "react-icons/fi";
 import {Link} from "react-router";
 
 export default function Profile() {
@@ -53,6 +53,35 @@ export default function Profile() {
                                         {user!.email}
                                     </Text>
                                 </VStack>
+                            </HStack>
+                        </Box>
+                    </Box>
+
+                    <Box>
+                        <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={4}>
+                            Reviews
+                        </Heading>
+                        <Box
+                            border="1px solid"
+                            borderColor="gray.200"
+                            borderRadius="lg"
+                            px={6}
+                            py={5}
+                            bg="white"
+                        >
+                            <HStack justify="space-between" align="center">
+                                <HStack gap={3}>
+                                    <Box color="blue.400">
+                                        <FiStar size={20} />
+                                    </Box>
+                                    <VStack gap={0} align="start">
+                                        <Text color="gray.800" fontWeight="medium">My Reviews</Text>
+                                        <Text fontSize="sm" color="gray.500">View and manage your reviews</Text>
+                                    </VStack>
+                                </HStack>
+                                <Button size="sm" colorPalette="blue" variant="subtle" asChild>
+                                    <Link to="/my-reviews">View</Link>
+                                </Button>
                             </HStack>
                         </Box>
                     </Box>

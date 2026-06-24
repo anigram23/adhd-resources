@@ -16,6 +16,7 @@ import ProfessionalTypes from "@/pages/ProfessionalTypes.tsx";
 import TicketTypes from "@/pages/TicketTypes.tsx";
 import MyTickets from "@/pages/MyTickets.tsx";
 import AllTickets from "@/pages/AllTickets.tsx";
+import MyReviews from "@/pages/MyReviews.tsx";
 
 
 const adminRoutes = [
@@ -44,7 +45,9 @@ const reviewerRoutes = [
         element: <ProtectedRoute allowedRole="REVIEWER" redirectTo="/login"/>,
         children: [
             { path: "/profile", element: <Profile /> },
-            { path: "/my-tickets", element: <MyTickets />}
+            { path: "/my-tickets", element: <MyTickets />},
+            { path: "/my-reviews", element: <MyReviews /> }
+
         ]
     }
 ]

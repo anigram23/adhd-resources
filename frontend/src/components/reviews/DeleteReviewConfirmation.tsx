@@ -7,10 +7,12 @@ export default function DeleteReviewConfirmation({
     id,
     professionalId,
     onClose,
+    afterSuccess,
 }: {
     id: number;
     professionalId: number;
     onClose?: () => void;
+    afterSuccess?: () => void;
 }) {
     const queryClient = useQueryClient();
 
@@ -19,6 +21,7 @@ export default function DeleteReviewConfirmation({
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["reviews", String(professionalId)] });
             onClose?.();
+            afterSuccess?.();
         }
     });
 

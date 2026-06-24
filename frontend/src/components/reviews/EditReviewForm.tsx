@@ -42,7 +42,7 @@ function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }
     );
 }
 
-export default function EditReviewForm({ review, onClose }: { review: Review, onClose?: () => void }) {
+export default function EditReviewForm({ review, onClose, afterSuccess }: { review: Review, onClose?: () => void, afterSuccess?: () => void }) {
     const queryClient = useQueryClient();
 
     const [form, setForm] = useState({
@@ -60,6 +60,7 @@ export default function EditReviewForm({ review, onClose }: { review: Review, on
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["reviews", String(data.professional.id)] });
             onClose?.();
+            afterSuccess?.();
         }
     });
 

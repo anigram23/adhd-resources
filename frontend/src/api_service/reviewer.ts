@@ -15,6 +15,11 @@ export async function reviewerLogout() {
     return response.data;
 }
 
+export async function getReviewsByReviewer(reviewerId: number) {
+    const response = await http.get(`/reviewer/${reviewerId}/reviews`);
+    return response.data;
+}
+
 export async function changePassword(
     credentials: {email: string, oldPassword: string, newPassword: string, confirmNewPassword: string}
 ) {
