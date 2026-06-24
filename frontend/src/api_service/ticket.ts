@@ -1,6 +1,6 @@
 import http from "@/api_service/httpClient.ts";
 
-export async function getTickets(reviewerId: number | null | undefined, status: string | null) {
+export async function getTickets(reviewerId: number | null, status: string | null) {
     const response = await http.get(`/ticket/`, {
         params: {
             reviewerId: reviewerId,
@@ -11,7 +11,7 @@ export async function getTickets(reviewerId: number | null | undefined, status: 
     return response.data;
 }
 
-export async function createTicket(data: { ticketTypeId: number; reviewerId: number; content: string }) {
+export async function createTicket(data: { ticketTypeId: number; reviewerId: number; content: string, reviewId: number | null }) {
     const response = await http.post("/ticket/", data);
     return response.data;
 }

@@ -25,7 +25,7 @@ export default function MyTickets() {
     const status = searchParams.get("status");
 
     const {isPending, isError, data, error} = useQuery({
-        queryFn: () => getTickets(user?.id, status),
+        queryFn: () => getTickets(user!.id, status),
         queryKey: ["tickets", user?.id, status],
         enabled: !!user?.id && !!status,
     });
@@ -65,7 +65,7 @@ export default function MyTickets() {
                         {user?.id && (
                             <GenericDialog
                                 component={({onClose}) => (
-                                    <CreateTicketForm reviewerId={user.id} onClose={onClose}/>
+                                    <CreateTicketForm reviewerId={user.id} onClose={onClose} />
                                 )}
                                 title="Raise a Ticket"
                                 buttonText="New Ticket"

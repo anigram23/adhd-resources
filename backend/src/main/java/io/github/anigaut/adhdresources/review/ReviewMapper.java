@@ -1,6 +1,7 @@
 package io.github.anigaut.adhdresources.review;
 
 import io.github.anigaut.adhdresources.professional.Professional;
+import io.github.anigaut.adhdresources.review.dto.PublicReviewResponseDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewRequestDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewResponseDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewUpdateDTO;
@@ -22,6 +23,9 @@ public interface ReviewMapper {
     ReviewResponseDTO toResponseDTO(Review review);
 
     List<ReviewResponseDTO> toResponseDTOList(List<Review> reviews);
+
+    @Mapping(target = "owner", ignore = true)
+    PublicReviewResponseDTO toPublicResponseDTO(Review review);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(ReviewUpdateDTO dto, @MappingTarget Review review);

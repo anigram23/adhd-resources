@@ -2,6 +2,7 @@ package io.github.anigaut.adhdresources.review;
 
 import io.github.anigaut.adhdresources.professional.Professional;
 import io.github.anigaut.adhdresources.reviewer.Reviewer;
+import io.github.anigaut.adhdresources.ticket.Ticket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Table(name = "review")
@@ -59,6 +61,9 @@ public class Review {
     @NotNull
     @Column(name = "rating")
     private float rating;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Ticket> tickets;
 
     @CreationTimestamp
     @Column(name = "created_at")

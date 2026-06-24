@@ -21,4 +21,6 @@ public class TicketRequestDTO {
 
     @NotBlank(message = "Content is required")
     private String content;
+
+    private Integer reviewId;
 }

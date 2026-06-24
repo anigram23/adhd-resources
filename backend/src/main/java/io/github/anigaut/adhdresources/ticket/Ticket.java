@@ -1,6 +1,7 @@
 package io.github.anigaut.adhdresources.ticket;
 
 import io.github.anigaut.adhdresources.core.utils.Constants;
+import io.github.anigaut.adhdresources.review.Review;
 import io.github.anigaut.adhdresources.reviewer.Reviewer;
 import io.github.anigaut.adhdresources.ticketType.TicketType;
 import jakarta.persistence.*;
@@ -33,6 +34,10 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewer_id", nullable = false)
     private Reviewer reviewer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     @NotNull
     @Column(name = "status")

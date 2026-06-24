@@ -2,9 +2,10 @@ package io.github.anigaut.adhdresources.professional;
 
 import io.github.anigaut.adhdresources.professional.dto.ProfessionalResponseDTO;
 import io.github.anigaut.adhdresources.review.ReviewService;
-import io.github.anigaut.adhdresources.review.dto.ReviewResponseDTO;
+import io.github.anigaut.adhdresources.review.dto.PublicReviewResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,10 @@ public class ProfessionalController {
     }
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewsForProfessional(@PathVariable int id) {
-        return ResponseEntity.ok(reviewService.getReviewsByProfessionalId(id));
+    public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForProfessional(
+            @PathVariable int id,
+            Authentication authentication) {
+        String callerEmail = authentication != null ? authentication.getName() : null;
+        return ResponseEntity.ok(reviewService.getReviewsByProfessionalId(id, callerEmail));
     }
 }

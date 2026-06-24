@@ -3,6 +3,8 @@ package io.github.anigaut.adhdresources.ticket;
 import io.github.anigaut.adhdresources.admin.AdminRepository;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.core.utils.Constants;
+import io.github.anigaut.adhdresources.review.Review;
+import io.github.anigaut.adhdresources.review.ReviewRepository;
 import io.github.anigaut.adhdresources.reviewer.Reviewer;
 import io.github.anigaut.adhdresources.reviewer.ReviewerRepository;
 import io.github.anigaut.adhdresources.ticket.dto.TicketRequestDTO;
@@ -11,30 +13,21 @@ import io.github.anigaut.adhdresources.ticket.dto.TicketUpdateDTO;
 import io.github.anigaut.adhdresources.ticketType.TicketType;
 import io.github.anigaut.adhdresources.ticketType.TicketTypeRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TicketService {
     private final TicketRepository ticketRepository;
     private final TicketTypeRepository ticketTypeRepository;
     private final ReviewerRepository reviewerRepository;
     private final AdminRepository adminRepository;
     private final TicketMapper ticketMapper;
-
-    @Autowired
-    public TicketService(TicketRepository ticketRepository, TicketTypeRepository ticketTypeRepository,
-                         ReviewerRepository reviewerRepository, AdminRepository adminRepository,
-                         TicketMapper ticketMapper) {
-        this.ticketRepository = ticketRepository;
-        this.ticketTypeRepository = ticketTypeRepository;
-        this.reviewerRepository = reviewerRepository;
-        this.adminRepository = adminRepository;
-        this.ticketMapper = ticketMapper;
-    }
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public TicketResponseDTO createTicket(TicketRequestDTO requestDTO) {
@@ -43,9 +36,20 @@ public class TicketService {
         Reviewer reviewer = reviewerRepository.findById(requestDTO.getReviewerId())
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A reviewer with this ID doesn't exist."));
 
+        Review review = null;
+        if (requestDTO.getReviewId() != null) {
+            review = reviewRepository.findById(requestDTO.getReviewId())
+                    .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A review with this ID doesn't exist."));
+        }
+
+        if (ticketType.getId() == 2 && review == null) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Please report reviews from the reviews page.");
+        }
+
         Ticket ticket = new Ticket();
         ticket.setTicketType(ticketType);
         ticket.setReviewer(reviewer);
+        ticket.setReview(review);
         ticket.setContent(requestDTO.getContent());
         ticket.setStatus(Constants.TicketStatus.OPEN);
 

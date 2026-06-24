@@ -7,10 +7,11 @@ import {Button, Field, FieldRequiredIndicator, HStack, NativeSelect, Stack, Text
 import {FiAlertCircle} from "react-icons/fi";
 import type {TicketType} from "@/utils/types.ts";
 
-export default function CreateTicketForm({ reviewerId, onClose }: { reviewerId: number; onClose?: () => void }) {
+export default function CreateTicketForm({ reviewerId, onClose, review }: { reviewerId: number; onClose?: () => void; review?: number }) {
     const queryClient = useQueryClient();
-    const [ticketTypeId, setTicketTypeId] = useState("");
+    const [ticketTypeId, setTicketTypeId] = useState(review ? 2 : "");
     const [content, setContent] = useState("");
+    const reviewId = review ? review : null
 
     const { data: ticketTypes } = useQuery({
         queryKey: ["ticketTypes"],
@@ -18,7 +19,7 @@ export default function CreateTicketForm({ reviewerId, onClose }: { reviewerId: 
     });
 
     const mutation = useMutation({
-        mutationFn: () => createTicket({ ticketTypeId: Number(ticketTypeId), reviewerId, content }),
+        mutationFn: () => createTicket({ ticketTypeId: Number(ticketTypeId), reviewerId, content, reviewId }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["tickets"] });
             onClose?.();
@@ -33,23 +34,25 @@ export default function CreateTicketForm({ reviewerId, onClose }: { reviewerId: 
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={6}>
-                <Field.Root required>
-                    <Field.Label color="gray.700">
-                        Ticket Type <FieldRequiredIndicator />
-                    </Field.Label>
-                    <NativeSelect.Root>
-                        <NativeSelect.Field
-                            placeholder="Select a type"
-                            value={ticketTypeId}
-                            onChange={(e) => setTicketTypeId(e.currentTarget.value)}
-                        >
-                            {ticketTypes?.map((type: TicketType) => (
-                                <option key={type.id} value={type.id}>{type.title}</option>
-                            ))}
-                        </NativeSelect.Field>
-                        <NativeSelect.Indicator />
-                    </NativeSelect.Root>
-                </Field.Root>
+                { reviewId === null && (
+                    <Field.Root required>
+                        <Field.Label color="gray.700">
+                            Ticket Type <FieldRequiredIndicator />
+                        </Field.Label>
+                        <NativeSelect.Root>
+                            <NativeSelect.Field
+                                placeholder="Select a type"
+                                value={ticketTypeId}
+                                onChange={(e) => setTicketTypeId(e.currentTarget.value)}
+                            >
+                                {ticketTypes?.filter((type: TicketType) => type.id !== 2).map((type: TicketType) => (
+                                    <option key={type.id} value={type.id}>{type.title}</option>
+                                ))}
+                            </NativeSelect.Field>
+                            <NativeSelect.Indicator />
+                        </NativeSelect.Root>
+                    </Field.Root>
+                )}
 
                 <Field.Root required>
                     <Field.Label color="gray.700">
@@ -74,7 +77,7 @@ export default function CreateTicketForm({ reviewerId, onClose }: { reviewerId: 
                     type="submit"
                     colorPalette="blue"
                     w="full"
-                    disabled={mutation.isPending || !ticketTypeId || !content.trim()}
+                    disabled={mutation.isPending || !content.trim()}
                 >
                     {mutation.isPending ? "Submitting..." : "Submit"}
                 </Button>

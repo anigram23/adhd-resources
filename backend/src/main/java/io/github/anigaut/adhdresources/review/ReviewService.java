@@ -6,6 +6,7 @@ import io.github.anigaut.adhdresources.professional.Professional;
 import io.github.anigaut.adhdresources.professional.ProfessionalRepository;
 import io.github.anigaut.adhdresources.professional.ProfessionalService;
 import io.github.anigaut.adhdresources.professional.dto.ProfessionalRequestDTO;
+import io.github.anigaut.adhdresources.review.dto.PublicReviewResponseDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewRequestDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewResponseDTO;
 import io.github.anigaut.adhdresources.review.dto.ReviewUpdateDTO;
@@ -28,23 +29,34 @@ public class ReviewService {
     private final ProfessionalService professionalService;
     private final AdminRepository adminRepository;
 
-    public List<ReviewResponseDTO> getReviewsByProfessionalId(int professionalId) {
+    public List<PublicReviewResponseDTO> getReviewsByProfessionalId(int professionalId, String callerEmail) {
         if (!professionalRepository.existsById(professionalId)) {
             throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Professional You Are Looking For. Please Try Again.");
         }
 
         return reviewRepository.findByProfessionalId(professionalId)
                 .stream()
-                .map(reviewMapper::toResponseDTO)
+                .map(review -> {
+                    PublicReviewResponseDTO dto = reviewMapper.toPublicResponseDTO(review);
+                    dto.setOwner(callerEmail != null && callerEmail.equals(review.getReviewer().getEmail()));
+                    return dto;
+                })
                 .toList();
     }
 
-    public List<ReviewResponseDTO> getReviewsByReviewerId(int reviewerId) {
+    public List<PublicReviewResponseDTO> getReviewsByReviewerId(int reviewerId) {
         if (!reviewerRepository.existsById(reviewerId)) {
             throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Reviewer You Are Looking For.");
         }
 
-        return reviewMapper.toResponseDTOList(reviewRepository.findByReviewerId(reviewerId));
+        return reviewRepository.findByReviewerId(reviewerId)
+                .stream()
+                .map(review -> {
+                    PublicReviewResponseDTO dto = reviewMapper.toPublicResponseDTO(review);
+                    dto.setOwner(true);
+                    return dto;
+                })
+                .toList();
     }
 
     @Transactional

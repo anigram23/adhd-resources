@@ -26,6 +26,6 @@ export type Review = {
     doesOnlineConsultations: boolean,
     createdAt: Date,
     updatedAt: Date,
-    professional: Professional
-    reviewer: Reviewer
+    professional: Professional,
+    owner: boolean,
 };

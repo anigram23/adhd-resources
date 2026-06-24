@@ -139,14 +139,11 @@ export default function Reviews() {
                                         </VStack>
 
                                         {user?.role === "ADMIN" && (
-                                            <>
-                                                <Text fontSize="sm" color="black">ID: {review.id}</Text>
-                                                <Text fontSize="sm" color="black">By: {review.reviewer.email}</Text>
-                                            </>
+                                            <Text fontSize="sm" color="black">ID: {review.id}</Text>
                                         )}
 
                                         <HStack gap={1}>
-                                            {(user?.email === review.reviewer.email || user?.role === "ADMIN") ? (
+                                            {(review.owner || user?.role === "ADMIN") ? (
                                                 <>
                                                     <GenericDialog
                                                         component={({ onClose }) => <EditReviewForm review={review} onClose={onClose} />}
@@ -173,7 +170,7 @@ export default function Reviews() {
                                             ) : (
                                                 user ? (
                                                     <GenericDialog
-                                                        component={({onClose}) => <CreateTicketForm reviewerId={user!.id} onClose={onClose}/>}
+                                                        component={({onClose}) => <CreateTicketForm reviewerId={user!.id} onClose={onClose} review={review.id} />}
                                                         title="Report Review"
                                                         buttonText=""
                                                         size={"sm" as never}

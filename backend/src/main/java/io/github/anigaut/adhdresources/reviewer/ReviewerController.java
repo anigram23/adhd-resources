@@ -1,7 +1,7 @@
 package io.github.anigaut.adhdresources.reviewer;
 
 import io.github.anigaut.adhdresources.review.ReviewService;
-import io.github.anigaut.adhdresources.review.dto.ReviewResponseDTO;
+import io.github.anigaut.adhdresources.review.dto.PublicReviewResponseDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerPasswordChangeDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
@@ -41,7 +41,7 @@ public class ReviewerController {
     }
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewsForReviewer(@PathVariable int id) {
+    public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForReviewer(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReviewsByReviewerId(id));
     }
 
