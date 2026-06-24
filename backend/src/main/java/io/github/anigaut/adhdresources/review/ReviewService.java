@@ -39,6 +39,14 @@ public class ReviewService {
                 .toList();
     }
 
+    public List<ReviewResponseDTO> getReviewsByReviewerId(int reviewerId) {
+        if (!reviewerRepository.existsById(reviewerId)) {
+            throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Reviewer You Are Looking For.");
+        }
+
+        return reviewMapper.toResponseDTOList(reviewRepository.findByReviewerId(reviewerId));
+    }
+
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
         Reviewer reviewer = reviewerRepository.findByEmail(reviewerEmail);
