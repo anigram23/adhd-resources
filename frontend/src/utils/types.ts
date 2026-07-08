@@ -13,6 +13,7 @@ export type Ticket = {
     reviewer: Reviewer,
     status: "OPEN" | "ONGOING" | "CLOSED",
     content: string,
+    review: Review
 };
 
 export type Review = {

@@ -21,7 +21,8 @@ import type {Ticket} from "@/utils/types.ts";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import DeleteTicketConfirmation from "@/components/tickets/DeleteTicketConfirmation.tsx";
 import EditTicketStatusForm from "@/components/tickets/EditTicketStatusForm.tsx";
-import {FiEdit2, FiMail, FiTag, FiTrash2} from "react-icons/fi";
+import {FiEdit2, FiEye, FiMail, FiTag, FiTrash2} from "react-icons/fi";
+import ReviewDetailsDialog from "@/components/reviews/ReviewDetailsDialog.tsx";
 
 const STATUS_COLORS: Record<string, string> = {
     OPEN: "green",
@@ -178,6 +179,20 @@ export default function AllTickets() {
                                                     <Text color="gray.700" fontSize="sm" lineHeight="1.8">
                                                         {ticket.content}
                                                     </Text>
+
+                                                    { ticket.review && (
+                                                        <Box mt={4}>
+                                                            <GenericDialog
+                                                                component={() => <ReviewDetailsDialog review={ticket.review} />}
+                                                                title="Review Information"
+                                                                buttonText="See Review"
+                                                                size={"xl" as never}
+                                                                variant="outline"
+                                                                buttonSize="sm"
+                                                                icon={<FiEye/>}
+                                                            />
+                                                        </Box>
+                                                    )}
                                                 </VStack>
                                             </Card.Body>
                                         </Card.Root>

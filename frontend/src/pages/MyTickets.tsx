@@ -10,7 +10,8 @@ import type {Ticket} from "@/utils/types.ts";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import DeleteTicketConfirmation from "@/components/tickets/DeleteTicketConfirmation.tsx";
 import CreateTicketForm from "@/components/tickets/CreateTicketForm.tsx";
-import {FiPlus, FiTrash2} from "react-icons/fi";
+import {FiEye, FiPlus, FiTrash2} from "react-icons/fi";
+import ReviewDetailsDialog from "@/components/reviews/ReviewDetailsDialog.tsx";
 
 const STATUS_COLORS: Record<string, string> = {
     OPEN: "green",
@@ -133,6 +134,21 @@ export default function MyTickets() {
                                                 <Text color="gray.700" fontSize="sm" lineHeight="1.8">
                                                     {ticket.content}
                                                 </Text>
+
+                                                { ticket.review && (
+                                                    <Box mt={4}>
+                                                        <GenericDialog
+                                                            component={() => <ReviewDetailsDialog review={ticket.review} />}
+                                                            title="Review Information"
+                                                            buttonText="See Review"
+                                                            size={"xl" as never}
+                                                            variant="outline"
+                                                            buttonSize="sm"
+                                                            icon={<FiEye/>}
+                                                        />
+                                                    </Box>
+                                                )}
+
                                             </Card.Body>
                                         </Card.Root>
                                     </GridItem>
