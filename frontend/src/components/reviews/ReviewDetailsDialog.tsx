@@ -1,19 +1,29 @@
 import type {Review} from "@/utils/types.ts";
 import {Badge, Box, Flex, HStack, RatingGroup, Separator, Text, VStack} from "@chakra-ui/react";
-import {FaPhone, FaRupeeSign} from "react-icons/fa";
+import {FaPhone, FaRupeeSign, FaTag, FaUser} from "react-icons/fa";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {Prose} from "@/components/ui/prose.tsx";
+import {useAuth} from "@/auth/useAuth.ts";
 
 export default function ReviewDetailsDialog({review}: { review: Review }) {
+    const { user } = useAuth();
+
     return (
         <VStack align="stretch" gap={3}>
             <VStack align="start" gap={3}>
+                {user!.role === "ADMIN" && (
+                    <HStack gap={2} fontSize="md">
+                        <Box color="blue.400"><FaTag size={14} /></Box>
+                        <Text color="gray.700">Review ID: {review.id}</Text>
+                    </HStack>
+                )}
 
                 {review.professional && (
-                    <Text fontSize="xl" fontWeight="medium" color="gray.700">
-                        {review.professional.name}
-                    </Text>
+                    <HStack gap={2} fontSize="md">
+                        <Box color="blue.400"><FaUser size={14} /></Box>
+                        <Text color="gray.700">{review.professional.name}</Text>
+                    </HStack>
                 )}
 
                 <RatingGroup.Root readOnly allowHalf defaultValue={review.rating} count={5} size="sm">
