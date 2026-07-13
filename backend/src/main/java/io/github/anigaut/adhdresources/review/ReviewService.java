@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +59,38 @@ public class ReviewService {
                     return dto;
                 })
                 .toList();
+    }
+
+    public List<ReviewResponseDTO> getReviewsForAdmin(
+            Integer id,
+            Integer reviewerId,
+            Integer professionalId,
+            Instant fromDate,
+            Instant toDate
+    ) {
+        List<Review> reviews = new ArrayList<>();
+        if (id != null) {
+            Review reviewForId = reviewRepository.findById(id)
+                    .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
+            reviews.add(reviewForId);
+        }
+
+        if (reviewerId != null) {
+            List<Review> reviewsForReviewer = reviewRepository.findByReviewerId(reviewerId);
+            reviews.addAll(reviewsForReviewer);
+        }
+
+        if (professionalId != null) {
+            List<Review> reviewsForProfessional = reviewRepository.findByProfessionalId(professionalId);
+            reviews.addAll(reviewsForProfessional);
+        }
+
+        if (fromDate != null && toDate != null) {
+            List<Review> reviewsBetweenFromDateAndToDate = reviewRepository.findByUpdatedAtBetween(fromDate, toDate);
+            reviews.addAll(reviewsBetweenFromDateAndToDate);
+        }
+
+        return reviewMapper.toResponseDTOList(reviews);
     }
 
     @Transactional

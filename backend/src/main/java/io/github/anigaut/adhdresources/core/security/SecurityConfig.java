@@ -54,6 +54,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.PATCH, "/ticket/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/ticket/**").authenticated()
 
+                    .requestMatchers(HttpMethod.GET, "/review/reviews-for-admin").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/review").hasRole("REVIEWER")
                     .requestMatchers(HttpMethod.PATCH, "/review/**").hasRole("REVIEWER")
                     .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
