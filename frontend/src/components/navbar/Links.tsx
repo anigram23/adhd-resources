@@ -14,7 +14,7 @@ const links = [
 const adminLinks = [
     {name: "Pages", path: "/admin/static-pages"},
     {name: "Professional Types", path: "/admin/professional-types"},
-    {name: "Reviews", path: "/admin/all-reviews"}
+    {name: "Reviews", path: "/admin/reviews"}
 ]
 
 type LinksProps = { isMobile?: boolean };

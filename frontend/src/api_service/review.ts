@@ -1,4 +1,5 @@
 import http from "@/api_service/httpClient.ts";
+import type {PrivateReview} from "@/utils/types.ts";
 
 type CreateReviewData = {
     professionalName: string | null,
@@ -22,6 +23,19 @@ type UpdateReviewData = {
     diagnosisFee: number | null,
     content: string | null,
     rating: number | null
+}
+
+export type AdminReviewFilters = {
+    id?: number;
+    reviewerId?: number;
+    professionalId?: number;
+    fromDate?: string;
+    toDate?: string;
+};
+
+export async function getReviewsForAdmin(params?: AdminReviewFilters): Promise<PrivateReview[]> {
+    const response = await http.get("/review/reviews-for-admin", { params });
+    return response.data;
 }
 
 export async function createReview(reviewDetails: CreateReviewData){

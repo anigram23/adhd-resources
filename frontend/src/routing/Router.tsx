@@ -17,6 +17,7 @@ import TicketTypes from "@/pages/TicketTypes.tsx";
 import MyTickets from "@/pages/MyTickets.tsx";
 import AllTickets from "@/pages/AllTickets.tsx";
 import MyReviews from "@/pages/MyReviews.tsx";
+import AllReviews from "@/pages/AllReviews.tsx";
 
 
 const adminRoutes = [
@@ -31,7 +32,8 @@ const adminRoutes = [
                     { path: "static-pages", element: <AllStaticPages /> },
                     { path: "professional-types", element: <ProfessionalTypes /> },
                     { path: "ticket-types", element: <TicketTypes /> },
-                    { path: "tickets", element: <AllTickets /> }
+                    { path: "tickets", element: <AllTickets /> },
+                    { path: "reviews", element: <AllReviews /> }
                 ]
             }
         ]
