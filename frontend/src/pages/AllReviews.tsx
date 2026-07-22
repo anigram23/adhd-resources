@@ -1,4 +1,4 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useSearchParams} from "react-router";
 import {type AdminReviewFilters, getReviewsForAdmin} from "@/api_service/review.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
@@ -26,7 +26,10 @@ import type {PrivateReview} from "@/utils/types.ts";
 import {FaPhone, FaRupeeSign} from "react-icons/fa";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
+import {FiTrash2} from "react-icons/fi";
 import {Prose} from "@/components/ui/prose.tsx";
+import GenericDialog from "@/components/utils/GenericDialog.tsx";
+import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
 
 const REVIEW_FILTER_KEYS = ["id", "reviewerId", "professionalId", "fromDate", "toDate"];
 
@@ -66,6 +69,7 @@ export default function AllReviews() {
     const [searchParams, setSearchParams] = useSearchParams();
     const hasFilters = REVIEW_FILTER_KEYS.some((key) => searchParams.has(key));
     const filters = getAdminReviewFilters(searchParams);
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (!hasFilters) {
@@ -227,7 +231,26 @@ export default function AllReviews() {
                                                     </Text>
                                                     <Text fontSize="xs" color="gray.500">Professional ID: {review.professional.id}</Text>
                                                 </VStack>
-                                                <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
+                                                <HStack gap={1}>
+                                                    <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
+                                                    <GenericDialog
+                                                        component={({onClose}) => (
+                                                            <DeleteReviewConfirmation
+                                                                id={review.id}
+                                                                professionalId={review.professional.id}
+                                                                onClose={onClose}
+                                                                afterSuccess={() => queryClient.invalidateQueries({queryKey: ["adminReviews", searchParams.toString()]})}
+                                                            />
+                                                        )}
+                                                        title="Delete this review?"
+                                                        buttonText=""
+                                                        size={"sm" as never}
+                                                        icon={<FiTrash2/>}
+                                                        variant="ghost"
+                                                        colorPalette="red"
+                                                        buttonSize="sm"
+                                                    />
+                                                </HStack>
                                             </HStack>
                                             <VStack align="start" gap={1} fontSize="xs" color="gray.500">
                                                 <Text>Reviewer ID: {review.reviewer.id}</Text>

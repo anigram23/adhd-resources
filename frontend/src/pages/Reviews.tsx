@@ -143,51 +143,47 @@ export default function Reviews() {
                                         )}
 
                                         <HStack gap={1}>
+                                            {review.owner && (
+                                                <GenericDialog
+                                                    component={({ onClose }) => <EditReviewForm review={review} onClose={onClose} />}
+                                                    title="Edit Review"
+                                                    buttonText=""
+                                                    size={"xl" as never}
+                                                    icon={<FiEdit2 />}
+                                                    variant="ghost"
+                                                    colorPalette="blue"
+                                                    buttonSize="sm"
+                                                />
+                                            )}
                                             {(review.owner || user?.role === "ADMIN") ? (
-                                                <>
-                                                    <GenericDialog
-                                                        component={({ onClose }) => <EditReviewForm review={review} onClose={onClose} />}
-                                                        title="Edit Review"
-                                                        buttonText=""
-                                                        size={"xl" as never}
-                                                        icon={<FiEdit2 />}
-                                                        variant="ghost"
-                                                        colorPalette="blue"
-                                                        buttonSize="sm"
-                                                    />
-
-                                                    <GenericDialog
-                                                        component={({ onClose }) => <DeleteReviewConfirmation id={review.id} professionalId={review.professional.id} onClose={onClose} />}
-                                                        title="Delete this review?"
-                                                        buttonText=""
-                                                        size={"sm" as never}
-                                                        icon={<FiTrash2 />}
-                                                        variant="ghost"
-                                                        colorPalette="red.400"
-                                                        buttonSize="sm"
-                                                    />
-                                                </>
+                                                <GenericDialog
+                                                    component={({ onClose }) => <DeleteReviewConfirmation id={review.id} professionalId={review.professional.id} onClose={onClose} />}
+                                                    title="Delete this review?"
+                                                    buttonText=""
+                                                    size={"sm" as never}
+                                                    icon={<FiTrash2 />}
+                                                    variant="ghost"
+                                                    colorPalette="red.400"
+                                                    buttonSize="sm"
+                                                />
+                                            ) : user ? (
+                                                <GenericDialog
+                                                    component={({onClose}) => <CreateTicketForm reviewerId={user!.id} onClose={onClose} review={review.id} />}
+                                                    title="Report Review"
+                                                    buttonText=""
+                                                    size={"sm" as never}
+                                                    icon={<HiOutlineFlag />}
+                                                    variant="ghost"
+                                                    colorPalette="gray.500"
+                                                />
                                             ) : (
-                                                user ? (
-                                                    <GenericDialog
-                                                        component={({onClose}) => <CreateTicketForm reviewerId={user!.id} onClose={onClose} review={review.id} />}
-                                                        title="Report Review"
-                                                        buttonText=""
-                                                        size={"sm" as never}
-                                                        icon={<HiOutlineFlag />}
-                                                        variant="ghost"
-                                                        colorPalette="gray.500"
-                                                    />
-                                                ) : (
-                                                    <GenericDialog
-                                                        component={() => <LoginOrRegister calledFrom={location.pathname} /> }
-                                                        title="Please Login or Register to Continue"
-                                                        buttonText="Add a Review"
-                                                        size={"md" as never}
-                                                        icon={<FiPlus />}
-                                                    />
-                                                )
-
+                                                <GenericDialog
+                                                    component={() => <LoginOrRegister calledFrom={location.pathname} /> }
+                                                    title="Please Login or Register to Continue"
+                                                    buttonText="Add a Review"
+                                                    size={"md" as never}
+                                                    icon={<FiPlus />}
+                                                />
                                             )}
                                         </HStack>
                                     </HStack>
