@@ -40,7 +40,8 @@ public class ReviewService {
                 .stream()
                 .map(review -> {
                     PublicReviewResponseDTO dto = reviewMapper.toPublicResponseDTO(review);
-                    dto.setOwner(callerEmail != null && callerEmail.equals(review.getReviewer().getEmail()));
+                    Reviewer reviewer = review.getReviewer();
+                    dto.setOwner(reviewer != null && callerEmail != null && callerEmail.equals(reviewer.getEmail()));
                     return dto;
                 })
                 .toList();
@@ -145,7 +146,10 @@ public class ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 
-        if (!review.getReviewer().getEmail().equals(userEmail) && !adminRepository.existsByEmail(userEmail)) {
+        Reviewer reviewer = review.getReviewer();
+        boolean isOwner = reviewer != null && reviewer.getEmail().equals(userEmail);
+        boolean isAdmin = adminRepository.existsByEmail(userEmail);
+        if (!isOwner && !isAdmin) {
             throw new HttpException(HttpStatus.FORBIDDEN, "You Do Not Have Permission To Delete This Review.");
         }
 

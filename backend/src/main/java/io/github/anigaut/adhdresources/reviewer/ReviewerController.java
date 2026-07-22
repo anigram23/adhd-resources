@@ -40,6 +40,14 @@ public class ReviewerController {
         return ResponseEntity.status(HttpStatus.OK).body("Logged out successfully");
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteReviewer(
+            @PathVariable int id,
+            @AuthenticationPrincipal String userEmail) {
+        return ResponseEntity.status(HttpStatus.OK).body(reviewerService.deleteReviewer(id, userEmail));
+    }
+
+
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForReviewer(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReviewsByReviewerId(id));

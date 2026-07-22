@@ -34,7 +34,7 @@ public class Reviewer {
     @Column(name = "password_hash")
     private String passwordHash;
 
-    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reviewer")
     private Set<Review> reviews;
 
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)

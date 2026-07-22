@@ -1,9 +1,11 @@
 package io.github.anigaut.adhdresources.reviewer;
 
+import io.github.anigaut.adhdresources.admin.AdminRepository;
 import io.github.anigaut.adhdresources.core.exception.HttpException;
 import io.github.anigaut.adhdresources.core.security.auth.UserDetailsDTO;
 import io.github.anigaut.adhdresources.core.security.jwt.JwtUtil;
 import io.github.anigaut.adhdresources.core.utils.CookieUtil;
+import io.github.anigaut.adhdresources.review.ReviewRepository;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerPasswordChangeDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewerService {
     private final ReviewerRepository reviewerRepository;
+    private final AdminRepository adminRepository;
+    private final ReviewRepository reviewRepository;
     private final ReviewerMapper reviewerMapper;
     private final PasswordEncoder passwordEncoder;
     private final CookieUtil cookieUtil;
@@ -57,6 +61,22 @@ public class ReviewerService {
 
     public void logout(HttpServletResponse response) {
         cookieUtil.clearJwtCookie(response);
+    }
+
+    @Transactional
+    public String deleteReviewer(int id, String userEmail) {
+        Reviewer reviewer = reviewerRepository.findById(id)
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Reviewer Not Found"));
+
+        boolean isOwner = reviewer.getEmail().equals(userEmail);
+        boolean isAdmin = adminRepository.existsByEmail(userEmail);
+        if (!isOwner && !isAdmin) {
+            throw new HttpException(HttpStatus.FORBIDDEN, "Invalid Request");
+        }
+
+        reviewRepository.detachFromReviewer(id);
+        reviewerRepository.deleteById(id);
+        return "Deleted account successfully";
     }
 
     public String changePassword(ReviewerPasswordChangeDTO dto, String reviewerEmail) {

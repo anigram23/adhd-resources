@@ -33,6 +33,7 @@ public class SecurityConfig {
                     .requestMatchers("/admin/**").permitAll()
 
                     .requestMatchers(HttpMethod.PATCH, "/reviewer/**").hasRole("REVIEWER")
+                    .requestMatchers(HttpMethod.DELETE, "/reviewer/**").authenticated()
                     .requestMatchers("/reviewer/**").permitAll()
 
                     .requestMatchers("/city/**").permitAll()
