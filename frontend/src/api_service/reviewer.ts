@@ -26,3 +26,8 @@ export async function changePassword(
     const response = await http.patch("/reviewer/change-password", credentials);
     return response.data;
 }
+
+export async function deleteReviewer(reviewerId: number) {
+    const response = await http.delete(`/reviewer/${reviewerId}`);
+    return response.data;
+}

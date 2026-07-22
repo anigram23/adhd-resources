@@ -31,4 +31,4 @@ export type Review = {
     owner: boolean,
 };
 
-export type PrivateReview = Review & { reviewer: Reviewer };
+export type PrivateReview = Review & { reviewer: Reviewer | null };

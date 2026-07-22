@@ -253,8 +253,14 @@ export default function AllReviews() {
                                                 </HStack>
                                             </HStack>
                                             <VStack align="start" gap={1} fontSize="xs" color="gray.500">
-                                                <Text>Reviewer ID: {review.reviewer.id}</Text>
-                                                <Text>Reviewer Email: {review.reviewer.email}</Text>
+                                                {review.reviewer ? (
+                                                    <>
+                                                        <Text>Reviewer ID: {review.reviewer.id}</Text>
+                                                        <Text>Reviewer Email: {review.reviewer.email}</Text>
+                                                    </>
+                                                ) : (
+                                                    <Text>[deleted reviewer]</Text>
+                                                )}
                                                 <Text>Updated: {new Date(review.updatedAt).toLocaleDateString("en-IN", {
                                                     year: "numeric", month: "short", day: "numeric"
                                                 })}</Text>
