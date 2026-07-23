@@ -9,12 +9,15 @@ import io.github.anigaut.adhdresources.review.ReviewRepository;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerLoginDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerPasswordChangeDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
+import io.github.anigaut.adhdresources.reviewer.dto.ReviewerResponseDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -110,5 +113,20 @@ public class ReviewerService {
         }
 
         return reviewerMapper.toUserDetailsDTO(reviewer);
+    }
+
+    public List<ReviewerResponseDTO> getReviewersForAdmin(String id, String email) {
+        boolean idBlank = id == null || id.isBlank();
+        boolean emailBlank = email == null || email.isBlank();
+
+        if (idBlank && emailBlank) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Please Provide At Least One Search Criteria.");
+        }
+
+        String idQuery = idBlank ? null : id.trim();
+        String emailQuery = emailBlank ? null : email.trim();
+
+        List<Reviewer> reviewers = reviewerRepository.searchForAdmin(idQuery, emailQuery);
+        return reviewerMapper.toResponseDTOList(reviewers);
     }
 }

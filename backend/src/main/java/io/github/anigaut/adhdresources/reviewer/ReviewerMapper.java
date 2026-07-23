@@ -2,9 +2,12 @@ package io.github.anigaut.adhdresources.reviewer;
 
 import io.github.anigaut.adhdresources.core.security.auth.UserDetailsDTO;
 import io.github.anigaut.adhdresources.reviewer.dto.ReviewerRegisterDTO;
+import io.github.anigaut.adhdresources.reviewer.dto.ReviewerResponseDTO;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ReviewerMapper {
@@ -27,4 +30,8 @@ public abstract class ReviewerMapper {
     @Mapping(target = "role", constant = "REVIEWER")
     @Mapping(target = "name", ignore = true)
     public abstract UserDetailsDTO toUserDetailsDTO(Reviewer reviewer);
+
+    public abstract ReviewerResponseDTO toResponseDTO(Reviewer reviewer);
+
+    public abstract List<ReviewerResponseDTO> toResponseDTOList(List<Reviewer> reviewers);
 }

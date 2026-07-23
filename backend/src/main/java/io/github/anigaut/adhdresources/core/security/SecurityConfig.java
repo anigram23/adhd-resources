@@ -30,6 +30,7 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.GET, "/admin/reviewers").hasRole("ADMIN")
                     .requestMatchers("/admin/**").permitAll()
 
                     .requestMatchers(HttpMethod.PATCH, "/reviewer/**").hasRole("REVIEWER")
