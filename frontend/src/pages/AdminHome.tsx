@@ -7,6 +7,7 @@ const sections = [
     {title: "Ticket Types", description: "Configure the categories used for tickets.", to: "/admin/ticket-types"},
     {title: "Professional Types", description: "Manage the types of professionals listed in the directory.", to: "/admin/professional-types"},
     {title: "Reviews", description: "Browse and moderate reviews left by reviewers.", to: "/admin/reviews"},
+    {title: "Reviewers", description: "Search and manage reviewer accounts.", to: "/admin/reviewers"},
 ];
 
 export default function AdminHome() {

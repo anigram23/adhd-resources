@@ -1,5 +1,17 @@
 import http from "@/api_service/httpClient.ts";
 
+export type AdminReviewer = {
+    id: number;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type AdminReviewerFilters = {
+    id?: string;
+    email?: string;
+};
+
 export async function register(credentials: {email: string, password: string, confirmPassword: string}) {
     const response = await http.post("/reviewer/register", credentials);
     return response.data;
@@ -29,5 +41,10 @@ export async function changePassword(
 
 export async function deleteReviewer(reviewerId: number) {
     const response = await http.delete(`/reviewer/${reviewerId}`);
+    return response.data;
+}
+
+export async function getReviewersForAdmin(filters: AdminReviewerFilters): Promise<AdminReviewer[]> {
+    const response = await http.get("/admin/reviewers", {params: filters});
     return response.data;
 }
