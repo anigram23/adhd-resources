@@ -45,9 +45,6 @@ backend/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# Ignore local Spring Boot property files
-backend/src/main/resources/application-local.properties
-
 # ========================
 # IDE Config Files
 # ========================
@@ -111,7 +108,4 @@ $RECYCLE.BIN/
 *.ntvs*
 *.njsproj
 *.sln
-
-CLAUDE.md
-AGENTS.md
 
