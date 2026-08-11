@@ -109,3 +109,6 @@ $RECYCLE.BIN/
 *.njsproj
 *.sln
 
+### Production env files
+frontend/.env.production
+
