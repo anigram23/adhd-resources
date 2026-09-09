@@ -1,8 +1,10 @@
 import {useQuery} from "@tanstack/react-query";
 import {useSearchParams} from "react-router";
 import {type AdminReviewerFilters, getReviewersForAdmin} from "@/api_service/reviewer.ts";
+import BanReviewerConfirmation from "@/components/admin/BanReviewerConfirmation.tsx";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
+import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import {
     Box,
     Button,
@@ -18,7 +20,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import type {SyntheticEvent} from "react";
-import {FiMail} from "react-icons/fi";
+import {FiAlertTriangle, FiMail} from "react-icons/fi";
 
 function hasAnyFilter(searchParams: URLSearchParams): boolean {
     return searchParams.has("id") || searchParams.has("email");
@@ -167,6 +169,21 @@ export default function AllUsers() {
                                             })}
                                         </Text>
                                     </Card.Body>
+
+                                    <Card.Footer pt={2}>
+                                        <HStack justify="flex-end" w="full">
+                                            <GenericDialog
+                                                component={({onClose}) => <BanReviewerConfirmation reviewerId={reviewer.id} reviewerEmail={reviewer.email} onClose={onClose} />}
+                                                title="Ban Reviewer?"
+                                                buttonText="Ban"
+                                                size={"sm" as never}
+                                                colorPalette="red"
+                                                variant="outline"
+                                                buttonSize="sm"
+                                                icon={<FiAlertTriangle/>}
+                                            />
+                                        </HStack>
+                                    </Card.Footer>
                                 </Card.Root>
                             </GridItem>
                         ))}
