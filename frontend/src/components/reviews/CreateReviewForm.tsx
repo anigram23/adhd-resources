@@ -27,7 +27,7 @@ import {FaRupeeSign} from "react-icons/fa";
 import {MdComputer} from "react-icons/md";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {useEditor} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { defaultEditorExtensions } from "@/components/ui/editor-extensions.ts";
 import {Control, RichTextEditor} from "@/components/ui/rich-text-editor.tsx";
 
 function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }) {
@@ -76,7 +76,7 @@ export default function CreateReviewForm(
     });
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: defaultEditorExtensions,
         content: form.content,
         onUpdate({ editor }) {
             setForm(prev => ({ ...prev, content: editor.getHTML() }));

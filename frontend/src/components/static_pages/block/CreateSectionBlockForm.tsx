@@ -5,7 +5,7 @@ import * as React from "react";
 import {Button, Field, FieldRequiredIndicator, HStack, NumberInput, Stack, Text} from "@chakra-ui/react";
 import {FiAlertCircle, FiEdit2} from "react-icons/fi";
 import {useEditor} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { defaultEditorExtensions } from "@/components/ui/editor-extensions.ts";
 import {Control, RichTextEditor} from "@/components/ui/rich-text-editor.tsx";
 
 
@@ -27,7 +27,7 @@ export default function CreateSectionBlockForm({ sectionId, slug, onSuccess }: {
     });
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: defaultEditorExtensions,
         content: form.content,
         onUpdate({ editor }) {
             setForm(prev => ({ ...prev, content: editor.getHTML() }));

@@ -5,7 +5,7 @@ import * as React from "react";
 import {Button, HStack, Stack, Text} from "@chakra-ui/react";
 import {FiAlertCircle, FiEdit2} from "react-icons/fi";
 import {useEditor} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { defaultEditorExtensions } from "@/components/ui/editor-extensions.ts";
 import { Control, RichTextEditor } from "@/components/ui/rich-text-editor.tsx"
 
 type SectionBlock = {
@@ -28,7 +28,7 @@ export default function EditSectionBlockForm({ block, slug, onSuccess } : { bloc
     });
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: defaultEditorExtensions,
         content: content,
         onUpdate( { editor }){
             setContent(editor.getHTML())

@@ -28,7 +28,7 @@ import {HiOfficeBuilding} from "react-icons/hi";
 import {FiAlertCircle, FiEdit2, FiInfo, FiPhone} from "react-icons/fi";
 import {FaRupeeSign} from "react-icons/fa";
 import {useEditor} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { defaultEditorExtensions } from "@/components/ui/editor-extensions.ts";
 import {Control, RichTextEditor} from "@/components/ui/rich-text-editor.tsx";
 
 function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }) {
@@ -65,7 +65,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
     });
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: defaultEditorExtensions,
         content: form.content,
         onUpdate({ editor }) {
             setForm(prev => ({ ...prev, content: editor.getHTML() }));
