@@ -8,7 +8,7 @@ export default function DeleteAccountConfirmation({
     userId,
     onClose,
 }: {
-    userId: number;
+    userId: string;
     onClose?: () => void;
 }) {
     const queryClient = useQueryClient();

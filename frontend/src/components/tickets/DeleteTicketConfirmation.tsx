@@ -3,7 +3,7 @@ import {deleteTicket} from "@/api_service/ticket.ts";
 import {Box, Button, HStack, Text, VStack} from "@chakra-ui/react";
 import {FiAlertCircle, FiAlertTriangle} from "react-icons/fi";
 
-export default function DeleteTicketConfirmation({ id, onClose }: { id: number; onClose?: () => void }) {
+export default function DeleteTicketConfirmation({ id, onClose }: { id: string; onClose?: () => void }) {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({

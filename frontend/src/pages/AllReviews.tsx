@@ -48,18 +48,18 @@ function toDateInputValue(iso: string | null): string {
     return iso.split("T")[0];
 }
 
-function toOptionalNumber(value: string | null): number | undefined {
+function toOptionalId(value: string | null): string | undefined {
     if (!value) return undefined;
 
-    const numberValue = Number(value);
-    return Number.isNaN(numberValue) ? undefined : numberValue;
+    const trimmed = value.trim();
+    return trimmed === "" ? undefined : trimmed;
 }
 
 function getAdminReviewFilters(searchParams: URLSearchParams): AdminReviewFilters {
     return {
-        id: toOptionalNumber(searchParams.get("id")),
-        reviewerId: toOptionalNumber(searchParams.get("reviewerId")),
-        professionalId: toOptionalNumber(searchParams.get("professionalId")),
+        id: toOptionalId(searchParams.get("id")),
+        reviewerId: toOptionalId(searchParams.get("reviewerId")),
+        professionalId: toOptionalId(searchParams.get("professionalId")),
         fromDate: searchParams.get("fromDate") || undefined,
         toDate: searchParams.get("toDate") || undefined,
     };

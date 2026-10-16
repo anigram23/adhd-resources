@@ -3,12 +3,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {deleteStaticPage} from "@/api_service/staticPages.ts";
 import {useNavigate} from "react-router";
 
-export default function DeleteStaticPageConfirmation({ pageId }: { pageId: number }) {
+export default function DeleteStaticPageConfirmation({ pageId }: { pageId: string }) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
     const mutation = useMutation({
-        mutationFn: (pageId: number) => deleteStaticPage(pageId),
+        mutationFn: (pageId: string) => deleteStaticPage(pageId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["staticPages"] });
             navigate("/admin/static-pages");

@@ -6,7 +6,7 @@ import * as React from "react";
 import {FiAlertCircle} from "react-icons/fi";
 
 
-export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }: { pageId: number, slug: string, onSuccess?: () => void }) {
+export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }: { pageId: string, slug: string, onSuccess?: () => void }) {
     const queryClient = useQueryClient();
 
     const [form, setForm] = useState({

@@ -40,7 +40,7 @@ export default function Reviews() {
 
     const {data, error, isPending, isError} = useQuery({
         queryKey: ["reviews", id],
-        queryFn: () => getReviewsForProfessional(id as unknown as number)
+        queryFn: () => getReviewsForProfessional(id as string)
     });
 
     if (isPending) return <FullPageLoader />;
@@ -98,7 +98,7 @@ export default function Reviews() {
                         { user ? (
                             <GenericDialog
                                 component={({ onClose }) => <CreateReviewForm
-                                    id={id as unknown as number}
+                                    id={id as string}
                                     city={null}
                                     professionalType={null}
                                     onClose={onClose}

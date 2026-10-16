@@ -19,7 +19,7 @@ export async function getProfessionalsByName(name: string) {
     return response.data;
 }
 
-export async function getReviewsForProfessional(id: number) {
+export async function getReviewsForProfessional(id: string) {
     const response = await http.get(`/professional/${id}/reviews`);
     return response.data;
 }

@@ -1,7 +1,7 @@
 import http from "@/api_service/httpClient.ts";
 
 export interface User {
-    id: number;
+    id: string;
     email: string;
     name: string;
     role: "ADMIN" | "REVIEWER";

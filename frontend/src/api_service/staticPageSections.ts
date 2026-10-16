@@ -1,6 +1,6 @@
 import http from "@/api_service/httpClient.ts";
 
-export async function createStaticPageSection(credentials: { staticPageId: number, title: string, orderIndex: number }) {
+export async function createStaticPageSection(credentials: { staticPageId: string, title: string, orderIndex: number }) {
     const response = await http.post("/static-page-section/", credentials);
     return response.data;
 }

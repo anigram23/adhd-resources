@@ -7,7 +7,7 @@ import {Button, Field, FieldRequiredIndicator, HStack, NativeSelect, Stack, Text
 import {FiAlertCircle} from "react-icons/fi";
 import type {TicketType} from "@/utils/types.ts";
 
-export default function CreateTicketForm({ reviewerId, onClose, review }: { reviewerId: number; onClose?: () => void; review?: number }) {
+export default function CreateTicketForm({ reviewerId, onClose, review }: { reviewerId: string; onClose?: () => void; review?: string }) {
     const queryClient = useQueryClient();
     const [ticketTypeId, setTicketTypeId] = useState(review ? 2 : "");
     const [content, setContent] = useState("");

@@ -43,7 +43,7 @@ function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }
 
 export default function CreateReviewForm(
     {id, professionalType, city, onClose}: {
-        id: number | null,
+        id: string | null,
         professionalType: string | null,
         city: string | null,
         onClose?: () => void,

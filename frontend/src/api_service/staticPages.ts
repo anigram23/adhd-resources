@@ -15,12 +15,12 @@ export async function getStaticPageBySlug(slug: string) {
     return response.data;
 }
 
-export async function updateStaticPage(id: number, credentials: {title: string, slug: string, active: boolean}) {
+export async function updateStaticPage(id: string, credentials: {title: string, slug: string, active: boolean}) {
     const response = await http.patch(`/static-page/${id}`, credentials);
     return response.data;
 }
 
-export async function deleteStaticPage(id: number) {
+export async function deleteStaticPage(id: string) {
     const response = await http.delete(`/static-page/${id}`);
     return response.data;
 }

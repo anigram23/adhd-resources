@@ -6,7 +6,7 @@ import * as React from "react";
 import {FiAlertCircle} from "react-icons/fi";
 
 export default function EditStaticPageForm (
-    { page }: { page: { id: number, title: string, slug: string, active: boolean } }
+    { page }: { page: { id: string, title: string, slug: string, active: boolean } }
 ) {
 
     const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ export default function EditStaticPageForm (
     });
 
     const mutation = useMutation({
-        mutationFn: ({ id, ...credentials }: { id: number, title: string, slug: string, active: boolean }) =>
+        mutationFn: ({ id, ...credentials }: { id: string, title: string, slug: string, active: boolean }) =>
             updateStaticPage(id, credentials),
         onSuccess: (data: {title: string, slug: string, active: boolean}) => {
             queryClient.setQueryData(["staticPage", page.slug], (oldData: {sections: unknown[]}) => ({

@@ -5,7 +5,7 @@ type CreateReviewData = {
     professionalName: string | null,
     professionalTypeTitle: string | null,
     cityName: string | null,
-    professionalId: number | null,
+    professionalId: string | null,
     doesOnlineConsultations: boolean,
     contactNumber: string,
     address: string,
@@ -26,9 +26,9 @@ type UpdateReviewData = {
 }
 
 export type AdminReviewFilters = {
-    id?: number;
-    reviewerId?: number;
-    professionalId?: number;
+    id?: string;
+    reviewerId?: string;
+    professionalId?: string;
     fromDate?: string;
     toDate?: string;
 };
@@ -43,12 +43,12 @@ export async function createReview(reviewDetails: CreateReviewData){
     return response.data;
 }
 
-export async function editReview(id: number, reviewDetails: UpdateReviewData){
+export async function editReview(id: string, reviewDetails: UpdateReviewData){
     const response = await http.patch(`/review/${id}`, reviewDetails);
     return response.data;
 }
 
-export async function deleteReview(id: number){
+export async function deleteReview(id: string){
     const response = await http.delete(`/review/${id}`);
     return response.data;
 }

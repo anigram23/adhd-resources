@@ -9,8 +9,8 @@ export default function DeleteReviewConfirmation({
     onClose,
     afterSuccess,
 }: {
-    id: number;
-    professionalId: number;
+    id: string;
+    professionalId: string;
     onClose?: () => void;
     afterSuccess?: () => void;
 }) {

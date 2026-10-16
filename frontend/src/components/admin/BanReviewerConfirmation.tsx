@@ -8,7 +8,7 @@ export default function BanReviewerConfirmation({
     reviewerEmail,
     onClose,
 }: {
-    reviewerId: number;
+    reviewerId: string;
     reviewerEmail: string;
     onClose?: () => void;
 }) {

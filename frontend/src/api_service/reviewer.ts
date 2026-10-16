@@ -1,7 +1,7 @@
 import http from "@/api_service/httpClient.ts";
 
 export type AdminReviewer = {
-    id: number;
+    id: string;
     email: string;
     createdAt: string;
     updatedAt: string;
@@ -27,7 +27,7 @@ export async function reviewerLogout() {
     return response.data;
 }
 
-export async function getReviewsByReviewer(reviewerId: number) {
+export async function getReviewsByReviewer(reviewerId: string) {
     const response = await http.get(`/reviewer/${reviewerId}/reviews`);
     return response.data;
 }
@@ -39,7 +39,7 @@ export async function changePassword(
     return response.data;
 }
 
-export async function deleteReviewer(reviewerId: number) {
+export async function deleteReviewer(reviewerId: string) {
     const response = await http.delete(`/reviewer/${reviewerId}`);
     return response.data;
 }

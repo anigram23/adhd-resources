@@ -80,7 +80,7 @@ export default function AllStaticPages() {
                                                 icon={<FiEdit2/>}
                                             />
                                             <GenericDialog
-                                                component={() => <DeleteStaticPageConfirmation pageId={page.id as number}/>}
+                                                component={() => <DeleteStaticPageConfirmation pageId={page.id as string}/>}
                                                 title="Are you sure you want to delete this page?"
                                                 buttonText="Delete"
                                                 size={"md" as never}
