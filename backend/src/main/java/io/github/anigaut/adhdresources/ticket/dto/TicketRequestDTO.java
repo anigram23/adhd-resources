@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,10 +19,10 @@ public class TicketRequestDTO {
     private Integer ticketTypeId;
 
     @NotNull(message = "Reviewer ID is required")
-    private Integer reviewerId;
+    private UUID reviewerId;
 
     @NotBlank(message = "Content is required")
     private String content;
 
-    private Integer reviewId;
+    private UUID reviewId;
 }

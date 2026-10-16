@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PublicReviewResponseDTO {
-    private int id;
+    private UUID id;
     private ProfessionalResponseDTO professional;
     private String content;
     private float rating;

@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/professional")
@@ -31,7 +32,7 @@ public class ProfessionalController {
 
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForProfessional(
-            @PathVariable int id,
+            @PathVariable UUID id,
             Authentication authentication) {
         String callerEmail = authentication != null ? authentication.getName() : null;
         return ResponseEntity.ok(reviewService.getReviewsByProfessionalId(id, callerEmail));

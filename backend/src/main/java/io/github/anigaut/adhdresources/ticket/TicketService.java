@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class TicketService {
         return ticketMapper.toResponseDTO(ticketRepository.save(ticket));
     }
 
-    public List<TicketResponseDTO> getTickets(Constants.TicketStatus status, Integer reviewerId) {
+    public List<TicketResponseDTO> getTickets(Constants.TicketStatus status, UUID reviewerId) {
         List<Ticket> tickets;
         if (status != null && reviewerId != null) {
             tickets = ticketRepository.findByStatusAndReviewerId(status, reviewerId);
@@ -70,14 +71,14 @@ public class TicketService {
         return ticketMapper.toResponseDTOList(tickets);
     }
 
-    public TicketResponseDTO getTicketById(int id) {
+    public TicketResponseDTO getTicketById(UUID id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A ticket with this ID doesn't exist."));
         return ticketMapper.toResponseDTO(ticket);
     }
 
     @Transactional
-    public TicketResponseDTO updateTicket(int id, TicketUpdateDTO updateDTO) {
+    public TicketResponseDTO updateTicket(UUID id, TicketUpdateDTO updateDTO) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A ticket with this ID doesn't exist."));
         ticketMapper.updateTicketFromDTO(updateDTO, ticket);
@@ -85,7 +86,7 @@ public class TicketService {
     }
 
     @Transactional
-    public void deleteTicket(int id, String callerEmail) {
+    public void deleteTicket(UUID id, String callerEmail) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A ticket with this ID doesn't exist."));
 

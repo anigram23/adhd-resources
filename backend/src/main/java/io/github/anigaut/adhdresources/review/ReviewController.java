@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/review")
@@ -21,9 +22,9 @@ public class ReviewController {
 
     @GetMapping("/reviews-for-admin")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsForAdmin(
-            @RequestParam(required = false) Integer id,
-            @RequestParam(required = false) Integer reviewerId,
-            @RequestParam(required = false) Integer professionalId,
+            @RequestParam(required = false) UUID id,
+            @RequestParam(required = false) UUID reviewerId,
+            @RequestParam(required = false) UUID professionalId,
             @RequestParam(required = false) Instant fromDate,
             @RequestParam(required = false) Instant toDate) {
         return ResponseEntity
@@ -42,7 +43,7 @@ public class ReviewController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ReviewResponseDTO> updateReview(
-            @PathVariable int id,
+            @PathVariable UUID id,
             @Valid @RequestBody ReviewUpdateDTO reviewUpdateDTO,
             @AuthenticationPrincipal String reviewerEmail) {
         return ResponseEntity
@@ -52,7 +53,7 @@ public class ReviewController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteReview(
-            @PathVariable int id,
+            @PathVariable UUID id,
             @AuthenticationPrincipal String userEmail) {
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class StaticPageSectionService {
         return staticPageSectionMapper.toDto(newSection);
     }
 
-    public List<StaticPageSectionResponseDTO> findAllSectionsInPage(int staticPageId) {
+    public List<StaticPageSectionResponseDTO> findAllSectionsInPage(UUID staticPageId) {
         if (!staticPageRepository.existsById(staticPageId)) {
             throw new HttpException(
                     HttpStatus.NOT_FOUND,

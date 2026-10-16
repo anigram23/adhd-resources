@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StaticPageService {
@@ -53,7 +54,7 @@ public class StaticPageService {
     }
 
     @Transactional
-    public StaticPageResponseDTO updateStaticPage(int id,  StaticPageRequestDTO staticPageRequestDTO) {
+    public StaticPageResponseDTO updateStaticPage(UUID id,  StaticPageRequestDTO staticPageRequestDTO) {
         StaticPage staticPage = staticPageRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A page with this ID doesn't exist."));
 
@@ -62,7 +63,7 @@ public class StaticPageService {
     }
 
     @Transactional
-    public String deleteStaticPage(int id) {
+    public String deleteStaticPage(UUID id) {
         StaticPage staticPage = staticPageRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A page with this ID doesn't exist."));
 

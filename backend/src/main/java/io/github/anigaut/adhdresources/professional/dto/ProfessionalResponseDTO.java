@@ -7,12 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfessionalResponseDTO {
-    private int id;
+    private UUID id;
     private String name;
     private String slug;
     private ProfessionalTypeResponseDTO professionalType;

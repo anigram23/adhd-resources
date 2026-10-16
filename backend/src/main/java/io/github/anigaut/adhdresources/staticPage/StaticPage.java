@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "static_page")
@@ -35,9 +36,9 @@ import java.util.Set;
 )
 public class StaticPage {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private int id;
+    private UUID id;
 
     @NotNull
     @Column(name = "slug", unique = true)
@@ -47,7 +48,7 @@ public class StaticPage {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_active", columnDefinition = "boolean not null default false")
+    @Column(name = "is_active", nullable = false)
     private boolean active = false;
 
     @OneToMany(mappedBy = "staticPage", cascade = CascadeType.ALL, orphanRemoval = true)

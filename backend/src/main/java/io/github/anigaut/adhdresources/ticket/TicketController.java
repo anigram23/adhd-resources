@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/ticket")
@@ -26,12 +27,12 @@ public class TicketController {
     @GetMapping("/")
     public ResponseEntity<List<TicketResponseDTO>> getTickets(
             @RequestParam(required = false) Constants.TicketStatus status,
-            @RequestParam(required = false) Integer reviewerId) {
+            @RequestParam(required = false) UUID reviewerId) {
         return ResponseEntity.status(HttpStatus.OK).body(ticketService.getTickets(status, reviewerId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketResponseDTO> getTicketById(@PathVariable int id) {
+    public ResponseEntity<TicketResponseDTO> getTicketById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(ticketService.getTicketById(id));
     }
 
@@ -42,14 +43,14 @@ public class TicketController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<TicketResponseDTO> updateTicket(
-            @PathVariable int id,
+            @PathVariable UUID id,
             @Valid @RequestBody TicketUpdateDTO updateDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(ticketService.updateTicket(id, updateDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTicket(
-            @PathVariable int id,
+            @PathVariable UUID id,
             @AuthenticationPrincipal String callerEmail) {
         ticketService.deleteTicket(id, callerEmail);
         return ResponseEntity.status(HttpStatus.OK).body("Ticket with id " + id + " deleted successfully.");

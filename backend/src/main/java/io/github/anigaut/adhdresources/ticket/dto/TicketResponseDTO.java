@@ -10,13 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketResponseDTO {
-    private int id;
+    private UUID id;
     private TicketTypeResponseDTO ticketType;
     private UserDetailsDTO reviewer;
     private PublicReviewResponseDTO review;

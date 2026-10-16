@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class ReviewService {
     private final ProfessionalService professionalService;
     private final AdminRepository adminRepository;
 
-    public List<PublicReviewResponseDTO> getReviewsByProfessionalId(int professionalId, String callerEmail) {
+    public List<PublicReviewResponseDTO> getReviewsByProfessionalId(UUID professionalId, String callerEmail) {
         if (!professionalRepository.existsById(professionalId)) {
             throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Professional You Are Looking For. Please Try Again.");
         }
@@ -47,7 +48,7 @@ public class ReviewService {
                 .toList();
     }
 
-    public List<PublicReviewResponseDTO> getReviewsByReviewerId(int reviewerId) {
+    public List<PublicReviewResponseDTO> getReviewsByReviewerId(UUID reviewerId) {
         if (!reviewerRepository.existsById(reviewerId)) {
             throw new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Reviewer You Are Looking For.");
         }
@@ -63,9 +64,9 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDTO> getReviewsForAdmin(
-            Integer id,
-            Integer reviewerId,
-            Integer professionalId,
+            UUID id,
+            UUID reviewerId,
+            UUID professionalId,
             Instant fromDate,
             Instant toDate
     ) {
@@ -127,7 +128,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDTO updateReview(int id, ReviewUpdateDTO reviewUpdateDTO, String reviewerEmail) {
+    public ReviewResponseDTO updateReview(UUID id, ReviewUpdateDTO reviewUpdateDTO, String reviewerEmail) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 
@@ -142,7 +143,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public String deleteReview(int id, String userEmail) {
+    public String deleteReview(UUID id, String userEmail) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Could Not Find The Review You Are Looking For."));
 

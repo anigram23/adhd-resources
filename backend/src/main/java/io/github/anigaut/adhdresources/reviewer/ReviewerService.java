@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +68,7 @@ public class ReviewerService {
     }
 
     @Transactional
-    public String deleteReviewer(int id, String userEmail) {
+    public String deleteReviewer(UUID id, String userEmail) {
         Reviewer reviewer = reviewerRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Reviewer Not Found"));
 

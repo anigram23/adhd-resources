@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/static-page-section")
@@ -30,7 +31,7 @@ public class StaticPageSectionController {
     }
 
     @GetMapping("/{pageId}")
-    public ResponseEntity<List<StaticPageSectionResponseDTO>> findAllSectionsInPage(@PathVariable int pageId) {
+    public ResponseEntity<List<StaticPageSectionResponseDTO>> findAllSectionsInPage(@PathVariable UUID pageId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(staticPageSectionService.findAllSectionsInPage(pageId));

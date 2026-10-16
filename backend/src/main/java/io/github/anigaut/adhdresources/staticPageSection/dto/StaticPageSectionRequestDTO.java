@@ -7,13 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StaticPageSectionRequestDTO {
     @NotNull(message = "Please specify the ID of the page this section belongs to")
-    private Integer staticPageId;
+    private UUID staticPageId;
 
     @NotBlank(message = "Title is required")
     private String title;

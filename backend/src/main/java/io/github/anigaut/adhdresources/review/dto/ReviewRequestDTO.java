@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class ReviewRequestDTO {
 
     private String cityName;
 
-    private Integer professionalId;
+    private UUID professionalId;
 
     @NotNull(message = "Please mention if this professional offers online consultations")
     private boolean doesOnlineConsultations;

@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -42,14 +43,14 @@ public class ReviewerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteReviewer(
-            @PathVariable int id,
+            @PathVariable UUID id,
             @AuthenticationPrincipal String userEmail) {
         return ResponseEntity.status(HttpStatus.OK).body(reviewerService.deleteReviewer(id, userEmail));
     }
 
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForReviewer(@PathVariable int id) {
+    public ResponseEntity<List<PublicReviewResponseDTO>> getReviewsForReviewer(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReviewsByReviewerId(id));
     }
 

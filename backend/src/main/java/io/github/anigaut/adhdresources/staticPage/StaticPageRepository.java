@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface StaticPageRepository extends JpaRepository<StaticPage, Integer> {
+public interface StaticPageRepository extends JpaRepository<StaticPage, UUID> {
     boolean existsBySlug(String slug);
 
     List<StaticPage> findAllByOrderByCreatedAtAsc();

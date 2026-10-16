@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/static-page")
@@ -37,12 +38,12 @@ public class StaticPageController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<StaticPageResponseDTO> updateStaticPage(@PathVariable int id, @RequestBody StaticPageRequestDTO staticPageRequestDTO) {
+    public ResponseEntity<StaticPageResponseDTO> updateStaticPage(@PathVariable UUID id, @RequestBody StaticPageRequestDTO staticPageRequestDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(staticPageService.updateStaticPage(id, staticPageRequestDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStaticPage(@PathVariable int id) {
+    public ResponseEntity<String> deleteStaticPage(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(staticPageService.deleteStaticPage(id));
     }
 }
