@@ -223,3 +223,5 @@ INSERT INTO city (id, name, state_id) VALUES
 
 -- Puducherry
 (153, 'Puducherry', 36);
+
+SELECT setval('city_seq', (SELECT MAX(id) FROM city));

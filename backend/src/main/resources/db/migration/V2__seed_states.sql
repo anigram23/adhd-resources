@@ -35,3 +35,5 @@ INSERT INTO state (id, name) VALUES
      (34, 'Ladakh'),
      (35, 'Lakshadweep'),
      (36, 'Puducherry');
+
+SELECT setval('state_seq', (SELECT MAX(id) FROM state));
