@@ -20,6 +20,9 @@ public class StaticPageSectionRequestDTO {
     @NotBlank(message = "Title is required")
     private String title;
 
+    @NotBlank(message = "Content is required")
+    private String content;
+
     @NotNull(message = "Order index is missing")
     private Integer orderIndex;
 }

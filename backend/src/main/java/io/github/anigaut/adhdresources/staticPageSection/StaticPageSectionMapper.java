@@ -12,16 +12,16 @@ public interface StaticPageSectionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "staticPage", source = "staticPage")
     @Mapping(target = "title", source = "dto.title")
+    @Mapping(target = "content", source = "dto.content")
     @Mapping(target = "orderIndex", source = "dto.orderIndex")
     StaticPageSection toEntity(StaticPageSectionRequestDTO dto, StaticPage staticPage);
 
-    @Mapping(target = "sectionBlocks", ignore = true)
     StaticPageSectionResponseDTO toDto(StaticPageSection section);
 
     List<StaticPageSectionResponseDTO> toDtoList(List<StaticPageSection> sections);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntity(StaticPageSectionTitleUpdateDTO dto, @MappingTarget StaticPageSection section);
+    void updateEntity(StaticPageSectionUpdateDTO dto, @MappingTarget StaticPageSection section);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(StaticPageSectionOrderUpdateDTO dto, @MappingTarget StaticPageSection section);

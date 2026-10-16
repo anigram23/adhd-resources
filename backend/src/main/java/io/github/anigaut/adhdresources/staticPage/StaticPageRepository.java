@@ -12,6 +12,6 @@ public interface StaticPageRepository extends JpaRepository<StaticPage, UUID> {
 
     List<StaticPage> findAllByOrderByCreatedAtAsc();
 
-    @EntityGraph(value = "StaticPage.withSectionsAndBlocks")
-    Optional<StaticPage> findWithSectionsAndBlocksBySlug(String slug);
+    @EntityGraph(value = "StaticPage.withSections")
+    Optional<StaticPage> findWithSectionsBySlug(String slug);
 }

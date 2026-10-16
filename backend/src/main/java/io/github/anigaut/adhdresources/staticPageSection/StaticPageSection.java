@@ -1,15 +1,12 @@
 package io.github.anigaut.adhdresources.staticPageSection;
 
 import io.github.anigaut.adhdresources.staticPage.StaticPage;
-import io.github.anigaut.adhdresources.sectionBlock.SectionBlock;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "static_page_section")
@@ -33,10 +30,10 @@ public class StaticPageSection {
     private String title;
 
     @NotNull
+    @Column(name = "content", columnDefinition = "TEXT")
+    private String content = "";
+
+    @NotNull
     @Column(name = "order_index")
     private int orderIndex;
-
-    @OneToMany(mappedBy = "staticPageSection", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("orderIndex ASC")
-    private Set<SectionBlock> sectionBlocks;
 }

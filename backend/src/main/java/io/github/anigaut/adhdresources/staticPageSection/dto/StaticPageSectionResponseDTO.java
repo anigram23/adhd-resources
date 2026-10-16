@@ -1,12 +1,9 @@
 package io.github.anigaut.adhdresources.staticPageSection.dto;
 
-import io.github.anigaut.adhdresources.sectionBlock.dto.SectionBlockResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,6 +12,6 @@ import java.util.List;
 public class StaticPageSectionResponseDTO {
     private int id;
     private String title;
+    private String content;
     private int orderIndex;
-    private List<SectionBlockResponseDTO> sectionBlocks;
 }

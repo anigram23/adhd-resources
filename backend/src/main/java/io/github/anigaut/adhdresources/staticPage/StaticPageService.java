@@ -38,7 +38,7 @@ public class StaticPageService {
     }
 
     public StaticPageResponseDTO findStaticPageBySlug(String slug) {
-        StaticPage staticPage = staticPageRepository.findWithSectionsAndBlocksBySlug(slug)
+        StaticPage staticPage = staticPageRepository.findWithSectionsBySlug(slug)
                 .orElseThrow(
                         () -> new HttpException(
                                 HttpStatus.NOT_FOUND,

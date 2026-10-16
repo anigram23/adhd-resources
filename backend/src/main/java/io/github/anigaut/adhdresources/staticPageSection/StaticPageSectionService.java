@@ -64,7 +64,7 @@ public class StaticPageSectionService {
     }
 
     @Transactional
-    public StaticPageSectionResponseDTO updateStaticPageSectionTitle(int id, StaticPageSectionTitleUpdateDTO dto) {
+    public StaticPageSectionResponseDTO updateStaticPageSection(int id, StaticPageSectionUpdateDTO dto) {
         StaticPageSection section = staticPageSectionRepository.findById(id)
                 .orElseThrow(
                         () -> new HttpException(

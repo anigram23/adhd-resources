@@ -71,7 +71,6 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.PATCH, "/static-page-section/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/static-page-section/**").hasRole("ADMIN")
 
-                    .requestMatchers("/section-block/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

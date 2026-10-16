@@ -21,17 +21,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @NamedEntityGraph(
-        name = "StaticPage.withSectionsAndBlocks",
+        name = "StaticPage.withSections",
         attributeNodes = {
-                @NamedAttributeNode(value = "sections", subgraph = "sections-subgraph")
-        },
-        subgraphs = {
-                @NamedSubgraph(
-                        name = "sections-subgraph",
-                        attributeNodes = {
-                                @NamedAttributeNode("sectionBlocks")
-                        }
-                )
+                @NamedAttributeNode("sections")
         }
 )
 public class StaticPage {
