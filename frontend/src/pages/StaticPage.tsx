@@ -8,8 +8,7 @@ import {BsBookmark} from "react-icons/bs";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import {Prose} from "@/components/ui/prose.tsx";
 
-type SectionBlock = { id: Key; content: string; orderIndex: number };
-type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
+type Section = { id: Key; title: string; content: string; orderIndex: number };
 
 export default function StaticPage() {
     const { slug } = useParams();
@@ -59,18 +58,13 @@ export default function StaticPage() {
                             </HStack>
 
                             <Box pl={7}>
-                                <VStack gap={4} align="stretch">
-                                    {section.sectionBlocks.map((block: SectionBlock) => (
-                                        <Prose
-                                            key={block.id}
-                                            size="lg"
-                                            color="gray.700"
-                                            lineHeight="1.8"
-                                            maxW="none"
-                                            dangerouslySetInnerHTML={{ __html: block.content }}
-                                        />
-                                    ))}
-                                </VStack>
+                                <Prose
+                                    size="lg"
+                                    color="gray.700"
+                                    lineHeight="1.8"
+                                    maxW="none"
+                                    dangerouslySetInnerHTML={{ __html: section.content }}
+                                />
                             </Box>
 
                             {index < data.sections.length - 1 && (

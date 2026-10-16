@@ -1,11 +1,11 @@
 import http from "@/api_service/httpClient.ts";
 
-export async function createStaticPageSection(credentials: { staticPageId: string, title: string, orderIndex: number }) {
+export async function createStaticPageSection(credentials: { staticPageId: string, title: string, content: string, orderIndex: number }) {
     const response = await http.post("/static-page-section/", credentials);
     return response.data;
 }
 
-export async function updateStaticPageSection(id: number, credentials: { title: string }) {
+export async function updateStaticPageSection(id: number, credentials: { title: string, content: string }) {
     const response = await http.patch(`/static-page-section/${id}`, credentials);
     return response.data;
 }

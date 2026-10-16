@@ -1,4 +1,4 @@
-import {Box, Button, Collapsible, HStack, Tabs, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Collapsible, HStack, Tabs, VStack} from "@chakra-ui/react";
 import {useQuery} from "@tanstack/react-query";
 import {getStaticPageBySlug} from "@/api_service/staticPages.ts"
 import FullPageLoader from "@/components/utils/FullPageLoader"
@@ -8,17 +8,12 @@ import CreateStaticPageSectionForm from "./section/CreateStaticPageSectionForm.t
 import type {Key} from "react";
 import {useState} from "react";
 import EditStaticPageSectionForm from "./section/EditStaticPageSectionForm.tsx";
-import CreateSectionBlockForm from "./block/CreateSectionBlockForm.tsx";
-import EditSectionBlockForm from "./block/EditSectionBlockForm.tsx";
 import DeleteStaticPageSectionConfirmation from "./section/DeleteStaticPageSectionConfirmation.tsx";
-import DeleteSectionBlockConfirmation from "./block/DeleteSectionBlockConfirmation.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ReorderStaticPageSectionsForm from "./section/ReorderStaticPageSectionsForm.tsx";
-import ReorderSectionBlocksForm from "./block/ReorderSectionBlocksForm.tsx";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 
-type SectionBlock = { id: Key; content: string; orderIndex: number };
-type Section = { id: Key; title: string; orderIndex: number; sectionBlocks: SectionBlock[] };
+type Section = { id: Key; title: string; content: string; orderIndex: number };
 
 function toggleId(set: Set<Key>, id: Key): Set<Key> {
     const next = new Set(set);
@@ -43,9 +38,12 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
     const [openSectionIds, setOpenSectionIds] = useState<Set<Key>>(new Set());
     const [reorderSectionsOpen, setReorderSectionsOpen] = useState(false);
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
-    const [openBlockIds, setOpenBlockIds] = useState<Set<Key>>(new Set());
-    const [openReorderBlockSectionIds, setOpenReorderBlockSectionIds] = useState<Set<Key>>(new Set());
-    const [openCreateBlockSectionIds, setOpenCreateBlockSectionIds] = useState<Set<Key>>(new Set());
+    const [createSectionCount, setCreateSectionCount] = useState(0);
+
+    // Remount key: refreshes section forms whenever the page data changes (create/edit/reorder).
+    const sectionsKey = data.sections
+        .map((s: Section) => `${s.id}:${s.title}:${s.content}:${s.orderIndex}`)
+        .join("|");
 
     if (isPending) return <FullPageLoader/>;
 
@@ -58,7 +56,6 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
             <Tabs.List>
                 <Tabs.Trigger value="page-details">Page Details</Tabs.Trigger>
                 <Tabs.Trigger value="sections">Sections</Tabs.Trigger>
-                <Tabs.Trigger value="blocks">Section Blocks</Tabs.Trigger>
             </Tabs.List>
 
             <Tabs.Content value="page-details">
@@ -105,9 +102,11 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                                 <Collapsible.Content>
                                     <Box p={4}>
                                         <EditStaticPageSectionForm
+                                            key={`edit:${sectionsKey}`}
                                             section={{
                                                 id: section.id as number,
                                                 title: section.title,
+                                                content: section.content,
                                             }}
                                             slug={slug}
                                             onSuccess={() => setOpenSectionIds(prev => removeId(prev, section.id))}
@@ -130,6 +129,7 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                         <Collapsible.Content>
                             <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
                                 <ReorderStaticPageSectionsForm
+                                    key={`reorder:${sectionsKey}`}
                                     sections={data.sections.map((s: Section) => ({
                                         id: s.id as number,
                                         title: s.title,
@@ -154,118 +154,17 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
                         <Collapsible.Content>
                             <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
                                 <CreateStaticPageSectionForm
+                                    key={createSectionCount}
                                     pageId={data.id}
                                     slug={slug}
-                                    onSuccess={() => setCreateSectionOpen(false)}
+                                    onSuccess={() => {
+                                        setCreateSectionOpen(false);
+                                        setCreateSectionCount(prev => prev + 1);
+                                    }}
                                 />
                             </Box>
                         </Collapsible.Content>
                     </Collapsible.Root>
-                </VStack>
-            </Tabs.Content>
-
-            <Tabs.Content value="blocks">
-                <VStack gap={4} align="stretch" mt={4}>
-                    {data.sections.map((section: Section) => (
-                        <Box key={section.id} borderWidth={1} borderColor="blue.100" borderRadius="md" overflow="hidden">
-                            <Box px={4} py={3} bg="blue.50" borderBottom="1px solid" borderColor="blue.100">
-                                <Text fontWeight="semibold" color="blue.900" fontSize="sm">
-                                    {section.title}
-                                </Text>
-                            </Box>
-                            <VStack gap={2} align="stretch" p={3}>
-                                {section.sectionBlocks?.map((block: SectionBlock) => (
-                                    <Collapsible.Root
-                                        key={block.id}
-                                        open={openBlockIds.has(block.id)}
-                                        onOpenChange={() => setOpenBlockIds(prev => toggleId(prev, block.id))}
-                                    >
-                                        <Box borderWidth={1} borderColor="gray.200" borderRadius="md" overflow="hidden">
-                                            <HStack px={3} py={2} bg="gray.50" justify="space-between" align="center">
-                                                <Collapsible.Trigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        flex={1}
-                                                        justifyContent="flex-start"
-                                                        color="gray.700"
-                                                    >
-                                                        Block {block.orderIndex}
-                                                    </Button>
-                                                </Collapsible.Trigger>
-                                                <GenericDialog
-                                                    component={() => <DeleteSectionBlockConfirmation
-                                                        blockId={block.id as number}
-                                                        slug={slug}
-                                                        onCancel={() => {}}
-                                                    />}
-                                                    title="Are you sure you want to delete this block?"
-                                                    buttonText="Delete"
-                                                    size={"md" as never}
-                                                    colorPalette="red"
-                                                    variant="subtle"
-                                                    buttonSize="sm"
-                                                    icon={<FiTrash2/>}
-                                                />
-                                            </HStack>
-                                            <Collapsible.Content>
-                                                <Box p={4}>
-                                                    <EditSectionBlockForm
-                                                        block={block}
-                                                        slug={slug}
-                                                        onSuccess={() => setOpenBlockIds(prev => removeId(prev, block.id))}
-                                                    />
-                                                </Box>
-                                            </Collapsible.Content>
-                                        </Box>
-                                    </Collapsible.Root>
-                                ))}
-
-                                <Collapsible.Root
-                                    open={openReorderBlockSectionIds.has(section.id)}
-                                    onOpenChange={() => setOpenReorderBlockSectionIds(prev => toggleId(prev, section.id))}
-                                >
-                                    <Collapsible.Trigger asChild>
-                                        <Button colorPalette="blue" variant="outline" size="sm">
-                                            <FiList/> Reorder Blocks
-                                        </Button>
-                                    </Collapsible.Trigger>
-                                    <Collapsible.Content>
-                                        <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
-                                            <ReorderSectionBlocksForm
-                                                blocks={section.sectionBlocks?.map((b: SectionBlock) => ({
-                                                    id: b.id as number,
-                                                    orderIndex: b.orderIndex,
-                                                })) ?? []}
-                                                slug={slug}
-                                                onSuccess={() => setOpenReorderBlockSectionIds(prev => removeId(prev, section.id))}
-                                            />
-                                        </Box>
-                                    </Collapsible.Content>
-                                </Collapsible.Root>
-
-                                <Collapsible.Root
-                                    open={openCreateBlockSectionIds.has(section.id)}
-                                    onOpenChange={() => setOpenCreateBlockSectionIds(prev => toggleId(prev, section.id))}
-                                >
-                                    <Collapsible.Trigger asChild>
-                                        <Button colorPalette="blue" size="sm">
-                                            <FiPlus/> Create New Block
-                                        </Button>
-                                    </Collapsible.Trigger>
-                                    <Collapsible.Content>
-                                        <Box p={4} borderWidth={1} borderColor="gray.200" borderRadius="md" mt={2}>
-                                            <CreateSectionBlockForm
-                                                sectionId={section.id as number}
-                                                slug={slug}
-                                                onSuccess={() => setOpenCreateBlockSectionIds(prev => removeId(prev, section.id))}
-                                            />
-                                        </Box>
-                                    </Collapsible.Content>
-                                </Collapsible.Root>
-                            </VStack>
-                        </Box>
-                    ))}
                 </VStack>
             </Tabs.Content>
         </Tabs.Root>
