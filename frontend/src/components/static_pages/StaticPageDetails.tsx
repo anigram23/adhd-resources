@@ -40,16 +40,16 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
     const [createSectionCount, setCreateSectionCount] = useState(0);
 
-    // Remount key: refreshes section forms whenever the page data changes (create/edit/reorder).
-    const sectionsKey = data.sections
-        .map((s: Section) => `${s.id}:${s.title}:${s.content}:${s.orderIndex}`)
-        .join("|");
-
     if (isPending) return <FullPageLoader/>;
 
     if (isError) {
         return <ErrorDisplay message={error.message} />;
     }
+
+    // Remount key: refreshes section forms whenever the page data changes (create/edit/reorder).
+    const sectionsKey = data.sections
+        .map((s: Section) => `${s.id}:${s.title}:${s.content}:${s.orderIndex}`)
+        .join("|");
 
     return (
         <Tabs.Root defaultValue="page-details">
