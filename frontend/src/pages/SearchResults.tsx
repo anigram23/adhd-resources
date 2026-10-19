@@ -66,10 +66,7 @@ export default function SearchResults() {
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
                                     <Card.Header flex={1}>
                                         <Card.Title color="gray.800" fontWeight="semibold">
-                                            <Flex gap={1}>
-                                                {professional.professionalType.doctor && <span>Dr.</span>}
-                                                {professional.name}
-                                            </Flex>
+                                            {professional.name}
                                         </Card.Title>
                                         <Card.Description>
                                             <Flex gap={1} align="center">

@@ -1,5 +1,5 @@
 import {useSearchParams} from "react-router";
-import {Box, Button, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Card, Container, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import getAllProfessionals from "@/api_service/professional.ts";
@@ -98,7 +98,7 @@ export default function Professionals() {
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
                                     <Card.Header flex={1}>
                                         <Card.Title color="gray.800" fontWeight="semibold">
-                                            <Flex gap={1}>{professional.professionalType.doctor && (<div>Dr.</div>)}{professional.name}</Flex>
+                                            {professional.name}
                                         </Card.Title>
                                     </Card.Header>
                                     <Card.Footer pt={2}>
