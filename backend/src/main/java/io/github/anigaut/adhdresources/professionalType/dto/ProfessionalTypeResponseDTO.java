@@ -12,7 +12,4 @@ import lombok.Setter;
 public class ProfessionalTypeResponseDTO {
     private int id;
     private String title;
-    private boolean doctor;
-    private boolean canDiagnose;
-    private boolean canPrescribeMeds;
 }

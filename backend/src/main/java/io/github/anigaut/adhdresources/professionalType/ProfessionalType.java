@@ -26,18 +26,6 @@ public class ProfessionalType {
     @Column(name = "title", unique = true)
     private String title;
 
-    @NotNull
-    @Column(name = "is_doctor")
-    private boolean doctor;
-
-    @NotNull
-    @Column(name = "can_diagnose")
-    private boolean canDiagnose;
-
-    @NotNull
-    @Column(name = "can_prescribe_meds")
-    private boolean canPrescribeMeds;
-
     @OneToMany(mappedBy = "professionalType", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Professional> professionals;
 }
