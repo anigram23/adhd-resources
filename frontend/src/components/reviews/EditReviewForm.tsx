@@ -7,6 +7,7 @@ import {
     Badge,
     Box,
     Button,
+    Checkbox,
     Field,
     FieldRequiredIndicator,
     Grid,
@@ -26,7 +27,7 @@ import {
 import {MdComputer} from "react-icons/md";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {FiAlertCircle, FiEdit2, FiInfo, FiPhone} from "react-icons/fi";
-import {FaRupeeSign} from "react-icons/fa";
+import {FaRupeeSign, FaStethoscope} from "react-icons/fa";
 import {useEditor} from "@tiptap/react";
 import { defaultEditorExtensions } from "@/components/ui/editor-extensions.ts";
 import {Control, RichTextEditor} from "@/components/ui/rich-text-editor.tsx";
@@ -51,6 +52,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
         consultationFee: review.consultationFee,
         address: review.address,
         diagnosisFee: review.diagnosisFee,
+        wasDiagnosed: review.wasDiagnosed,
         content: review.content,
         rating: review.rating
     });
@@ -103,6 +105,23 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                                 </HStack>
                             </HStack>
                         </Switch.Root>
+
+                        <Separator borderColor="blue.100" />
+
+                        <Checkbox.Root
+                            colorPalette="blue"
+                            checked={form.wasDiagnosed}
+                            onCheckedChange={(e) => setForm({...form, wasDiagnosed: !!e.checked})}
+                        >
+                            <Checkbox.HiddenInput />
+                            <Checkbox.Control />
+                            <HStack gap={2}>
+                                <Box color="blue.400"><FaStethoscope size={14} /></Box>
+                                <Checkbox.Label color="gray.700" fontSize="sm">
+                                    This professional diagnosed me with ADHD
+                                </Checkbox.Label>
+                            </HStack>
+                        </Checkbox.Root>
 
                         <Separator borderColor="blue.100" />
 

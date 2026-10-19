@@ -5,6 +5,7 @@ import {
     Badge,
     Box,
     Button,
+    Checkbox,
     Field,
     FieldRequiredIndicator,
     Grid,
@@ -23,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import {FiAlertCircle, FiEdit2, FiInfo, FiPhone, FiUser} from "react-icons/fi";
-import {FaRupeeSign} from "react-icons/fa";
+import {FaRupeeSign, FaStethoscope} from "react-icons/fa";
 import {MdComputer} from "react-icons/md";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {useEditor} from "@tiptap/react";
@@ -62,6 +63,7 @@ export default function CreateReviewForm(
         address: "",
         consultationFee: 0,
         diagnosisFee: 0,
+        wasDiagnosed: false,
         content: "",
         rating: 0.0,
     });
@@ -132,6 +134,23 @@ export default function CreateReviewForm(
                                 </HStack>
                             </HStack>
                         </Switch.Root>
+
+                        <Separator borderColor="blue.100" />
+
+                        <Checkbox.Root
+                            colorPalette="blue"
+                            checked={form.wasDiagnosed}
+                            onCheckedChange={(e) => setForm({...form, wasDiagnosed: !!e.checked})}
+                        >
+                            <Checkbox.HiddenInput />
+                            <Checkbox.Control />
+                            <HStack gap={2}>
+                                <Box color="blue.400"><FaStethoscope size={14} /></Box>
+                                <Checkbox.Label color="gray.700" fontSize="sm">
+                                    This professional diagnosed me with ADHD
+                                </Checkbox.Label>
+                            </HStack>
+                        </Checkbox.Root>
 
                         <Separator borderColor="blue.100" />
 

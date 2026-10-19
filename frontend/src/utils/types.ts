@@ -24,6 +24,7 @@ export type Review = {
     address: string,
     consultationFee: number,
     diagnosisFee: number,
+    wasDiagnosed: boolean,
     doesOnlineConsultations: boolean,
     createdAt: Date,
     updatedAt: Date,

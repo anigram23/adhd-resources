@@ -11,6 +11,7 @@ type CreateReviewData = {
     address: string,
     consultationFee: number,
     diagnosisFee: number | null,
+    wasDiagnosed: boolean,
     content: string,
     rating: number
 }
@@ -21,6 +22,7 @@ type UpdateReviewData = {
     consultationFee: number | null,
     address: string | null,
     diagnosisFee: number | null,
+    wasDiagnosed: boolean | null,
     content: string | null,
     rating: number | null
 }
