@@ -180,9 +180,11 @@ export default function Reviews() {
                                                 <GenericDialog
                                                     component={() => <LoginOrRegister calledFrom={location.pathname} /> }
                                                     title="Please Login or Register to Continue"
-                                                    buttonText="Add a Review"
-                                                    size={"md" as never}
-                                                    icon={<FiPlus />}
+                                                    buttonText=""
+                                                    size={"sm" as never}
+                                                    icon={<HiOutlineFlag />}
+                                                    variant="ghost"
+                                                    colorPalette="gray.500"
                                                 />
                                             )}
                                         </HStack>
