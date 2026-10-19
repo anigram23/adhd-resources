@@ -55,6 +55,9 @@ public class Review {
     @Column(name = "diagnosis_fee")
     private Integer diagnosisFee;
 
+    @Column(name = "was_diagnosed")
+    private Boolean wasDiagnosed;
+
     @NotNull
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;

@@ -38,6 +38,8 @@ public class ReviewRequestDTO {
 
     private Integer diagnosisFee;
 
+    private boolean wasDiagnosed;
+
     @NotBlank(message = "Review Content is required")
     private String content;
 

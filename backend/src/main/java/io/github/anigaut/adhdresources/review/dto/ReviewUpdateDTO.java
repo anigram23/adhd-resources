@@ -15,6 +15,7 @@ public class ReviewUpdateDTO {
     private String address;
     private Integer consultationFee;
     private Integer diagnosisFee;
+    private Boolean wasDiagnosed;
     private String content;
     private Float rating;
 }

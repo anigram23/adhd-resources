@@ -22,6 +22,7 @@ public class PublicReviewResponseDTO {
     private String address;
     private int consultationFee;
     private Integer diagnosisFee;
+    private boolean wasDiagnosed;
     private boolean doesOnlineConsultations;
     private Instant createdAt;
     private Instant updatedAt;
