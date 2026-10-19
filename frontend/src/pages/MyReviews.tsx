@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import type {Review} from "@/utils/types.ts";
 import {useAuth} from "@/auth/useAuth.ts";
-import {FaPhone, FaRupeeSign} from "react-icons/fa";
+import {FaPhone, FaRupeeSign, FaStethoscope} from "react-icons/fa";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiTrash2} from "react-icons/fi";
@@ -168,6 +168,12 @@ export default function MyReviews() {
                                                     </Flex>
                                                 )}
                                             </HStack>
+                                            {review.wasDiagnosed && (
+                                                <HStack gap={2} fontSize="sm">
+                                                    <Box color="blue.400"><FaStethoscope size={13} /></Box>
+                                                    <Text color="gray.700">Was diagnosed with ADHD by {review.professional.name}</Text>
+                                                </HStack>
+                                            )}
 
                                             <Separator />
 

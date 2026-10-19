@@ -1,6 +1,6 @@
 import type {Review} from "@/utils/types.ts";
 import {Badge, Box, Flex, HStack, RatingGroup, Separator, Text, VStack} from "@chakra-ui/react";
-import {FaPhone, FaRupeeSign, FaTag, FaUser} from "react-icons/fa";
+import {FaPhone, FaRupeeSign, FaTag, FaUser, FaStethoscope} from "react-icons/fa";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {Prose} from "@/components/ui/prose.tsx";
@@ -71,6 +71,12 @@ export default function ReviewDetailsDialog({review}: { review: Review }) {
                     </Flex>
                 )}
             </HStack>
+            {review.wasDiagnosed && (
+                <HStack gap={2} fontSize="sm">
+                    <Box color="blue.400"><FaStethoscope size={13} /></Box>
+                    <Text color="gray.700">Was diagnosed with ADHD by {review.professional.name}</Text>
+                </HStack>
+            )}
 
             <Separator />
 
