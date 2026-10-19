@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllProfessionalTypes} from "@/api_service/professionalType.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
+import {Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
 import type {ProfessionalType} from "@/utils/types.ts";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import AddNewProfessionalTypeForm from "@/components/professional_types/AddNewProfessionalTypeForm.tsx";
@@ -59,29 +59,7 @@ export default function ProfessionalTypes() {
                                                     #{type.id}
                                                 </Card.Description>
                                             </Box>
-                                            {type.doctor && (
-                                                <Badge colorPalette="blue" variant="subtle" size="sm" flexShrink={0}>
-                                                    Doctor
-                                                </Badge>
-                                            )}
                                         </HStack>
-
-                                        <VStack align="start" gap={1} mt={3}>
-                                            <Badge
-                                                colorPalette={type.canDiagnose ? "green" : "gray"}
-                                                variant="subtle"
-                                                size="sm"
-                                            >
-                                                {type.canDiagnose ? "Can Diagnose ADHD" : "Cannot Diagnose ADHD"}
-                                            </Badge>
-                                            <Badge
-                                                colorPalette={type.canPrescribeMeds ? "green" : "gray"}
-                                                variant="subtle"
-                                                size="sm"
-                                            >
-                                                {type.canPrescribeMeds ? "Can Prescribe Meds" : "Cannot Prescribe Meds"}
-                                            </Badge>
-                                        </VStack>
                                     </Card.Header>
 
                                     <Card.Footer pt={2}>

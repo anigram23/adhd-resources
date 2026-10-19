@@ -1,7 +1,7 @@
 import type {Key} from "react";
 
 export type State = {id: number, name: string};
-export type ProfessionalType = {id: number, title: string, doctor: boolean, canDiagnose: boolean, canPrescribeMeds: boolean};
+export type ProfessionalType = {id: number, title: string};
 export type TicketType = {id: number, title: string};
 export type City = {id: number, name: string};
 export type Professional = {id: string, name: string, slug: string, professionalType: ProfessionalType, city: City};

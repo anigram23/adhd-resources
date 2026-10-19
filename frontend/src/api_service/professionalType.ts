@@ -10,22 +10,12 @@ export async function getProfessionalTypeByTitle(title: string) {
     return response.data;
 }
 
-export async function createProfessionalType(professionalType: {
-    title: string,
-    doctor: boolean,
-    canDiagnose: boolean,
-    canPrescribeMeds: boolean
-}) {
+export async function createProfessionalType(professionalType: { title: string }) {
     const response = await http.post("/professional-type/", professionalType);
     return response.data;
 }
 
-export async function updateProfessionalType(id: number, professionalType: {
-    title: string,
-    doctor: boolean,
-    canDiagnose: boolean,
-    canPrescribeMeds: boolean
-}) {
+export async function updateProfessionalType(id: number, professionalType: { title: string }) {
     const response = await http.patch(`/professional-type/${id}`, professionalType);
     return response.data;
 }
