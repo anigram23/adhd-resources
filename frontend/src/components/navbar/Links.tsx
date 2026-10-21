@@ -2,7 +2,7 @@ import {Avatar, Box, Button, HStack, VStack} from "@chakra-ui/react";
 import {useAuth} from "@/auth/useAuth.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {adminLogout} from "@/api_service/admin.ts";
-import {useNavigate} from "react-router";
+import {Link as RouterLink, useNavigate} from "react-router";
 import {reviewerLogout} from "@/api_service/reviewer.ts";
 
 const links = [
@@ -59,7 +59,7 @@ export default function Links({isMobile = true}: LinksProps) {
                     _hover={{color: "blue.600"}}
                     transition="color 0.15s"
                 >
-                    <a href={link.path}>{link.name}</a>
+                    <RouterLink to={link.path}>{link.name}</RouterLink>
                 </Box>
             )) : links.map((link) => (
                 <Box
@@ -71,18 +71,18 @@ export default function Links({isMobile = true}: LinksProps) {
                     _hover={{color: "blue.600"}}
                     transition="color 0.15s"
                 >
-                    <a href={link.path}>{link.name}</a>
+                    <RouterLink to={link.path}>{link.name}</RouterLink>
                 </Box>
             ))}
 
             {isAuthenticated ? (
                 <HStack gap={2}>
                     {user!.role === "REVIEWER" && (
-                        <a href="/profile">
+                        <RouterLink to="/profile">
                             <Avatar.Root variant="outline">
                                 <Avatar.Fallback />
                             </Avatar.Root>
-                        </a>
+                        </RouterLink>
                     )}
 
                     <Button size="sm" variant="outline" colorPalette="blue" onClick={handleLogout}>
@@ -92,10 +92,10 @@ export default function Links({isMobile = true}: LinksProps) {
             ) : (
                 <HStack gap={2}>
                     <Button size="sm" variant="outline" colorPalette="blue" asChild>
-                        <a href="/login">Login</a>
+                        <RouterLink to="/login">Login</RouterLink>
                     </Button>
                     <Button size="sm" colorPalette="blue" asChild>
-                        <a href="/register">Register</a>
+                        <RouterLink to="/register">Register</RouterLink>
                     </Button>
                 </HStack>
             )}

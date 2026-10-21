@@ -1,4 +1,5 @@
 import {Box, HStack, Text} from "@chakra-ui/react";
+import {Link as RouterLink} from "react-router";
 import {TbBrain} from "react-icons/tb";
 import {useAuth} from "@/auth/useAuth.ts";
 
@@ -10,7 +11,7 @@ export default function Logo() {
                 <TbBrain size={24}/>
             </Box>
             <Text fontSize="lg" fontWeight="bold" color="blue.900" whiteSpace="nowrap">
-                <a href={user?.role === "ADMIN" ? "/admin" : "/"}>ADHD Resources</a>
+                <RouterLink to={user?.role === "ADMIN" ? "/admin" : "/"}>ADHD Resources</RouterLink>
             </Text>
         </HStack>
     );
