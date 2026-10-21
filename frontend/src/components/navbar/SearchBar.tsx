@@ -38,7 +38,7 @@ export default function SearchBar() {
                     border="none"
                     bg="transparent"
                     _focus={{boxShadow: "none", outline: "none"}}
-                    placeholder="Search resources..."
+                    placeholder="Search professionals..."
                     fontSize="sm"
                     color="gray.700"
                     _placeholder={{color: "gray.400"}}
