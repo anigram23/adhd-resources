@@ -1,5 +1,5 @@
-import {useSearchParams} from "react-router";
-import {Box, Button, Card, Container, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Link as RouterLink, useSearchParams} from "react-router";
+import {Box, Button, Card, Container, Grid, GridItem, Heading, HStack, Link as ChakraLink, Text, VStack} from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
 import getAllProfessionals from "@/api_service/professional.ts";
@@ -97,13 +97,17 @@ export default function Professionals() {
                             <GridItem key={professional.id}>
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
                                     <Card.Header flex={1}>
-                                        <Card.Title color="gray.800" fontWeight="semibold">
-                                            {professional.name}
+                                        <Card.Title fontWeight="semibold">
+                                            <ChakraLink asChild color="gray.800" _hover={{color: "blue.600", textDecoration: "underline"}}>
+                                                <RouterLink to={`/reviews/${professional.id}/${professional.slug}`}>
+                                                    {professional.name}
+                                                </RouterLink>
+                                            </ChakraLink>
                                         </Card.Title>
                                     </Card.Header>
                                     <Card.Footer pt={2}>
                                         <Button size="sm" colorPalette="blue" variant="subtle" asChild>
-                                            <a href={`/reviews/${professional.id}/${professional.slug}`}>Reviews</a>
+                                            <RouterLink to={`/reviews/${professional.id}/${professional.slug}`}>Reviews</RouterLink>
                                         </Button>
                                     </Card.Footer>
                                 </Card.Root>
