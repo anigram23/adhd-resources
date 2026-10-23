@@ -71,7 +71,7 @@ export default function AllStaticPages() {
                                     <Card.Footer pt={2}>
                                         <HStack gap={2}>
                                             <GenericDialog
-                                                component={() => <StaticPageDetails slug={page.slug}/>}
+                                                component={({onClose}) => <StaticPageDetails slug={page.slug} onClose={onClose}/>}
                                                 title="Edit Page"
                                                 buttonText="Edit"
                                                 size={"full" as never}

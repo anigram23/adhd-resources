@@ -6,7 +6,7 @@ import * as React from "react";
 import {FiAlertCircle} from "react-icons/fi";
 
 export default function EditStaticPageForm (
-    { page }: { page: { id: string, title: string, slug: string, active: boolean } }
+    { page, onClose }: { page: { id: string, title: string, slug: string, active: boolean }, onClose?: () => void }
 ) {
 
     const queryClient = useQueryClient();
@@ -28,6 +28,7 @@ export default function EditStaticPageForm (
             queryClient.setQueryData(["staticPages"], (oldData: Array<{title: string, slug: string, active: boolean}>) => {
                 return oldData?.map(item => item.slug === page.slug ? { ...item, ...data } : item);
             });
+            onClose?.();
         }
     })
 

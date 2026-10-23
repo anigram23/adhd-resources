@@ -110,6 +110,7 @@ export default function Reviews() {
                             />
                         ) : (
                             <GenericDialog
+                                key="login"
                                 component={() => <LoginOrRegister calledFrom={location.pathname} /> }
                                 title="Please Login or Register to Continue"
                                 buttonText="Add a Review"
@@ -178,6 +179,7 @@ export default function Reviews() {
                                                 />
                                             ) : (
                                                 <GenericDialog
+                                                    key="login"
                                                     component={() => <LoginOrRegister calledFrom={location.pathname} /> }
                                                     title="Please Login or Register to Continue"
                                                     buttonText=""

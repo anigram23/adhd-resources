@@ -28,7 +28,7 @@ function removeId(set: Set<Key>, id: Key): Set<Key> {
     return next;
 }
 
-export default function StaticPageDetails({ slug }: { slug: string }) {
+export default function StaticPageDetails({ slug, onClose }: { slug: string, onClose?: () => void }) {
 
     const {isPending, isError, data, error} = useQuery({
         queryFn: () => getStaticPageBySlug(slug as unknown as string),
@@ -59,7 +59,7 @@ export default function StaticPageDetails({ slug }: { slug: string }) {
             </Tabs.List>
 
             <Tabs.Content value="page-details">
-                <EditStaticPageForm page={data}/>
+                <EditStaticPageForm page={data} onClose={onClose}/>
             </Tabs.Content>
 
             <Tabs.Content value="sections">

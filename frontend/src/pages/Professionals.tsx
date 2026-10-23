@@ -129,10 +129,11 @@ export default function Professionals() {
                         </Text>
                         {user ? (
                             <GenericDialog
-                                component={() => <CreateReviewForm
+                                component={({onClose}) => <CreateReviewForm
                                     id={null}
                                     city={city}
                                     professionalType={type}
+                                    onClose={onClose}
                                 />}
                                 title="Share Your Thoughts"
                                 buttonText="Add a Review"
@@ -141,6 +142,7 @@ export default function Professionals() {
                             />
                         ) : (
                             <GenericDialog
+                                key="login"
                                 component={() => <LoginOrRegister calledFrom={location.pathname} />}
                                 title="Please Login or Register to Continue"
                                 buttonText="Add a Review"
