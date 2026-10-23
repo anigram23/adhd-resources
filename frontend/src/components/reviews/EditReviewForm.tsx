@@ -57,6 +57,9 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
         rating: review.rating
     });
 
+    const [submitted, setSubmitted] = useState(false);
+    const contactNumberInvalid = !/^\d{10}$/.test(form.contactNumber);
+
     const mutation = useMutation({
         mutationFn: () => editReview(review.id, form),
         onSuccess: async (data) => {
@@ -76,6 +79,8 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
+        setSubmitted(true);
+        if (contactNumberInvalid) return;
         mutation.mutate();
     }
 
@@ -125,7 +130,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
 
                         <Separator borderColor="blue.100" />
 
-                        <Field.Root required>
+                        <Field.Root required invalid={submitted && contactNumberInvalid}>
                             <Field.Label color="gray.700">
                                 Contact Number <FieldRequiredIndicator />
                             </Field.Label>
@@ -133,10 +138,13 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                                 <Input
                                     bg="white"
                                     placeholder="Enter phone number"
+                                    inputMode="numeric"
+                                    maxLength={10}
                                     value={form.contactNumber}
                                     onChange={(e) => setForm({...form, contactNumber: e.currentTarget.value})}
                                 />
                             </InputGroup>
+                            <Field.ErrorText>Enter a 10-digit mobile number (digits only, without +91)</Field.ErrorText>
                         </Field.Root>
 
                         <Field.Root required>
