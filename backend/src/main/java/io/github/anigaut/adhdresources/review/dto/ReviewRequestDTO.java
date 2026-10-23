@@ -2,6 +2,7 @@ package io.github.anigaut.adhdresources.review.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class ReviewRequestDTO {
     private boolean doesOnlineConsultations;
 
     @NotBlank(message = "Contact number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Contact number must be exactly 10 digits")
     private String contactNumber;
 
     @NotBlank(message = "Address is required")
