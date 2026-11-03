@@ -32,7 +32,14 @@ export default function MobileDrawer() {
                             </Drawer.CloseTrigger>
                         </Drawer.Header>
 
-                        <Drawer.Body pt={5}>
+                        <Drawer.Body
+                            pt={5}
+                            // Close after navigating: any link/button click or search submit.
+                            onClick={(e) => {
+                                if ((e.target as HTMLElement).closest("a, button")) setOpen(false);
+                            }}
+                            onSubmit={() => setOpen(false)}
+                        >
                             <VStack gap={6} align="stretch">
                                 <SearchBar/>
                                 <Links isMobile={true}/>
