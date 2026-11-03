@@ -109,7 +109,7 @@ export default function Reviews() {
                     </Box>
                 </VStack>
 
-                <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                     {data.map((review: Review) => (
                         <GridItem key={review.id}>
                             <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">

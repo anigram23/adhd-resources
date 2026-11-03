@@ -55,7 +55,7 @@ export default function MyReviews() {
                         You haven't posted any reviews yet.
                     </Text>
                 ) : (
-                    <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                    <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                         {data.map((review: Review) => (
                             <GridItem key={review.id}>
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
