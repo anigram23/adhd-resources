@@ -76,7 +76,7 @@ export default function AllUsers() {
                 <Box
                     bg="blue.50"
                     borderRadius="lg"
-                    p={6}
+                    p={{base: 4, md: 6}}
                     borderLeft="4px solid"
                     borderColor="blue.200"
                     mb={8}
