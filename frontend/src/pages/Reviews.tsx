@@ -125,11 +125,10 @@ export default function Reviews() {
                                                     year: "numeric", month: "short", day: "numeric"
                                                 })}
                                             </Text>
+                                            {user?.role === "ADMIN" && (
+                                                <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
+                                            )}
                                         </VStack>
-
-                                        {user?.role === "ADMIN" && (
-                                            <Text fontSize="sm" color="black">ID: {review.id}</Text>
-                                        )}
 
                                         <HStack gap={1}>
                                             {review.owner && (

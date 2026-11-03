@@ -219,7 +219,6 @@ export default function AllReviews() {
                                                     <Text fontSize="xs" color="gray.500">Professional ID: {review.professional.id}</Text>
                                                 </VStack>
                                                 <HStack gap={1}>
-                                                    <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
                                                     <GenericDialog
                                                         component={({onClose}) => (
                                                             <DeleteReviewConfirmation
@@ -240,6 +239,7 @@ export default function AllReviews() {
                                                 </HStack>
                                             </HStack>
                                             <VStack align="start" gap={1} fontSize="xs" color="gray.500">
+                                                <Text>Review ID: {review.id}</Text>
                                                 {review.reviewer ? (
                                                     <>
                                                         <Text>Reviewer ID: {review.reviewer.id}</Text>
