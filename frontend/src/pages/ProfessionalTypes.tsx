@@ -2,13 +2,14 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllProfessionalTypes} from "@/api_service/professionalType.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
+import {Box, Card, Container, Flex, Grid, GridItem, HStack, VStack} from "@chakra-ui/react";
 import type {ProfessionalType} from "@/utils/types.ts";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import AddNewProfessionalTypeForm from "@/components/professional_types/AddNewProfessionalTypeForm.tsx";
 import EditProfessionalTypeForm from "@/components/professional_types/EditProfessionalTypeForm.tsx";
 import ConfirmDeleteProfessionalType from "@/components/professional_types/ConfirmDeleteProfessionalType.tsx";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function ProfessionalTypes() {
     const { data, error, isError, isPending } = useQuery({
@@ -26,21 +27,9 @@ export default function ProfessionalTypes() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Professional Types
-                    </Heading>
-                </Container>
-            </Box>
+            <PageHeader title="Professional Types"/>
 
-            <Container maxW="5xl" py={10} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Grid
                         templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}

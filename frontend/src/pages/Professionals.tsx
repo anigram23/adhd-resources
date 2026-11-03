@@ -11,6 +11,7 @@ import {useAuth} from "@/auth/useAuth.ts";
 import {FiPlus} from "react-icons/fi";
 import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function Professionals() {
     const [searchParams] = useSearchParams();
@@ -28,20 +29,8 @@ export default function Professionals() {
     if (!type || !city) {
         return (
             <Box>
-                <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                    <Container maxW="5xl">
-                        <Heading
-                            as="h1"
-                            fontSize={{base: "3xl", md: "5xl"}}
-                            fontWeight="bold"
-                            color="blue.900"
-                            lineHeight="1.15"
-                        >
-                            Find Professionals In Your City
-                        </Heading>
-                    </Container>
-                </Box>
-                <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+                <PageHeader title="Find Professionals In Your City"/>
+                <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                     <FindProfessionals />
                 </Container>
             </Box>
@@ -58,21 +47,9 @@ export default function Professionals() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        {type}s in {city}
-                    </Heading>
-                </Container>
-            </Box>
+            <PageHeader title={`${type}s in ${city}`}/>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 {data.length === 0 ? (
                     <VStack gap={8} align="stretch">
                         <Text color="gray.700" fontSize="md" lineHeight="1.8">

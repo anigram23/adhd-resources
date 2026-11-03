@@ -13,7 +13,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
     HStack,
     Input,
     RatingGroup,
@@ -30,6 +29,7 @@ import {FiTrash2} from "react-icons/fi";
 import {Prose} from "@/components/ui/prose.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 const REVIEW_FILTER_KEYS = ["id", "reviewerId", "professionalId", "fromDate", "toDate"];
 
@@ -114,25 +114,12 @@ export default function AllReviews() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        All Reviews
-                    </Heading>
-                    <Text color="gray.700" fontSize="md">
-                        {reviews.length > 0 ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} found` : "Manage reviews"}
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader
+                title="All Reviews"
+                subtitle={reviews.length > 0 ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} found` : "Manage reviews"}
+            />
 
-            <Container maxW="5xl" py={8} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <Box
                     bg="blue.50"
                     borderRadius="lg"

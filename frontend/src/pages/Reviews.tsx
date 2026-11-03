@@ -11,7 +11,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
     HStack,
     RatingGroup,
     Separator,
@@ -31,6 +30,7 @@ import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
 import CreateTicketForm from "@/components/tickets/CreateTicketForm.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function Reviews() {
     const {id} = useParams();
@@ -52,34 +52,22 @@ export default function Reviews() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        Reviews For {data[0].professional.name}
-                    </Heading>
-                    <HStack gap={6} flexWrap="wrap">
-                        <Text color="gray.700" fontSize="md">
-                            {data.length} review{data.length !== 1 ? "s" : ""}
-                        </Text>
-                        <HStack gap={2}>
-                            <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
-                                <RatingGroup.HiddenInput />
-                                <RatingGroup.Control />
-                            </RatingGroup.Root>
-                            <Text color="gray.700" fontSize="md">{averageRating.toFixed(1)} avg</Text>
-                        </HStack>
+            <PageHeader title={`Reviews For ${data[0].professional.name}`}>
+                <HStack gap={6} flexWrap="wrap">
+                    <Text color="gray.700" fontSize="md">
+                        {data.length} review{data.length !== 1 ? "s" : ""}
+                    </Text>
+                    <HStack gap={2}>
+                        <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
+                            <RatingGroup.HiddenInput />
+                            <RatingGroup.Control />
+                        </RatingGroup.Root>
+                        <Text color="gray.700" fontSize="md">{averageRating.toFixed(1)} avg</Text>
                     </HStack>
-                </Container>
-            </Box>
+                </HStack>
+            </PageHeader>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={6} align="stretch" mb={8}>
                     <Box
                         p={4}

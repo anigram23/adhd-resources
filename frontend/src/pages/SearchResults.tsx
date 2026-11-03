@@ -10,6 +10,7 @@ import {RiMentalHealthLine} from "react-icons/ri";
 import {LiaCitySolid} from "react-icons/lia";
 import {FiSearch} from "react-icons/fi";
 import Professionals from "@/pages/Professionals.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function SearchResults() {
     const [searchParams] = useSearchParams();
@@ -35,26 +36,12 @@ export default function SearchResults() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <VStack align="start" gap={2}>
-                        <Heading
-                            as="h1"
-                            fontSize={{base: "3xl", md: "5xl"}}
-                            fontWeight="bold"
-                            color="blue.900"
-                            lineHeight="1.15"
-                        >
-                            Results for "{query}"
-                        </Heading>
-                        <Text color="gray.700" fontSize="md">
-                            {data.length} professional{data.length !== 1 ? "s" : ""} found
-                        </Text>
-                    </VStack>
-                </Container>
-            </Box>
+            <PageHeader
+                title={`Results for "${query}"`}
+                subtitle={`${data.length} professional${data.length !== 1 ? "s" : ""} found`}
+            />
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 {data.length > 0 ? (
                     <Grid
                         templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}

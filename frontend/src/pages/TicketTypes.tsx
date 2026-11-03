@@ -2,13 +2,14 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllTicketTypes} from "@/api_service/ticketType.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
+import {Box, Card, Container, Flex, Grid, GridItem, HStack, VStack} from "@chakra-ui/react";
 import type {TicketType} from "@/utils/types.ts";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import AddNewTicketTypeForm from "@/components/ticket_types/AddNewTicketTypeForm.tsx";
 import EditTicketTypeForm from "@/components/ticket_types/EditTicketTypeForm.tsx";
 import ConfirmDeleteTicketType from "@/components/ticket_types/ConfirmDeleteTicketType.tsx";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function TicketTypes() {
     const { data, error, isError, isPending } = useQuery({
@@ -26,21 +27,9 @@ export default function TicketTypes() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Ticket Types
-                    </Heading>
-                </Container>
-            </Box>
+            <PageHeader title="Ticket Types"/>
 
-            <Container maxW="5xl" py={10} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Grid
                         templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}

@@ -5,30 +5,16 @@ import ChangePasswordForm from "@/components/auth/ChangePasswordForm.tsx";
 import DeleteAccountConfirmation from "@/components/auth/DeleteAccountConfirmation.tsx";
 import {FiAlertTriangle, FiMail, FiLock, FiTag, FiStar} from "react-icons/fi";
 import {Link} from "react-router";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function Profile() {
     const { user } = useAuth();
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="3xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Your Profile
-                    </Heading>
-                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mt={3}>
-                        Manage your account details and security settings.
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader title="Your Profile" subtitle="Manage your account details and security settings." maxW="3xl"/>
 
-            <Container maxW="3xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="3xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Box>
                         <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={4}>
