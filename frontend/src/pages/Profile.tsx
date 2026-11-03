@@ -1,5 +1,5 @@
 import {useAuth} from "@/auth/useAuth.ts";
-import {Box, Button, Container, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Container, Heading, HStack, Stack, Text, VStack} from "@chakra-ui/react";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ChangePasswordForm from "@/components/auth/ChangePasswordForm.tsx";
 import DeleteAccountConfirmation from "@/components/auth/DeleteAccountConfirmation.tsx";
@@ -24,7 +24,7 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
@@ -52,11 +52,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiStar size={20} />
@@ -69,7 +69,7 @@ export default function Profile() {
                                 <Button size="sm" colorPalette="blue" variant="subtle" asChild>
                                     <Link to="/my-reviews">View</Link>
                                 </Button>
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -81,11 +81,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiTag size={20} />
@@ -98,7 +98,7 @@ export default function Profile() {
                                 <Button size="sm" colorPalette="blue" variant="subtle" asChild>
                                     <Link to="/my-tickets">View</Link>
                                 </Button>
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -110,11 +110,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiLock size={20} />
@@ -130,7 +130,7 @@ export default function Profile() {
                                     buttonText="Change"
                                     size={"md" as never}
                                 />
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -142,11 +142,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="red.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="red.400">
                                         <FiAlertTriangle size={20} />
@@ -167,7 +167,7 @@ export default function Profile() {
                                     variant="outline"
                                     icon={<FiAlertTriangle/>}
                                 />
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
                 </VStack>
