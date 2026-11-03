@@ -13,8 +13,11 @@ const links = [
 
 const adminLinks = [
     {name: "Pages", path: "/admin/static-pages"},
+    {name: "Tickets", path: "/admin/tickets"},
+    {name: "Ticket Types", path: "/admin/ticket-types"},
     {name: "Professional Types", path: "/admin/professional-types"},
-    {name: "Reviews", path: "/admin/reviews"}
+    {name: "Reviews", path: "/admin/reviews"},
+    {name: "Reviewers", path: "/admin/reviewers"},
 ]
 
 type LinksProps = { isMobile?: boolean };
@@ -49,21 +52,9 @@ export default function Links({isMobile = true}: LinksProps) {
 
     return (
         <StackType gap={isMobile ? 5 : 6} align={isMobile ? "start" : "center"}>
-            { user?.role === "ADMIN" ? adminLinks.map((link) => (
+            {(user?.role === "ADMIN" ? adminLinks : links).map((link) => (
                 <Box
-                    key={link.name}
-                    asChild
-                    fontSize="sm"
-                    fontWeight="medium"
-                    color="gray.600"
-                    _hover={{color: "blue.600"}}
-                    transition="color 0.15s"
-                >
-                    <RouterLink to={link.path}>{link.name}</RouterLink>
-                </Box>
-            )) : links.map((link) => (
-                <Box
-                    key={link.name}
+                    key={link.path}
                     asChild
                     fontSize="sm"
                     fontWeight="medium"
