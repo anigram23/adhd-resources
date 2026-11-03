@@ -37,7 +37,7 @@ export default function GenericDialog({
 
             <Portal>
                 <Dialog.Backdrop />
-                <Dialog.Positioner>
+                <Dialog.Positioner px={4}>
                     <Dialog.Content my={8} maxH="calc(100dvh - 4rem)" display="flex" flexDirection="column">
                         <Dialog.Header>
                             <Dialog.Title>{title}</Dialog.Title>
