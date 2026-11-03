@@ -46,7 +46,7 @@ export default function StaticPage() {
                                 </Heading>
                             </HStack>
 
-                            <Box pl={7}>
+                            <Box pl={{base: 0, md: 7}}>
                                 <Prose
                                     size="lg"
                                     color="gray.700"
