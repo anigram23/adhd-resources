@@ -52,18 +52,20 @@ export default function Reviews() {
 
     return (
         <Box>
-            <PageHeader title={`Reviews For ${data[0].professional.name}`}>
+            <PageHeader title={data.length ? `Reviews For ${data[0].professional.name}` : "Reviews"}>
                 <HStack gap={6} flexWrap="wrap">
                     <Text color="gray.700" fontSize="md">
                         {data.length} review{data.length !== 1 ? "s" : ""}
                     </Text>
-                    <HStack gap={2}>
-                        <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
-                            <RatingGroup.HiddenInput />
-                            <RatingGroup.Control />
-                        </RatingGroup.Root>
-                        <Text color="gray.700" fontSize="md">{averageRating.toFixed(1)} avg</Text>
-                    </HStack>
+                    {data.length > 0 && (
+                        <HStack gap={2}>
+                            <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
+                                <RatingGroup.HiddenInput />
+                                <RatingGroup.Control />
+                            </RatingGroup.Root>
+                            <Text color="gray.700" fontSize="md">{averageRating.toFixed(1)} avg</Text>
+                        </HStack>
+                    )}
                 </HStack>
             </PageHeader>
 
@@ -108,6 +110,12 @@ export default function Reviews() {
                         )}
                     </Box>
                 </VStack>
+
+                {data.length === 0 && (
+                    <Text color="gray.500" fontSize="md" textAlign="center">
+                        No reviews yet. Be the first to add one.
+                    </Text>
+                )}
 
                 <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                     {data.map((review: Review) => (
