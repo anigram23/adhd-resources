@@ -13,7 +13,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
     HStack,
     Input,
     RatingGroup,
@@ -30,6 +29,7 @@ import {FiTrash2} from "react-icons/fi";
 import {Prose} from "@/components/ui/prose.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 const REVIEW_FILTER_KEYS = ["id", "reviewerId", "professionalId", "fromDate", "toDate"];
 
@@ -114,29 +114,16 @@ export default function AllReviews() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        All Reviews
-                    </Heading>
-                    <Text color="gray.700" fontSize="md">
-                        {reviews.length > 0 ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} found` : "Manage reviews"}
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader
+                title="All Reviews"
+                subtitle={reviews.length > 0 ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} found` : "Manage reviews"}
+            />
 
-            <Container maxW="5xl" py={8} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <Box
                     bg="blue.50"
                     borderRadius="lg"
-                    p={6}
+                    p={{base: 4, md: 6}}
                     borderLeft="4px solid"
                     borderColor="blue.200"
                     mb={8}
@@ -209,13 +196,13 @@ export default function AllReviews() {
                 {isError && <ErrorDisplay message={error.message} />}
 
                 {!hasFilters || isPending ? (
-                    <FullPageLoader />
+                    <FullPageLoader inline />
                 ) : reviews.length === 0 ? (
                     <Text color="gray.500" fontSize="md" textAlign="center">
                         No reviews found matching the given criteria.
                     </Text>
                 ) : (
-                    <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                    <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                         {reviews.map((review: PrivateReview) => (
                             <GridItem key={review.id}>
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
@@ -232,7 +219,6 @@ export default function AllReviews() {
                                                     <Text fontSize="xs" color="gray.500">Professional ID: {review.professional.id}</Text>
                                                 </VStack>
                                                 <HStack gap={1}>
-                                                    <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
                                                     <GenericDialog
                                                         component={({onClose}) => (
                                                             <DeleteReviewConfirmation
@@ -253,6 +239,7 @@ export default function AllReviews() {
                                                 </HStack>
                                             </HStack>
                                             <VStack align="start" gap={1} fontSize="xs" color="gray.500">
+                                                <Text>Review ID: {review.id}</Text>
                                                 {review.reviewer ? (
                                                     <>
                                                         <Text>Reviewer ID: {review.reviewer.id}</Text>

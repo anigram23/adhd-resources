@@ -1,5 +1,6 @@
-import {Box, Button, Card, Container, Grid, GridItem, Heading, Text} from "@chakra-ui/react";
+import {Box, Button, Card, Container, Grid, GridItem, Text} from "@chakra-ui/react";
 import {Link} from "react-router";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 const sections = [
     {title: "Static Pages", description: "Manage informational pages shown to users.", to: "/admin/static-pages"},
@@ -13,24 +14,9 @@ const sections = [
 export default function AdminHome() {
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Admin Dashboard
-                    </Heading>
-                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mt={3}>
-                        Manage content, tickets, and configuration for the ADHD Resources directory.
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader title="Admin Dashboard" subtitle="Manage content, tickets, and configuration for the ADHD Resources directory."/>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}} gap={4}>
                     {sections.map((section) => (
                         <GridItem key={section.to}>

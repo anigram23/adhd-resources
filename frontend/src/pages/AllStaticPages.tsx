@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {getAllStaticPages} from "@/api_service/staticPages.ts";
 import FullPageLoader from "../components/utils/FullPageLoader.tsx";
-import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, VStack} from "@chakra-ui/react";
+import {Badge, Box, Card, Container, Flex, Grid, GridItem, HStack, VStack} from "@chakra-ui/react";
 import CreateStaticPageForm from "../components/static_pages/page/CreateStaticPageForm.tsx";
 import GenericDialog from "../components/utils/GenericDialog.tsx";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
@@ -9,6 +9,7 @@ import StaticPageDetails from "../components/static_pages/StaticPageDetails.tsx"
 import DeleteStaticPageConfirmation from "../components/static_pages/page/DeleteStaticPageConfirmation.tsx";
 import type {StaticPage} from "@/utils/types.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function AllStaticPages() {
     const {isPending, isError, data, error} = useQuery({
@@ -24,21 +25,9 @@ export default function AllStaticPages() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Static Pages
-                    </Heading>
-                </Container>
-            </Box>
+            <PageHeader title="Static Pages"/>
 
-            <Container maxW="5xl" py={10} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Grid
                         templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}

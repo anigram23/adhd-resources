@@ -40,7 +40,7 @@ export default function StaticPageDetails({ slug, onClose }: { slug: string, onC
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
     const [createSectionCount, setCreateSectionCount] = useState(0);
 
-    if (isPending) return <FullPageLoader/>;
+    if (isPending) return <FullPageLoader inline/>;
 
     if (isError) {
         return <ErrorDisplay message={error.message} />;
@@ -77,6 +77,11 @@ export default function StaticPageDetails({ slug, onClose }: { slug: string, onC
                                             variant="ghost"
                                             size="sm"
                                             flex={1}
+                                            minW={0}
+                                            h="auto"
+                                            py={2}
+                                            whiteSpace="normal"
+                                            textAlign="left"
                                             justifyContent="flex-start"
                                             fontWeight="semibold"
                                             color="gray.800"

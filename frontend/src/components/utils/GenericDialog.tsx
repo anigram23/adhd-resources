@@ -30,6 +30,7 @@ export default function GenericDialog({
                     colorPalette={colorPalette as never}
                     variant={variant as never}
                     size={buttonSize as never}
+                    aria-label={buttonText ? undefined : title}
                 >
                     {icon}{buttonText}
                 </Button>
@@ -37,7 +38,7 @@ export default function GenericDialog({
 
             <Portal>
                 <Dialog.Backdrop />
-                <Dialog.Positioner>
+                <Dialog.Positioner px={4}>
                     <Dialog.Content my={8} maxH="calc(100dvh - 4rem)" display="flex" flexDirection="column">
                         <Dialog.Header>
                             <Dialog.Title>{title}</Dialog.Title>

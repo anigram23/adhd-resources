@@ -1,34 +1,20 @@
 import {useAuth} from "@/auth/useAuth.ts";
-import {Box, Button, Container, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Container, Heading, HStack, Stack, Text, VStack} from "@chakra-ui/react";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import ChangePasswordForm from "@/components/auth/ChangePasswordForm.tsx";
 import DeleteAccountConfirmation from "@/components/auth/DeleteAccountConfirmation.tsx";
 import {FiAlertTriangle, FiMail, FiLock, FiTag, FiStar} from "react-icons/fi";
 import {Link} from "react-router";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function Profile() {
     const { user } = useAuth();
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="3xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        Your Profile
-                    </Heading>
-                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mt={3}>
-                        Manage your account details and security settings.
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader title="Your Profile" subtitle="Manage your account details and security settings." maxW="3xl"/>
 
-            <Container maxW="3xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="3xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Box>
                         <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={4}>
@@ -38,7 +24,7 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
@@ -66,11 +52,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiStar size={20} />
@@ -83,7 +69,7 @@ export default function Profile() {
                                 <Button size="sm" colorPalette="blue" variant="subtle" asChild>
                                     <Link to="/my-reviews">View</Link>
                                 </Button>
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -95,11 +81,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiTag size={20} />
@@ -112,7 +98,7 @@ export default function Profile() {
                                 <Button size="sm" colorPalette="blue" variant="subtle" asChild>
                                     <Link to="/my-tickets">View</Link>
                                 </Button>
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -124,11 +110,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="gray.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="blue.400">
                                         <FiLock size={20} />
@@ -144,7 +130,7 @@ export default function Profile() {
                                     buttonText="Change"
                                     size={"md" as never}
                                 />
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
 
@@ -156,11 +142,11 @@ export default function Profile() {
                             border="1px solid"
                             borderColor="red.200"
                             borderRadius="lg"
-                            px={6}
+                            px={{base: 4, md: 6}}
                             py={5}
                             bg="white"
                         >
-                            <HStack justify="space-between" align="center">
+                            <Stack direction={{base: "column", sm: "row"}} justify="space-between" align={{base: "stretch", sm: "center"}} gap={4}>
                                 <HStack gap={3}>
                                     <Box color="red.400">
                                         <FiAlertTriangle size={20} />
@@ -181,7 +167,7 @@ export default function Profile() {
                                     variant="outline"
                                     icon={<FiAlertTriangle/>}
                                 />
-                            </HStack>
+                            </Stack>
                         </Box>
                     </Box>
                 </VStack>

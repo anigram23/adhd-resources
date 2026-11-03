@@ -10,7 +10,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
     HStack,
     RatingGroup,
     Separator,
@@ -27,6 +26,7 @@ import {Prose} from "@/components/ui/prose.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function MyReviews() {
     const {user} = useAuth();
@@ -47,31 +47,15 @@ export default function MyReviews() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        My Reviews
-                    </Heading>
-                    <Text color="gray.700" fontSize="md">
-                        {data.length} review{data.length !== 1 ? "s" : ""}
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader title="My Reviews" subtitle={`${data.length} review${data.length !== 1 ? "s" : ""}`}/>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 {data.length === 0 ? (
                     <Text color="gray.500" fontSize="md" textAlign="center">
                         You haven't posted any reviews yet.
                     </Text>
                 ) : (
-                    <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                    <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                         {data.map((review: Review) => (
                             <GridItem key={review.id}>
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">

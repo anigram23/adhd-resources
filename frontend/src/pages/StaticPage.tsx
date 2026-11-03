@@ -7,6 +7,7 @@ import type {Key} from "react";
 import {BsBookmark} from "react-icons/bs";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import {Prose} from "@/components/ui/prose.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 type Section = { id: Key; title: string; content: string; orderIndex: number };
 
@@ -30,21 +31,9 @@ export default function StaticPage() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="3xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        {data.title}
-                    </Heading>
-                </Container>
-            </Box>
+            <PageHeader title={data.title} maxW="3xl"/>
 
-            <Container maxW="3xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="3xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={12} align="stretch">
                     {data.sections.map((section: Section, index: number) => (
                         <Box key={section.id}>
@@ -57,7 +46,7 @@ export default function StaticPage() {
                                 </Heading>
                             </HStack>
 
-                            <Box pl={7}>
+                            <Box pl={{base: 0, md: 7}}>
                                 <Prose
                                     size="lg"
                                     color="gray.700"

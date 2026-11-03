@@ -11,7 +11,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
     HStack,
     RatingGroup,
     Separator,
@@ -31,12 +30,12 @@ import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
 import CreateTicketForm from "@/components/tickets/CreateTicketForm.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function Reviews() {
     const {id} = useParams();
     const {user} = useAuth();
     const location = useLocation();
-    console.log(location);
 
     const {data, error, isPending, isError} = useQuery({
         queryKey: ["reviews", id],
@@ -52,22 +51,12 @@ export default function Reviews() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        Reviews For {data[0].professional.name}
-                    </Heading>
-                    <HStack gap={6} flexWrap="wrap">
-                        <Text color="gray.700" fontSize="md">
-                            {data.length} review{data.length !== 1 ? "s" : ""}
-                        </Text>
+            <PageHeader title={data.length ? `Reviews For ${data[0].professional.name}` : "Reviews"}>
+                <HStack gap={6} flexWrap="wrap">
+                    <Text color="gray.700" fontSize="md">
+                        {data.length} review{data.length !== 1 ? "s" : ""}
+                    </Text>
+                    {data.length > 0 && (
                         <HStack gap={2}>
                             <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
                                 <RatingGroup.HiddenInput />
@@ -75,11 +64,11 @@ export default function Reviews() {
                             </RatingGroup.Root>
                             <Text color="gray.700" fontSize="md">{averageRating.toFixed(1)} avg</Text>
                         </HStack>
-                    </HStack>
-                </Container>
-            </Box>
+                    )}
+                </HStack>
+            </PageHeader>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={6} align="stretch" mb={8}>
                     <Box
                         p={4}
@@ -121,7 +110,13 @@ export default function Reviews() {
                     </Box>
                 </VStack>
 
-                <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                {data.length === 0 && (
+                    <Text color="gray.500" fontSize="md" textAlign="center">
+                        No reviews yet. Be the first to add one.
+                    </Text>
+                )}
+
+                <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                     {data.map((review: Review) => (
                         <GridItem key={review.id}>
                             <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
@@ -137,11 +132,10 @@ export default function Reviews() {
                                                     year: "numeric", month: "short", day: "numeric"
                                                 })}
                                             </Text>
+                                            {user?.role === "ADMIN" && (
+                                                <Text fontSize="xs" color="gray.500">ID: {review.id}</Text>
+                                            )}
                                         </VStack>
-
-                                        {user?.role === "ADMIN" && (
-                                            <Text fontSize="sm" color="black">ID: {review.id}</Text>
-                                        )}
 
                                         <HStack gap={1}>
                                             {review.owner && (

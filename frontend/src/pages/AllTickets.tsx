@@ -11,7 +11,6 @@ import {
     Container,
     Grid,
     GridItem,
-    Heading,
     HStack,
     Separator,
     Text,
@@ -23,6 +22,7 @@ import DeleteTicketConfirmation from "@/components/tickets/DeleteTicketConfirmat
 import EditTicketStatusForm from "@/components/tickets/EditTicketStatusForm.tsx";
 import {FiEdit2, FiEye, FiMail, FiTag, FiTrash2} from "react-icons/fi";
 import ReviewDetailsDialog from "@/components/reviews/ReviewDetailsDialog.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 const STATUS_COLORS: Record<string, string> = {
     OPEN: "green",
@@ -53,27 +53,12 @@ export default function AllTickets() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        All Tickets
-                    </Heading>
-                    {status && (
-                        <Text color="gray.600" fontSize="md">
-                            Showing <strong>{status.toLowerCase()}</strong> tickets
-                        </Text>
-                    )}
-                </Container>
-            </Box>
+            <PageHeader
+                title="All Tickets"
+                subtitle={status && <>Showing <strong>{status.toLowerCase()}</strong> tickets</>}
+            />
 
-            <Container maxW="5xl" py={10} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <VStack align="start" gap={2}>
                         <Text fontSize="sm" fontWeight="medium" color="gray.600">Filter by status</Text>
@@ -94,7 +79,7 @@ export default function AllTickets() {
 
                     {status && (
                         isPending ? (
-                            <FullPageLoader/>
+                            <FullPageLoader inline/>
                         ) : data?.length === 0 ? (
                             <Box
                                 p={8}

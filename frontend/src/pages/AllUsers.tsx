@@ -13,7 +13,6 @@ import {
     Field,
     Grid,
     GridItem,
-    Heading,
     HStack,
     Input,
     Text,
@@ -21,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import type {SyntheticEvent} from "react";
 import {FiAlertTriangle, FiMail} from "react-icons/fi";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 function hasAnyFilter(searchParams: URLSearchParams): boolean {
     return searchParams.has("id") || searchParams.has("email");
@@ -65,31 +65,18 @@ export default function AllUsers() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        All Reviewers
-                    </Heading>
-                    <Text color="gray.700" fontSize="md">
-                        {isSearching && reviewers.length > 0
-                            ? `${reviewers.length} reviewer${reviewers.length !== 1 ? "s" : ""} found`
-                            : "Search reviewers by ID or email."}
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader
+                title="All Reviewers"
+                subtitle={isSearching && reviewers.length > 0
+                    ? `${reviewers.length} reviewer${reviewers.length !== 1 ? "s" : ""} found`
+                    : "Search reviewers by ID or email."}
+            />
 
-            <Container maxW="5xl" py={8} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <Box
                     bg="blue.50"
                     borderRadius="lg"
-                    p={6}
+                    p={{base: 4, md: 6}}
                     borderLeft="4px solid"
                     borderColor="blue.200"
                     mb={8}
@@ -135,13 +122,13 @@ export default function AllUsers() {
                         Enter at least one search criterion to find reviewers.
                     </Text>
                 ) : isFetching ? (
-                    <FullPageLoader />
+                    <FullPageLoader inline />
                 ) : reviewers.length === 0 ? (
                     <Text color="gray.500" fontSize="md" textAlign="center">
                         No reviewers found matching the given criteria.
                     </Text>
                 ) : (
-                    <Grid templateColumns={{base: "1fr", sm: "repeat(2, 1fr)"}} gap={4}>
+                    <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                         {reviewers.map((reviewer) => (
                             <GridItem key={reviewer.id}>
                                 <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">

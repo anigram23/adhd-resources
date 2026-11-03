@@ -3,7 +3,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getTickets} from "@/api_service/ticket.ts";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Badge, Box, Card, Container, Flex, Grid, GridItem, Heading, HStack, Text, VStack} from "@chakra-ui/react";
+import {Badge, Box, Card, Container, Flex, Grid, GridItem, HStack, Text, VStack} from "@chakra-ui/react";
 import {useAuth} from "@/auth/useAuth.ts";
 import ChooseTicketTypeStatus from "@/components/tickets/ChooseTicketTypeStatus.tsx";
 import type {Ticket} from "@/utils/types.ts";
@@ -12,6 +12,7 @@ import DeleteTicketConfirmation from "@/components/tickets/DeleteTicketConfirmat
 import CreateTicketForm from "@/components/tickets/CreateTicketForm.tsx";
 import {FiEye, FiPlus, FiTrash2} from "react-icons/fi";
 import ReviewDetailsDialog from "@/components/reviews/ReviewDetailsDialog.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 const STATUS_COLORS: Record<string, string> = {
     OPEN: "green",
@@ -37,27 +38,12 @@ export default function MyTickets() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                        mb={4}
-                    >
-                        My Tickets
-                    </Heading>
-                    {status && (
-                        <Text color="gray.600" fontSize="md">
-                            Showing <strong>{status.toLowerCase()}</strong> tickets
-                        </Text>
-                    )}
-                </Container>
-            </Box>
+            <PageHeader
+                title="My Tickets"
+                subtitle={status && <>Showing <strong>{status.toLowerCase()}</strong> tickets</>}
+            />
 
-            <Container maxW="5xl" py={10} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={8} align="stretch">
                     <Flex justify="space-between" align="flex-end" flexWrap="wrap" gap={4}>
                         <Box flex="1" minW="260px">
@@ -78,7 +64,7 @@ export default function MyTickets() {
 
                     {status && (
                         isPending ? (
-                            <FullPageLoader/>
+                            <FullPageLoader inline/>
                         ) : data?.length === 0 ? (
                             <Box
                                 p={8}

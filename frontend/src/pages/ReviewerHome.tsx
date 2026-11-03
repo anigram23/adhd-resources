@@ -5,7 +5,6 @@ import {
     Grid,
     GridItem,
     Heading,
-    Text,
     VStack,
     Button
 } from "@chakra-ui/react";
@@ -16,6 +15,7 @@ import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import type {StaticPage} from "@/utils/types.ts";
 import {Link} from "react-router";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
+import PageHeader from "@/components/utils/PageHeader.tsx";
 
 export default function ReviewerHome() {
 
@@ -30,24 +30,9 @@ export default function ReviewerHome() {
 
     return (
         <Box>
-            <Box bg="blue.50" py={14} px={4} borderBottom="1px solid" borderColor="blue.100">
-                <Container maxW="5xl">
-                    <Heading
-                        as="h1"
-                        fontSize={{base: "3xl", md: "5xl"}}
-                        fontWeight="bold"
-                        color="blue.900"
-                        lineHeight="1.15"
-                    >
-                        ADHD Resources for Indians
-                    </Heading>
-                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mt={3}>
-                        Crowdsourced reviews of psychologists and psychiatrists.
-                    </Text>
-                </Container>
-            </Box>
+            <PageHeader title="ADHD Resources for Indians" subtitle="Crowdsourced reviews of psychologists and psychiatrists."/>
 
-            <Container maxW="5xl" py={12} px={{base: 4, md: 8}}>
+            <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
                 <VStack gap={12} align="stretch">
                     <Box>
                         <Heading as="h2" fontSize="2xl" fontWeight="semibold" color="gray.800" mb={6}>
