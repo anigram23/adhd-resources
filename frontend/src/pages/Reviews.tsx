@@ -36,7 +36,6 @@ export default function Reviews() {
     const {id} = useParams();
     const {user} = useAuth();
     const location = useLocation();
-    console.log(location);
 
     const {data, error, isPending, isError} = useQuery({
         queryKey: ["reviews", id],
