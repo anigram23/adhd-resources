@@ -79,7 +79,7 @@ export default function AllTickets() {
 
                     {status && (
                         isPending ? (
-                            <FullPageLoader/>
+                            <FullPageLoader inline/>
                         ) : data?.length === 0 ? (
                             <Box
                                 p={8}

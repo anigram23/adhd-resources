@@ -40,7 +40,7 @@ export default function StaticPageDetails({ slug, onClose }: { slug: string, onC
     const [createSectionOpen, setCreateSectionOpen] = useState(false);
     const [createSectionCount, setCreateSectionCount] = useState(0);
 
-    if (isPending) return <FullPageLoader/>;
+    if (isPending) return <FullPageLoader inline/>;
 
     if (isError) {
         return <ErrorDisplay message={error.message} />;

@@ -33,7 +33,7 @@ export default function FindProfessionals() {
     });
 
     if (professionalTypesQuery.isPending || statesQuery.isPending) {
-        return <FullPageLoader />;
+        return <FullPageLoader inline />;
     }
 
     if (professionalTypesQuery.isError) {

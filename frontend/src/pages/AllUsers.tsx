@@ -122,7 +122,7 @@ export default function AllUsers() {
                         Enter at least one search criterion to find reviewers.
                     </Text>
                 ) : isFetching ? (
-                    <FullPageLoader />
+                    <FullPageLoader inline />
                 ) : reviewers.length === 0 ? (
                     <Text color="gray.500" fontSize="md" textAlign="center">
                         No reviewers found matching the given criteria.

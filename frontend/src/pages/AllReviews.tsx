@@ -196,7 +196,7 @@ export default function AllReviews() {
                 {isError && <ErrorDisplay message={error.message} />}
 
                 {!hasFilters || isPending ? (
-                    <FullPageLoader />
+                    <FullPageLoader inline />
                 ) : reviews.length === 0 ? (
                     <Text color="gray.500" fontSize="md" textAlign="center">
                         No reviews found matching the given criteria.
