@@ -30,6 +30,7 @@ export default function GenericDialog({
                     colorPalette={colorPalette as never}
                     variant={variant as never}
                     size={buttonSize as never}
+                    aria-label={buttonText ? undefined : title}
                 >
                     {icon}{buttonText}
                 </Button>
