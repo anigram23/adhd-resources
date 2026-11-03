@@ -22,15 +22,15 @@ export default function Navbar() {
         >
             <Logo/>
 
-            <Box display={{smDown: "none", sm: "flex"}} flex={1} maxW="480px">
+            <Box display={{base: "none", xl: "flex"}} flex={1} maxW="480px">
                 <SearchBar/>
             </Box>
 
-            <Box display={{smDown: "none", sm: "block"}}>
+            <Box display={{base: "none", xl: "block"}}>
                 <Links isMobile={false}/>
             </Box>
 
-            <Box display={{smDown: "block", sm: "none"}}>
+            <Box display={{base: "block", xl: "none"}}>
                 <MobileDrawer/>
             </Box>
         </Flex>
