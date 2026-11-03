@@ -4,7 +4,7 @@ import {getAllProfessionalTypes} from "@/api_service/professionalType.ts";
 import {getAllStates} from "@/api_service/state.ts";
 import {getCitiesByState} from "@/api_service/city.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
-import {Button, Field, FieldRequiredIndicator, Flex, NativeSelect} from "@chakra-ui/react";
+import {Button, Field, FieldRequiredIndicator, Grid, NativeSelect} from "@chakra-ui/react";
 import type {City, ProfessionalType, State} from "@/utils/types.ts";
 import {useNavigate} from "react-router";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
@@ -58,8 +58,8 @@ export default function FindProfessionals() {
     }
 
     return (
-        <Flex gap={4} flexWrap="wrap" align="flex-end">
-            <Field.Root required flex="1" minW="160px">
+        <Grid templateColumns={{base: "1fr", md: "1fr 1fr 1fr auto"}} gap={4} alignItems="end">
+            <Field.Root required>
                 <Field.Label color="gray.700">
                     Professional Type
                     <FieldRequiredIndicator />
@@ -79,7 +79,7 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Field.Root required flex="1" minW="160px">
+            <Field.Root required>
                 <Field.Label color="gray.700">
                     State
                     <FieldRequiredIndicator />
@@ -99,7 +99,7 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Field.Root required flex="1" minW="160px">
+            <Field.Root required>
                 <Field.Label color="gray.700">
                     City
                     <FieldRequiredIndicator />
@@ -119,9 +119,9 @@ export default function FindProfessionals() {
                 </NativeSelect.Root>
             </Field.Root>
 
-            <Button colorPalette="blue" onClick={handleSubmit} alignSelf="flex-end">
+            <Button colorPalette="blue" onClick={handleSubmit} w={{base: "full", md: "auto"}}>
                 Find
             </Button>
-        </Flex>
+        </Grid>
     )
 }
