@@ -53,7 +53,7 @@ export default function ReviewerHome() {
                                 templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
                                 gap={4}
                             >
-                                {staticPagesQuery.data.map((page: StaticPage) => (
+                                {staticPagesQuery.data.filter((page: StaticPage) => page.active).map((page: StaticPage) => (
                                     <GridItem key={page.id}>
                                         <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
                                             <Card.Header flex={1}>
