@@ -61,7 +61,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
     const contactNumberInvalid = !/^\d{10}$/.test(form.contactNumber);
 
     const mutation = useMutation({
-        mutationFn: () => editReview(review.id, form),
+        mutationFn: () => editReview(review.id, {...form, diagnosisFee: form.wasDiagnosed ? form.diagnosisFee : null}),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["reviews", String(data.professional.id)] });
             onClose?.();
@@ -186,7 +186,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                             </InputGroup>
                         </Field.Root>
 
-                        <Field.Root>
+                        <Field.Root disabled={!form.wasDiagnosed}>
                             <Field.Label color="gray.700">Diagnosis Fee</Field.Label>
                             <InputGroup startAddon="₹">
                                 <NumberInput.Root
@@ -201,7 +201,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                             <Field.HelperText>
                                 <HStack gap={1} color="gray.500" fontSize="xs">
                                     <FiInfo size={11} />
-                                    <Text>Leave at 0 if they don't diagnose ADHD</Text>
+                                    <Text>Only if this professional diagnosed you</Text>
                                 </HStack>
                             </Field.HelperText>
                         </Field.Root>

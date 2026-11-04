@@ -97,6 +97,10 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
+        if (reviewRequestDTO.getDiagnosisFee() != null && !reviewRequestDTO.isWasDiagnosed()) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
+        }
+
         Reviewer reviewer = reviewerRepository.findByEmail(reviewerEmail);
         if (reviewer == null) throw new HttpException(HttpStatus.NOT_FOUND, "The User Trying to Post This Review Does Not Exist. Please Register To Post Reviews.");
 
@@ -136,7 +140,16 @@ public class ReviewService {
             throw new HttpException(HttpStatus.FORBIDDEN, "You Do Not Have Permission To Update This Review.");
         }
 
+        boolean wasDiagnosed = reviewUpdateDTO.getWasDiagnosed() != null
+                ? reviewUpdateDTO.getWasDiagnosed()
+                : Boolean.TRUE.equals(review.getWasDiagnosed());
+        if (reviewUpdateDTO.getDiagnosisFee() != null && !wasDiagnosed) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
+        }
+
         reviewMapper.updateEntity(reviewUpdateDTO, review);
+        // updateEntity ignores nulls, so clear the stored fee explicitly
+        if (!wasDiagnosed) review.setDiagnosisFee(null);
         reviewRepository.save(review);
 
         return reviewMapper.toResponseDTO(review);

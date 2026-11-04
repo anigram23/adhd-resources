@@ -92,7 +92,7 @@ export default function CreateReviewForm(
         e.preventDefault();
         setSubmitted(true);
         if (contactNumberInvalid) return;
-        mutation.mutate(form);
+        mutation.mutate({...form, diagnosisFee: form.wasDiagnosed ? form.diagnosisFee : null});
     };
 
     return (
@@ -214,7 +214,7 @@ export default function CreateReviewForm(
                             </InputGroup>
                         </Field.Root>
 
-                        <Field.Root>
+                        <Field.Root disabled={!form.wasDiagnosed}>
                             <Field.Label color="gray.700">Diagnosis Fee</Field.Label>
                             <InputGroup startAddon="₹">
                                 <NumberInput.Root
@@ -229,7 +229,7 @@ export default function CreateReviewForm(
                             <Field.HelperText>
                                 <HStack gap={1} color="gray.500" fontSize="xs">
                                     <FiInfo size={11} />
-                                    <Text>Leave at 0 if they don't diagnose ADHD</Text>
+                                    <Text>Only if this professional diagnosed you</Text>
                                 </HStack>
                             </Field.HelperText>
                         </Field.Root>
