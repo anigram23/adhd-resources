@@ -67,9 +67,11 @@ React 19, TypeScript, Vite, Chakra UI v3, TanStack React Query v5, React Router 
 - `auth/` — `AuthContext` fetches `/auth/me` via React Query on load; `useAuth()` exposes `{ user, isAuthenticated, isLoading, isError }`. `AuthGate` delays rendering until auth state resolves.
 - `routing/Router.tsx` — route tree. Admin routes under `/admin/*` wrapped in `ProtectedRoute allowedRole="ADMIN"` (`routing/ProtectedRoutes.tsx`); reviewer/public routes at top level.
 - `pages/` — one component per route; feature UI lives in `components/<feature>/`. Shared types in `utils/types.ts` (ids are string UUIDs).
+- Admin routes: `static-pages`, `professional-types`, `ticket-types`, `tickets`, `reviews`, `reviewers`. Reviewer-only: `/profile`, `/my-tickets`, `/my-reviews`. Public: `/`, `/professionals`, `/reviews/:id/:slug`, `/search`, `/:slug` (static page).
+- Review rule: `diagnosisFee` is only kept when `wasDiagnosed` is true — enforced in both the review forms and `ReviewService` (fee is nulled otherwise).
 
 ## Repo notes
 
 - Remotes: `origin` (GitHub) and `codeberg`.
 - `AGENTS.md` duplicates parts of this file for other agents; keep the two consistent when changing setup facts.
-- Known rough edges (don't auto-fix unless asked): `SecurityConfig` matches `/me` but the real path is `/auth/me` (works only via the `permitAll` fallthrough); `README.md` still describes `ddl-auto=update` and section blocks.
+- Known rough edges (don't auto-fix unless asked): `SecurityConfig` matches `/me` but the real path is `/auth/me` (works only via the `permitAll` fallthrough); docker-compose defaults `DDL_AUTO` to `update`.
