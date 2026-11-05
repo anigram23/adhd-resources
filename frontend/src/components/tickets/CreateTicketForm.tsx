@@ -45,7 +45,7 @@ export default function CreateTicketForm({ reviewerId, onClose, review }: { revi
                                 value={ticketTypeId}
                                 onChange={(e) => setTicketTypeId(e.currentTarget.value)}
                             >
-                                {ticketTypes?.filter((type: TicketType) => type.id !== 2).map((type: TicketType) => (
+                                {ticketTypes?.filter((type: TicketType) => type.title !== "Report Review").map((type: TicketType) => (
                                     <option key={type.id} value={type.id}>{type.title}</option>
                                 ))}
                             </NativeSelect.Field>

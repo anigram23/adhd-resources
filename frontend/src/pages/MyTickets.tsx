@@ -87,9 +87,6 @@ export default function MyTickets() {
                                                         <Text fontWeight="semibold" color="gray.800">
                                                             {ticket.ticketType.title}
                                                         </Text>
-                                                        <Text color="blue.400" fontFamily="mono" fontSize="xs">
-                                                            #{ticket.id}
-                                                        </Text>
                                                     </VStack>
                                                     <HStack gap={2}>
                                                         <Badge
