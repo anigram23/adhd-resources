@@ -22,7 +22,7 @@ import {FaPhone, FaRupeeSign, FaStethoscope} from "react-icons/fa";
 import {HiOfficeBuilding} from "react-icons/hi";
 import {MdComputer} from "react-icons/md";
 import {FiEdit2, FiTrash2} from "react-icons/fi";
-import {Prose} from "@/components/ui/prose.tsx";
+import ReviewContent from "@/components/reviews/ReviewContent.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import EditReviewForm from "@/components/reviews/EditReviewForm.tsx";
 import DeleteReviewConfirmation from "@/components/reviews/DeleteReviewConfirmation.tsx";
@@ -58,7 +58,7 @@ export default function MyReviews() {
                     <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                         {data.map((review: Review) => (
                             <GridItem key={review.id}>
-                                <Card.Root shadow="sm" h="full" display="flex" flexDirection="column">
+                                <Card.Root shadow="sm" h="480px" display="flex" flexDirection="column">
                                     <Card.Header pb={2}>
                                         <VStack align="start" gap={2} w="full">
                                             <HStack justify="space-between" w="full">
@@ -118,8 +118,8 @@ export default function MyReviews() {
                                         </VStack>
                                     </Card.Header>
 
-                                    <Card.Body pt={0}>
-                                        <VStack align="start" gap={2}>
+                                    <Card.Body pt={0} display="flex" flexDirection="column" minH={0}>
+                                        <VStack align="start" gap={2} flex={1} minH={0}>
                                             <HStack gap={2} fontSize="sm">
                                                 <Box color="blue.400"><FaPhone size={13} /></Box>
                                                 <Text color="gray.700">{review.contactNumber}</Text>
@@ -161,13 +161,7 @@ export default function MyReviews() {
 
                                             <Separator />
 
-                                            <Prose
-                                                size="lg"
-                                                color="gray.700"
-                                                lineHeight="1.8"
-                                                maxW="none"
-                                                dangerouslySetInnerHTML={{__html: review.content}}
-                                            />
+                                            <ReviewContent review={review}/>
                                         </VStack>
                                     </Card.Body>
                                 </Card.Root>

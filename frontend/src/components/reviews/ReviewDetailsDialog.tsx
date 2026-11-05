@@ -12,7 +12,7 @@ export default function ReviewDetailsDialog({review}: { review: Review }) {
     return (
         <VStack align="stretch" gap={3}>
             <VStack align="start" gap={3}>
-                {user!.role === "ADMIN" && (
+                {user?.role === "ADMIN" && (
                     <HStack gap={2} fontSize="md">
                         <Box color="blue.400"><FaTag size={14} /></Box>
                         <Text color="gray.700">Review ID: {review.id}</Text>
