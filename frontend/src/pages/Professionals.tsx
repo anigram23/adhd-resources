@@ -120,7 +120,7 @@ export default function Professionals() {
                         ) : (
                             <GenericDialog
                                 key="login"
-                                component={() => <LoginOrRegister calledFrom={location.pathname} />}
+                                component={() => <LoginOrRegister />}
                                 title="Please Login or Register to Continue"
                                 buttonText="Add a Review"
                                 size={"lg" as never}

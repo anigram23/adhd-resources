@@ -1,4 +1,4 @@
-import {useLocation, useParams} from "react-router";
+import {useParams} from "react-router";
 import {useQuery} from "@tanstack/react-query";
 import {getReviewsForProfessional} from "@/api_service/professional.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
@@ -35,7 +35,6 @@ import PageHeader from "@/components/utils/PageHeader.tsx";
 export default function Reviews() {
     const {id} = useParams();
     const {user} = useAuth();
-    const location = useLocation();
 
     const {data, error, isPending, isError} = useQuery({
         queryKey: ["reviews", id],
@@ -100,7 +99,7 @@ export default function Reviews() {
                         ) : (
                             <GenericDialog
                                 key="login"
-                                component={() => <LoginOrRegister calledFrom={location.pathname} /> }
+                                component={() => <LoginOrRegister /> }
                                 title="Please Login or Register to Continue"
                                 buttonText="Add a Review"
                                 size={"md" as never}
@@ -174,7 +173,7 @@ export default function Reviews() {
                                             ) : (
                                                 <GenericDialog
                                                     key="login"
-                                                    component={() => <LoginOrRegister calledFrom={location.pathname} /> }
+                                                    component={() => <LoginOrRegister /> }
                                                     title="Please Login or Register to Continue"
                                                     buttonText=""
                                                     size={"sm" as never}

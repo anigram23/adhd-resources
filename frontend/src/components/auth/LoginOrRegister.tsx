@@ -3,11 +3,9 @@ import {useState} from "react";
 import * as React from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {login, register} from "@/api_service/reviewer.ts";
-import {useNavigate} from "react-router";
 import {FiAlertCircle} from "react-icons/fi";
 
-function LoginForm({prev}: { prev: string }) {
-    const navigate = useNavigate();
+function LoginForm() {
     const queryClient = useQueryClient();
     const [form, setForm] = useState({email: "", password: ""});
 
@@ -15,7 +13,6 @@ function LoginForm({prev}: { prev: string }) {
         mutationFn: login,
         onSuccess: async () => {
             await queryClient.invalidateQueries({queryKey: ["currentUser"]});
-            navigate(prev);
         },
     });
 
@@ -66,8 +63,7 @@ function LoginForm({prev}: { prev: string }) {
     );
 }
 
-function RegisterForm({prev}: { prev: string }) {
-    const navigate = useNavigate();
+function RegisterForm() {
     const queryClient = useQueryClient();
     const [form, setForm] = useState({email: "", password: "", confirmPassword: ""});
     const [passwordsNotMatching, setPasswordsNotMatching] = useState(false);
@@ -76,7 +72,6 @@ function RegisterForm({prev}: { prev: string }) {
         mutationFn: register,
         onSuccess: async () => {
             await queryClient.invalidateQueries({queryKey: ["currentUser"]});
-            navigate(prev);
         },
     });
 
@@ -150,7 +145,7 @@ function RegisterForm({prev}: { prev: string }) {
     );
 }
 
-export default function LoginOrRegister({calledFrom}: { calledFrom: string }) {
+export default function LoginOrRegister() {
     return (
         <Box>
             <Text color="gray.600" fontSize="sm" lineHeight="1.7" mb={5}>
@@ -164,11 +159,11 @@ export default function LoginOrRegister({calledFrom}: { calledFrom: string }) {
                 </Tabs.List>
 
                 <Tabs.Content value="login">
-                    <LoginForm prev={calledFrom} />
+                    <LoginForm />
                 </Tabs.Content>
 
                 <Tabs.Content value="register">
-                    <RegisterForm prev={calledFrom} />
+                    <RegisterForm />
                 </Tabs.Content>
             </Tabs.Root>
         </Box>
