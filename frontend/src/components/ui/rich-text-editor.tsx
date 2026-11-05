@@ -12,6 +12,8 @@ import * as React from "react"
 const proseMirrorBaseCss = defineStyle({
   display: "flex",
   flexDirection: "column",
+  width: "100%",
+  minWidth: "0",
   borderWidth: "1px",
   rounded: "l2",
   lineHeight: "1.5",
@@ -27,6 +29,7 @@ const proseMirrorBaseCss = defineStyle({
 
   "& .ProseMirror": {
     outline: "none",
+    overflowWrap: "anywhere",
     minHeight: "var(--content-min-height)",
     px: "var(--content-padding-x)",
     py: "var(--content-padding-y)",
