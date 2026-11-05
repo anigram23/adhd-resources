@@ -14,6 +14,7 @@ export default function SearchBar() {
             pathname: "/search",
             search: `q=${searchQuery}`
         })
+        setSearchQuery("");
     }
     return (
         <form style={{width: "100%"}} onSubmit={handleSubmit}>
