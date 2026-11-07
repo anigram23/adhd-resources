@@ -208,7 +208,6 @@ export default function CreateReviewForm(
                                     value={form.consultationFee as unknown as string}
                                     onValueChange={(e) => setForm({...form, consultationFee: e.value as unknown as number})}
                                 >
-                                    <NumberInput.Control />
                                     <NumberInput.Input placeholder="0" />
                                 </NumberInput.Root>
                             </InputGroup>
@@ -222,7 +221,6 @@ export default function CreateReviewForm(
                                     value={form.diagnosisFee as unknown as string}
                                     onValueChange={(e) => setForm({...form, diagnosisFee: e.value as unknown as number})}
                                 >
-                                    <NumberInput.Control />
                                     <NumberInput.Input placeholder="0 (leave blank if N/A)" />
                                 </NumberInput.Root>
                             </InputGroup>
