@@ -14,7 +14,8 @@ const system = createSystem(defaultConfig, {
 export function Provider(props: ColorModeProviderProps) {
   return (
     <ChakraProvider value={system}>
-      <ColorModeProvider {...props} />
+      {/* Light mode only: hardcoded palette colors aren't dark-mode aware yet. */}
+      <ColorModeProvider forcedTheme="light" {...props} />
     </ChakraProvider>
   )
 }
