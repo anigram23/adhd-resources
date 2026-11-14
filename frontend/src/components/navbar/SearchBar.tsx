@@ -22,7 +22,7 @@ export default function SearchBar() {
                 w="full"
                 bg="blue.50"
                 border="1px solid"
-                borderColor="blue.100"
+                borderColor="blue.200"
                 borderRadius="md"
                 px={3}
                 py={1.5}

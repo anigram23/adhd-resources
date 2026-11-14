@@ -15,6 +15,7 @@ const proseMirrorBaseCss = defineStyle({
   width: "100%",
   minWidth: "0",
   borderWidth: "1px",
+  borderColor: "border.emphasized",
   rounded: "l2",
   lineHeight: "1.5",
 

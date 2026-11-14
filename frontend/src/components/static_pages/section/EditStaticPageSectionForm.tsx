@@ -65,7 +65,7 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
 
                     <RichTextEditor.Root
                         editor={editor}
-                        borderColor="blue.100"
+                        borderColor="blue.200"
                         _focusWithin={{ borderColor: "blue.300", shadow: "sm" }}
                         css={{ "--content-min-height": "160px" }}
                     >

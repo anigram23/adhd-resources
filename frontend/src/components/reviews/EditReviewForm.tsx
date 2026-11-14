@@ -239,7 +239,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                             </Field.Label>
                             <RichTextEditor.Root
                                 editor={editor}
-                                borderColor="blue.100"
+                                borderColor="blue.200"
                                 _focusWithin={{ borderColor: "blue.300", shadow: "sm" }}
                                 css={{ "--content-min-height": "160px" }}
                             >
