@@ -6,7 +6,8 @@ import {
     GridItem,
     Heading,
     VStack,
-    Button
+    Button,
+    Text
 } from "@chakra-ui/react";
 import FindProfessionals from "@/components/professionals/FindProfessionals.tsx";
 import {useQuery} from "@tanstack/react-query";
@@ -16,6 +17,7 @@ import type {StaticPage} from "@/utils/types.ts";
 import {Link} from "react-router";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import PageHeader from "@/components/utils/PageHeader.tsx";
+import SearchBar from "@/components/navbar/SearchBar.tsx";
 
 export default function ReviewerHome() {
 
@@ -39,6 +41,10 @@ export default function ReviewerHome() {
                             Find a Professional
                         </Heading>
                         <FindProfessionals />
+                        <Text textAlign="center" color="gray.500" my={4}>Or</Text>
+                        <Box w={{base: "full", md: "50%"}} mx="auto">
+                            <SearchBar/>
+                        </Box>
                     </Box>
 
                     <Box>
