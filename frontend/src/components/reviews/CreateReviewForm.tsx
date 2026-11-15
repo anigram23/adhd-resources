@@ -1,6 +1,10 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {createReview} from "@/api_service/review.ts";
+import {getAllProfessionalTypes} from "@/api_service/professionalType.ts";
+import {getAllStates} from "@/api_service/state.ts";
+import {getCitiesByState} from "@/api_service/city.ts";
+import type {City, ProfessionalType, State} from "@/utils/types.ts";
 import {
     Badge,
     Box,
@@ -13,6 +17,7 @@ import {
     HStack,
     Input,
     InputGroup,
+    NativeSelect,
     NumberInput,
     RatingGroup,
     Separator,
@@ -71,11 +76,33 @@ export default function CreateReviewForm(
     const [submitted, setSubmitted] = useState(false);
     const contactNumberInvalid = !/^\d{10}$/.test(form.contactNumber);
 
+    const pickType = !existingProfessional && !professionalType;
+    const pickCity = !existingProfessional && !city;
+    const [selectedStateID, setSelectedStateID] = useState<string>("");
+
+    const professionalTypesQuery = useQuery({
+        queryKey: ["professionalTypes"],
+        queryFn: getAllProfessionalTypes,
+        enabled: pickType,
+    });
+
+    const statesQuery = useQuery({
+        queryKey: ["states"],
+        queryFn: getAllStates,
+        enabled: pickCity,
+    });
+
+    const citiesQuery = useQuery({
+        queryKey: ["cities", selectedStateID],
+        queryFn: () => getCitiesByState(Number(selectedStateID)),
+        enabled: pickCity && !!selectedStateID,
+    });
+
     const mutation = useMutation({
         mutationFn: createReview,
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({queryKey: ["reviews", String(data.professional.id)]});
-            await queryClient.invalidateQueries({ queryKey: ["professionals", professionalType, city] });
+            await queryClient.invalidateQueries({ queryKey: ["professionals", form.professionalTypeTitle, form.cityName] });
             onClose?.();
         },
     });
@@ -114,6 +141,76 @@ export default function CreateReviewForm(
                                     onChange={(e) => setForm({...form, professionalName: e.target.value})}
                                 />
                             </Field.Root>
+
+                            {pickType && (
+                                <Field.Root required>
+                                    <Field.Label color="gray.700">
+                                        Professional Type <FieldRequiredIndicator />
+                                    </Field.Label>
+                                    <NativeSelect.Root bg="white">
+                                        <NativeSelect.Field
+                                            placeholder="Select"
+                                            value={form.professionalTypeTitle ?? ""}
+                                            onChange={(e) => setForm({...form, professionalTypeTitle: e.currentTarget.value || null})}
+                                        >
+                                            {(professionalTypesQuery.data ?? []).map((type: ProfessionalType) => (
+                                                <option value={type.title} key={type.id}>{type.title}</option>
+                                            ))}
+                                        </NativeSelect.Field>
+                                        <NativeSelect.Indicator />
+                                    </NativeSelect.Root>
+                                </Field.Root>
+                            )}
+
+                            {pickCity && (
+                                <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
+                                    <Field.Root required>
+                                        <Field.Label color="gray.700">
+                                            State <FieldRequiredIndicator />
+                                        </Field.Label>
+                                        <NativeSelect.Root bg="white">
+                                            <NativeSelect.Field
+                                                placeholder="Select"
+                                                value={selectedStateID}
+                                                onChange={(e) => {
+                                                    setSelectedStateID(e.currentTarget.value);
+                                                    setForm({...form, cityName: null});
+                                                }}
+                                            >
+                                                {(statesQuery.data ?? []).map((state: State) => (
+                                                    <option value={state.id} key={state.id}>{state.name}</option>
+                                                ))}
+                                            </NativeSelect.Field>
+                                            <NativeSelect.Indicator />
+                                        </NativeSelect.Root>
+                                    </Field.Root>
+
+                                    <Field.Root required disabled={!selectedStateID}>
+                                        <Field.Label color="gray.700">
+                                            City <FieldRequiredIndicator />
+                                        </Field.Label>
+                                        <NativeSelect.Root bg="white">
+                                            <NativeSelect.Field
+                                                placeholder="Select"
+                                                value={form.cityName ?? ""}
+                                                onChange={(e) => setForm({...form, cityName: e.currentTarget.value || null})}
+                                            >
+                                                {(citiesQuery.data ?? []).map((c: City) => (
+                                                    <option value={c.name} key={c.id}>{c.name}</option>
+                                                ))}
+                                            </NativeSelect.Field>
+                                            <NativeSelect.Indicator />
+                                        </NativeSelect.Root>
+                                    </Field.Root>
+                                </Grid>
+                            )}
+
+                            {(professionalTypesQuery.isError || statesQuery.isError || citiesQuery.isError) && (
+                                <HStack gap={2} color="red.500">
+                                    <FiAlertCircle size={22} />
+                                    <Text fontSize="sm">Failed to load options. Please try again.</Text>
+                                </HStack>
+                            )}
                         </Stack>
                     </Box>
                 )}

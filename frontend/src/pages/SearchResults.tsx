@@ -8,12 +8,17 @@ import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import type {Professional} from "@/utils/types.ts";
 import {RiMentalHealthLine} from "react-icons/ri";
 import {LiaCitySolid} from "react-icons/lia";
-import {FiSearch} from "react-icons/fi";
+import {FiPlus, FiSearch} from "react-icons/fi";
 import Professionals from "@/pages/Professionals.tsx";
 import PageHeader from "@/components/utils/PageHeader.tsx";
+import GenericDialog from "@/components/utils/GenericDialog.tsx";
+import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
+import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
+import {useAuth} from "@/auth/useAuth.ts";
 
 export default function SearchResults() {
     const [searchParams] = useSearchParams();
+    const { user } = useAuth();
     const query = searchParams.get("q");
 
     const {isPending, isError, data, error} = useQuery({
@@ -42,7 +47,7 @@ export default function SearchResults() {
             />
 
             <Container maxW="5xl" py={{base: 8, md: 12}} px={{base: 4, md: 8}}>
-                {data.length > 0 ? (
+                {data.length > 0 && (
                     <Grid
                         templateColumns={{base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)"}}
                         gap={4}
@@ -79,10 +84,6 @@ export default function SearchResults() {
                             </GridItem>
                         ))}
                     </Grid>
-                ) : (
-                    <Text color="gray.700" fontSize="md" lineHeight="1.8" mb={10}>
-                        No professionals matched your search. Try searching by type and city below.
-                    </Text>
                 )}
 
                 <Box p={5} bg="blue.50" borderRadius="lg" borderLeft="4px solid" borderColor="blue.200">
@@ -90,15 +91,39 @@ export default function SearchResults() {
                         <HStack gap={2}>
                             <Box color="blue.400"><FiSearch size={16} /></Box>
                             <Heading as="h2" fontSize="lg" fontWeight="semibold" color="blue.900">
-                                {data.length > 0
-                                    ? "Didn't find who you're looking for?"
-                                    : "Search by type and city"}
+                                Didn't find who you're looking for?
                             </Heading>
                         </HStack>
                         <Text color="gray.700" fontSize="sm" lineHeight="1.8">
+                            If they aren't listed yet, add them by leaving a review.
+                        </Text>
+                        {user ? (
+                            <GenericDialog
+                                component={({onClose}) => <CreateReviewForm
+                                    id={null}
+                                    city={null}
+                                    professionalType={null}
+                                    onClose={onClose}
+                                />}
+                                title="Share Your Thoughts"
+                                buttonText="Add a Review"
+                                size={"xl" as never}
+                                icon={<FiPlus />}
+                            />
+                        ) : (
+                            <GenericDialog
+                                key="login"
+                                component={() => <LoginOrRegister />}
+                                title="Please Login or Register to Continue"
+                                buttonText="Add a Review"
+                                size={"lg" as never}
+                                icon={<FiPlus />}
+                            />
+                        )}
+                        <Text color="gray.700" fontSize="sm" lineHeight="1.8">
                             {data.length > 0
-                                ? "Narrow your results by selecting a professional type and city."
-                                : "Browse professionals in your area by selecting a type and city."}
+                                ? "Or narrow your results by selecting a professional type and city."
+                                : "Or browse professionals in your area by selecting a type and city."}
                         </Text>
                         <FindProfessionals />
                     </VStack>
