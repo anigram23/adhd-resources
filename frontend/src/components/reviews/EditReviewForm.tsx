@@ -59,6 +59,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
 
     const [submitted, setSubmitted] = useState(false);
     const contactNumberInvalid = !/^\d{10}$/.test(form.contactNumber);
+    const ratingInvalid = form.rating < 0.5;
 
     const mutation = useMutation({
         mutationFn: () => editReview(review.id, {...form, diagnosisFee: form.wasDiagnosed ? form.diagnosisFee : null}),
@@ -80,7 +81,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setSubmitted(true);
-        if (contactNumberInvalid) return;
+        if (contactNumberInvalid || ratingInvalid) return;
         mutation.mutate();
     }
 
@@ -209,7 +210,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                 <Box bg="blue.50" borderRadius="lg" p={4} borderLeft="4px solid" borderColor="blue.200">
                     <SectionHeader icon={<FiEdit2 size={14} />} label="Your Review" />
                     <Stack gap={4} mt={3}>
-                        <Field.Root required>
+                        <Field.Root required invalid={submitted && ratingInvalid}>
                             <Field.Label color="gray.700">
                                 Rating <FieldRequiredIndicator />
                             </Field.Label>
@@ -231,6 +232,7 @@ export default function EditReviewForm({ review, onClose, afterSuccess }: { revi
                                     </Text>
                                 )}
                             </VStack>
+                            <Field.ErrorText>Please give a rating of at least 0.5 stars</Field.ErrorText>
                         </Field.Root>
 
                         <Field.Root required>
