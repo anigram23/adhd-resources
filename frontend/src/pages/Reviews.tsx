@@ -4,26 +4,21 @@ import {getReviewsForProfessional} from "@/api_service/professional.ts";
 import FullPageLoader from "@/components/utils/FullPageLoader.tsx";
 import ErrorDisplay from "@/components/utils/ErrorDisplay.tsx";
 import {
-    Badge,
     Box,
     Card,
     Container,
-    Flex,
     Grid,
     GridItem,
     HStack,
     RatingGroup,
-    Separator,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import type {Review} from "@/utils/types.ts";
 import {useAuth} from "@/auth/useAuth.ts";
-import {FaPhone, FaRupeeSign, FaStethoscope} from "react-icons/fa";
-import {HiOfficeBuilding, HiOutlineFlag} from "react-icons/hi";
-import {MdComputer} from "react-icons/md";
+import {HiOutlineFlag} from "react-icons/hi";
 import {FiEdit2, FiPlus, FiTrash2} from "react-icons/fi";
-import ReviewContent from "@/components/reviews/ReviewContent.tsx";
+import ReviewCardBody from "@/components/reviews/ReviewCardBody.tsx";
 import GenericDialog from "@/components/utils/GenericDialog.tsx";
 import CreateReviewForm from "@/components/reviews/CreateReviewForm.tsx";
 import LoginOrRegister from "@/components/auth/LoginOrRegister.tsx";
@@ -118,7 +113,7 @@ export default function Reviews() {
                 <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4}>
                     {data.map((review: Review) => (
                         <GridItem key={review.id}>
-                            <Card.Root shadow="sm" h="480px" display="flex" flexDirection="column">
+                            <Card.Root shadow="sm" h={{base: "380px", md: "350px"}} display="flex" flexDirection="column">
                                 <Card.Header pb={2}>
                                     <HStack justify="space-between" w="full">
                                         <VStack align="start" gap={1}>
@@ -186,52 +181,7 @@ export default function Reviews() {
                                     </HStack>
                                 </Card.Header>
 
-                                <Card.Body pt={0} display="flex" flexDirection="column" minH={0}>
-                                    <VStack align="start" gap={2} flex={1} minH={0}>
-                                        <HStack gap={2} fontSize="sm">
-                                            <Box color="blue.400"><FaPhone size={13} /></Box>
-                                            <Text color="gray.700">{review.contactNumber}</Text>
-                                        </HStack>
-                                        <HStack gap={2} fontSize="sm">
-                                            <Box color="blue.400"><HiOfficeBuilding size={15} /></Box>
-                                            <Text color="gray.700">{review.address}</Text>
-                                        </HStack>
-                                        <Badge
-                                            colorPalette={review.doesOnlineConsultations ? "green" : "gray"}
-                                            variant="subtle"
-                                            size="sm"
-                                            gap={1}
-                                        >
-                                            <MdComputer />
-                                            {review.doesOnlineConsultations ? "Online consultations available" : "No online consultations"}
-                                        </Badge>
-
-                                        <Separator />
-
-                                        <HStack gap={4} fontSize="sm" flexWrap="wrap">
-                                            <Flex align="center" gap={1} color="gray.700">
-                                                <Box color="blue.400"><FaRupeeSign size={12} /></Box>
-                                                <Text>{review.consultationFee} per consultation</Text>
-                                            </Flex>
-                                            {review.diagnosisFee > 0 && (
-                                                <Flex align="center" gap={1} color="gray.700">
-                                                    <Box color="blue.400"><FaRupeeSign size={12} /></Box>
-                                                    <Text>{review.diagnosisFee} diagnosis</Text>
-                                                </Flex>
-                                            )}
-                                        </HStack>
-                                        {review.wasDiagnosed && (
-                                            <HStack gap={2} fontSize="sm">
-                                                <Box color="blue.400"><FaStethoscope size={13} /></Box>
-                                                <Text color="gray.700">Was diagnosed with ADHD by {review.professional.name}</Text>
-                                            </HStack>
-                                        )}
-
-                                        <Separator />
-
-                                        <ReviewContent review={review}/>
-                                    </VStack>
-                                </Card.Body>
+                                <ReviewCardBody review={review}/>
                             </Card.Root>
                         </GridItem>
                     ))}
