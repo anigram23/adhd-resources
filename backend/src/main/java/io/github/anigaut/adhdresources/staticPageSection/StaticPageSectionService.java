@@ -27,6 +27,7 @@ public class StaticPageSectionService {
         if (staticPageSectionRepository.existsByTitle(dto.getTitle())) {
             throw new HttpException(
                     HttpStatus.BAD_REQUEST,
+                    "title",
                     "A section with this title already exists, please enter a different one"
             );
         }
@@ -42,6 +43,7 @@ public class StaticPageSectionService {
         if (staticPageSectionRepository.existsByOrderIndexAndStaticPage(dto.getOrderIndex(), page)) {
             throw new HttpException(
                     HttpStatus.BAD_REQUEST,
+                    "orderIndex",
                     "A section with this order index already exists, please enter a different one or edit the existing one"
             );
         }

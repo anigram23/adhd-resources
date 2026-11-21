@@ -37,7 +37,7 @@ public class TicketTypeController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TicketTypeResponseDTO> updateTicketType(@PathVariable int id, @RequestBody TicketTypeUpdateDTO updateDTO) {
+    public ResponseEntity<TicketTypeResponseDTO> updateTicketType(@PathVariable int id, @Valid @RequestBody TicketTypeUpdateDTO updateDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(ticketTypeService.updateTicketType(id, updateDTO));
     }
 

@@ -25,7 +25,7 @@ public class TicketTypeService {
     @Transactional
     public TicketTypeResponseDTO createTicketType(TicketTypeRequestDTO requestDTO) {
         if (ticketTypeRepository.existsByTitle(requestDTO.getTitle())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "A ticket type with this title already exists. Please enter a different one.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "title", "A ticket type with this title already exists. Please enter a different one.");
         }
         TicketType ticketType = ticketTypeMapper.toEntity(requestDTO);
         TicketType saved = ticketTypeRepository.save(ticketType);
@@ -46,6 +46,9 @@ public class TicketTypeService {
     public TicketTypeResponseDTO updateTicketType(int id, TicketTypeUpdateDTO updateDTO) {
         TicketType ticketType = ticketTypeRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A ticket type with this ID doesn't exist. Please try again."));
+        if (!ticketType.getTitle().equals(updateDTO.getTitle()) && ticketTypeRepository.existsByTitle(updateDTO.getTitle())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "title", "A ticket type with this title already exists. Please enter a different one.");
+        }
         ticketTypeMapper.updateTicketTypeFromDTO(updateDTO, ticketType);
         return ticketTypeMapper.toResponseDTO(ticketType);
     }

@@ -45,7 +45,7 @@ public class StaticPageSectionController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<StaticPageSectionResponseDTO> updateStaticPageSection(@PathVariable int id, @RequestBody StaticPageSectionUpdateDTO staticPageSectionUpdateDTO) {
+    public ResponseEntity<StaticPageSectionResponseDTO> updateStaticPageSection(@PathVariable int id, @Valid @RequestBody StaticPageSectionUpdateDTO staticPageSectionUpdateDTO) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(staticPageSectionService.updateStaticPageSection(id, staticPageSectionUpdateDTO));

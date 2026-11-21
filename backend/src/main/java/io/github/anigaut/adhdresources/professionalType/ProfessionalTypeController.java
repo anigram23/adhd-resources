@@ -44,7 +44,7 @@ public class ProfessionalTypeController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProfessionalTypeResponseDTO> updateProfessionalType(@PathVariable int id, @RequestBody ProfessionalTypeUpdateDTO professionalTypeRequest) {
+    public ResponseEntity<ProfessionalTypeResponseDTO> updateProfessionalType(@PathVariable int id, @Valid @RequestBody ProfessionalTypeUpdateDTO professionalTypeRequest) {
         ProfessionalTypeResponseDTO updatedType = professionalTypeService.updateProfessionalType(id, professionalTypeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedType);
     }

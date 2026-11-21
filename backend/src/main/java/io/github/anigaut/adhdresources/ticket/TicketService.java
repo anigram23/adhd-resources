@@ -44,7 +44,7 @@ public class TicketService {
         }
 
         if (ticketType.getId() == 2 && review == null) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Please report reviews from the reviews page.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "ticketTypeId", "Please report reviews from the reviews page.");
         }
 
         Ticket ticket = new Ticket();

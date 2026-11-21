@@ -28,6 +28,7 @@ public class StaticPageService {
         if (staticPageRepository.existsBySlug(staticPageRequestDTO.getSlug())) {
             throw new HttpException(
                     HttpStatus.BAD_REQUEST,
+                    "slug",
                     "A page with this slug already exists, please enter a different one"
             );
         }
@@ -58,6 +59,9 @@ public class StaticPageService {
         StaticPage staticPage = staticPageRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "A page with this ID doesn't exist."));
 
+        if (!staticPage.getSlug().equals(staticPageRequestDTO.getSlug()) && staticPageRepository.existsBySlug(staticPageRequestDTO.getSlug())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "slug", "A page with this slug already exists, please enter a different one");
+        }
         staticPageMapper.updateEntity(staticPageRequestDTO, staticPage);
         return staticPageMapper.toDto(staticPage);
     }

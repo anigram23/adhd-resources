@@ -38,7 +38,7 @@ public class StaticPageController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<StaticPageResponseDTO> updateStaticPage(@PathVariable UUID id, @RequestBody StaticPageRequestDTO staticPageRequestDTO) {
+    public ResponseEntity<StaticPageResponseDTO> updateStaticPage(@PathVariable UUID id, @Valid @RequestBody StaticPageRequestDTO staticPageRequestDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(staticPageService.updateStaticPage(id, staticPageRequestDTO));
     }
 

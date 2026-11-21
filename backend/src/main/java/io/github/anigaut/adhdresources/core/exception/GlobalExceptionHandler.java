@@ -19,11 +19,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleHttpException(HttpException ex, WebRequest req) {
         String path = req.getDescription(false).replace("uri=", "");
 
+        List<FormValidationError> validationErrors = ex.getField() == null
+                ? null
+                : List.of(new FormValidationError(ex.getField(), ex.getMessage()));
+
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getStatus().value(),
                 ex.getMessage(),
                 LocalDateTime.now(),
-                path
+                path,
+                validationErrors
         );
 
         return new ResponseEntity<>(errorResponse, ex.getStatus());

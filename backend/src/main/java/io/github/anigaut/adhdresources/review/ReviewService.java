@@ -98,7 +98,7 @@ public class ReviewService {
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, String reviewerEmail) {
         if (reviewRequestDTO.getDiagnosisFee() != null && !reviewRequestDTO.isWasDiagnosed()) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "diagnosisFee", "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
         }
 
         Reviewer reviewer = reviewerRepository.findByEmail(reviewerEmail);
@@ -144,7 +144,7 @@ public class ReviewService {
                 ? reviewUpdateDTO.getWasDiagnosed()
                 : Boolean.TRUE.equals(review.getWasDiagnosed());
         if (reviewUpdateDTO.getDiagnosisFee() != null && !wasDiagnosed) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "diagnosisFee", "Diagnosis Fee Can Only Be Added If This Professional Diagnosed You.");
         }
 
         reviewMapper.updateEntity(reviewUpdateDTO, review);

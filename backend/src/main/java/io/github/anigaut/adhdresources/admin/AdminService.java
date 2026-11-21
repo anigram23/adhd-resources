@@ -42,11 +42,11 @@ public class AdminService {
     public void login(AdminLoginDTO dto, HttpServletResponse response) {
         Admin admin = adminRepository.findByEmail(dto.getEmail());
         if (admin == null) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "An admin with this email doesn't exist");
+            throw new HttpException(HttpStatus.NOT_FOUND, "email", "An admin with this email doesn't exist");
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), admin.getPasswordHash())) {
-            throw new HttpException(HttpStatus.UNAUTHORIZED, "The Password You Entered Doesn't Match. Please Try Again.");
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "password", "The Password You Entered Doesn't Match. Please Try Again.");
         }
 
         String token = jwtUtil.generateToken(admin.getEmail(), "ADMIN");

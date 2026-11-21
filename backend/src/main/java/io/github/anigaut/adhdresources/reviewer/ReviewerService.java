@@ -34,11 +34,11 @@ public class ReviewerService {
     @Transactional
     public void register(ReviewerRegisterDTO dto, HttpServletResponse response) {
         if (reviewerRepository.existsByEmail(dto.getEmail())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "A User With This Email Already Exists. Please Login or Register With a Different Email.");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "email", "A User With This Email Already Exists. Please Login or Register With a Different Email.");
         }
 
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Passwords do not match");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "confirmPassword", "Passwords do not match");
         }
 
         Reviewer reviewer = reviewerMapper.toEntity(dto);
@@ -52,11 +52,11 @@ public class ReviewerService {
     public void login(ReviewerLoginDTO dto, HttpServletResponse response) {
         Reviewer reviewer = reviewerRepository.findByEmail(dto.getEmail());
         if (reviewer == null) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "A User With This Email ID Does Not Exist. Please Use a Different One or Create a New Account.");
+            throw new HttpException(HttpStatus.NOT_FOUND, "email", "A User With This Email ID Does Not Exist. Please Use a Different One or Create a New Account.");
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), reviewer.getPasswordHash())) {
-            throw new HttpException(HttpStatus.UNAUTHORIZED, "Invalid Password. Please Try Again.");
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "password", "Invalid Password. Please Try Again.");
         }
 
         String token = jwtUtil.generateToken(reviewer.getEmail(), "REVIEWER");
@@ -94,11 +94,11 @@ public class ReviewerService {
         }
 
         if (!passwordEncoder.matches(dto.getOldPassword(), reviewer.getPasswordHash())) {
-            throw new HttpException(HttpStatus.UNAUTHORIZED, "Invalid Password");
+            throw new HttpException(HttpStatus.UNAUTHORIZED, "oldPassword", "Invalid Password");
         }
 
         if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "New Passwords Do not Match");
+            throw new HttpException(HttpStatus.BAD_REQUEST, "confirmNewPassword", "New Passwords Do not Match");
         }
 
         reviewer.setPasswordHash(passwordEncoder.encode(dto.getNewPassword()));
