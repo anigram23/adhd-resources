@@ -26,6 +26,10 @@ export default function ChangePasswordForm({ email }: { email: string }) {
             navigate("/");
         }
     });
+    const errors: Record<string, string> = {
+        ...mutation.error?.fieldErrors,
+        ...(passwordsNotMatching ? { confirmNewPassword: "Your passwords do not match" } : {}),
+    };
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -34,6 +38,7 @@ export default function ChangePasswordForm({ email }: { email: string }) {
 
         if (form.newPassword !== form.confirmNewPassword) {
             setPasswordsNotMatching(true);
+            mutation.reset();
             return;
         }
 
@@ -43,7 +48,7 @@ export default function ChangePasswordForm({ email }: { email: string }) {
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={5} pb={2}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.oldPassword} required>
                     <Field.Label color="gray.700" fontWeight="medium">
                         Current Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -54,9 +59,10 @@ export default function ChangePasswordForm({ email }: { email: string }) {
                         onChange={(e) =>
                             setForm({...form, oldPassword: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.oldPassword}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.newPassword} required>
                     <Field.Label color="gray.700" fontWeight="medium">
                         New Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -67,9 +73,10 @@ export default function ChangePasswordForm({ email }: { email: string }) {
                         onChange={(e) =>
                             setForm({...form, newPassword: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.newPassword}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.confirmNewPassword} required>
                     <Field.Label color="gray.700" fontWeight="medium">
                         Confirm New Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -80,19 +87,13 @@ export default function ChangePasswordForm({ email }: { email: string }) {
                         onChange={(e) =>
                             setForm({...form, confirmNewPassword: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.confirmNewPassword}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={3} color="red.500">
                         <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>
-                    </HStack>
-                )}
-
-                {passwordsNotMatching && (
-                    <HStack gap={3} color="red.500">
-                        <FiAlertCircle size={22} />
-                        <Text fontSize="sm">Your passwords do not match</Text>
                     </HStack>
                 )}
 

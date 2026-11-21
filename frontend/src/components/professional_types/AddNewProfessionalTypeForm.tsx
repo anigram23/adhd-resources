@@ -21,6 +21,7 @@ export default function AddNewProfessionalTypeForm({ onClose }: { onClose?: () =
             onClose?.();
         }
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -30,17 +31,18 @@ export default function AddNewProfessionalTypeForm({ onClose }: { onClose?: () =
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={6}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.title} required>
                     <Field.Label color="gray.700">Title <FieldRequiredIndicator /></Field.Label>
                     <Input
                         placeholder="e.g. Psychiatrist"
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.title}</Field.ErrorText>
                 </Field.Root>
 
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>

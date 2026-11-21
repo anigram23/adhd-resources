@@ -24,7 +24,8 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
             await queryClient.invalidateQueries({ queryKey: ["staticPage", slug] });
             onSuccess?.();
         }
-    })
+    });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const editor = useEditor({
         extensions: defaultEditorExtensions,
@@ -42,7 +43,7 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.title} required>
                     <Field.Label>
                         Title
                         <FieldRequiredIndicator />
@@ -53,9 +54,10 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.title}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.content} required>
                     <Field.Label>
                         Content
                         <FieldRequiredIndicator />
@@ -86,9 +88,10 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
 
                         <RichTextEditor.Content />
                     </RichTextEditor.Root>
+                    <Field.ErrorText>{errors.content}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.orderIndex} required>
                     <Field.Label>
                         Order Index
                         <FieldRequiredIndicator />
@@ -102,9 +105,10 @@ export default function CreateStaticPageSectionForm({ pageId, slug, onSuccess }:
                         <NumberInput.Control />
                         <NumberInput.Input />
                     </NumberInput.Root>
+                    <Field.ErrorText>{errors.orderIndex}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16}/>
                         <Text fontSize="sm">{mutation.error.message}</Text>

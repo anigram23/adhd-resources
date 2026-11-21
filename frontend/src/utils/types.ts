@@ -33,3 +33,11 @@ export type Review = {
 };
 
 export type PrivateReview = Review & { reviewer: Reviewer | null };
+// Shape of every rejected API call (see httpClient.ts). fieldErrors maps a request field name to its message.
+export type ApiError = { status: number, message: string, fieldErrors?: Record<string, string> };
+
+declare module "@tanstack/react-query" {
+    interface Register {
+        defaultError: ApiError;
+    }
+}

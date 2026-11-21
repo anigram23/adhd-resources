@@ -19,6 +19,7 @@ export default function ReviewerLoginForm({ prev }: { prev: string | null }) {
             navigate(prev != null ? prev : "/");
         },
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -42,7 +43,7 @@ export default function ReviewerLoginForm({ prev }: { prev: string | null }) {
 
                     <Card.Body>
                         <Stack gap={5}>
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.email} required>
                                 <Field.Label>
                                     Email ID
                                     <FieldRequiredIndicator/>
@@ -53,9 +54,10 @@ export default function ReviewerLoginForm({ prev }: { prev: string | null }) {
                                     value={form.email}
                                     onChange={(e) => setForm({...form, email: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.email}</Field.ErrorText>
                             </Field.Root>
 
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.password} required>
                                 <Field.Label>
                                     Password
                                     <FieldRequiredIndicator/>
@@ -66,9 +68,10 @@ export default function ReviewerLoginForm({ prev }: { prev: string | null }) {
                                     value={form.password}
                                     onChange={(e) => setForm({...form, password: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.password}</Field.ErrorText>
                             </Field.Root>
 
-                            {mutation.isError && (
+                            {mutation.isError && !mutation.error.fieldErrors && (
                                 <HStack gap={2} color="red.500">
                                     <FiAlertCircle size={16}/>
                                     <Text fontSize="sm">{mutation.error.message}</Text>

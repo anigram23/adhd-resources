@@ -30,7 +30,8 @@ export default function EditStaticPageForm (
             });
             onClose?.();
         }
-    })
+    });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -40,16 +41,18 @@ export default function EditStaticPageForm (
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root>
+                <Field.Root invalid={!!errors.title}>
                     <Field.Label>Title</Field.Label>
                     <Input
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})} />
+                    <Field.ErrorText>{errors.title}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root>
+                <Field.Root invalid={!!errors.slug}>
                     <Field.Label>Slug</Field.Label>
                     <Input value={form.slug} onChange={(e) => setForm({...form, slug: e.target.value})} />
+                    <Field.ErrorText>{errors.slug}</Field.ErrorText>
                 </Field.Root>
 
                 <Switch.Root
@@ -64,7 +67,7 @@ export default function EditStaticPageForm (
 
                 </Switch.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16}/>
                         <Text fontSize="sm">{mutation.error.message}</Text>

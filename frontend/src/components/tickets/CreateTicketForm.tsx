@@ -25,6 +25,7 @@ export default function CreateTicketForm({ reviewerId, onClose, review }: { revi
             onClose?.();
         }
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -35,7 +36,7 @@ export default function CreateTicketForm({ reviewerId, onClose, review }: { revi
         <form onSubmit={handleSubmit}>
             <Stack gap={6}>
                 { reviewId === null && (
-                    <Field.Root required>
+                    <Field.Root invalid={!!errors.ticketTypeId} required>
                         <Field.Label color="gray.700">
                             Ticket Type <FieldRequiredIndicator />
                         </Field.Label>
@@ -51,10 +52,11 @@ export default function CreateTicketForm({ reviewerId, onClose, review }: { revi
                             </NativeSelect.Field>
                             <NativeSelect.Indicator />
                         </NativeSelect.Root>
+                        <Field.ErrorText>{errors.ticketTypeId}</Field.ErrorText>
                     </Field.Root>
                 )}
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.content} required>
                     <Field.Label color="gray.700">
                         Content <FieldRequiredIndicator />
                     </Field.Label>
@@ -64,9 +66,10 @@ export default function CreateTicketForm({ reviewerId, onClose, review }: { revi
                         onChange={(e) => setContent(e.target.value)}
                         rows={5}
                     />
+                    <Field.ErrorText>{errors.content}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>

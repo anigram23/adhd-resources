@@ -20,6 +20,10 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
             navigate(prev != null ? prev : "/");
         },
     });
+    const errors: Record<string, string> = {
+        ...mutation.error?.fieldErrors,
+        ...(passwordsNotMatching ? { confirmPassword: "Your passwords do not match" } : {}),
+    };
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -27,6 +31,7 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
 
         if (form.password !== form.confirmPassword) {
             setPasswordsNotMatching(true);
+            mutation.reset();
             return;
         }
 
@@ -50,7 +55,7 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
 
                     <Card.Body>
                         <Stack gap={5}>
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.email} required>
                                 <Field.Label>
                                     Email ID
                                     <FieldRequiredIndicator/>
@@ -61,9 +66,10 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
                                     value={form.email}
                                     onChange={(e) => setForm({...form, email: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.email}</Field.ErrorText>
                             </Field.Root>
 
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.password} required>
                                 <Field.Label>
                                     Password
                                     <FieldRequiredIndicator/>
@@ -73,9 +79,10 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
                                     placeholder="Enter your password"
                                     onChange={(e) => setForm({...form, password: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.password}</Field.ErrorText>
                             </Field.Root>
 
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.confirmPassword} required>
                                 <Field.Label>
                                     Confirm Password
                                     <FieldRequiredIndicator/>
@@ -86,19 +93,13 @@ export default function ReviewerRegistrationForm({ prev }: { prev: string | null
                                     value={form.confirmPassword}
                                     onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.confirmPassword}</Field.ErrorText>
                             </Field.Root>
 
-                            {mutation.isError && (
+                            {mutation.isError && !mutation.error.fieldErrors && (
                                 <HStack gap={2} color="red.500">
                                     <FiAlertCircle size={16}/>
                                     <Text fontSize="sm">{mutation.error.message}</Text>
-                                </HStack>
-                            )}
-
-                            {passwordsNotMatching && (
-                                <HStack gap={2} color="red.500">
-                                    <FiAlertCircle size={16}/>
-                                    <Text fontSize="sm">Your passwords do not match</Text>
                                 </HStack>
                             )}
 

@@ -30,6 +30,7 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
             onSuccess?.();
         }
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const editor = useEditor({
         extensions: defaultEditorExtensions,
@@ -47,7 +48,7 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root>
+                <Field.Root invalid={!!errors.title}>
                     <Field.Label>
                         Title
                     </Field.Label>
@@ -56,9 +57,10 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.title}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root>
+                <Field.Root invalid={!!errors.content}>
                     <Field.Label>
                         Content
                     </Field.Label>
@@ -88,9 +90,10 @@ export default function EditStaticPageSectionForm({ section, slug, onSuccess }: 
 
                         <RichTextEditor.Content />
                     </RichTextEditor.Root>
+                    <Field.ErrorText>{errors.content}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16}/>
                         <Text fontSize="sm">{mutation.error.message}</Text>

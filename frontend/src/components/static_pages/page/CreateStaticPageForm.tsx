@@ -20,6 +20,7 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
             onClose?.();
         }
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -29,7 +30,7 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.title} required>
                     <Field.Label>
                         Title
                         <FieldRequiredIndicator/>
@@ -39,9 +40,10 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
                         value={form.title}
                         onChange={(e) => setForm({...form, title: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.title}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.slug} required>
                     <Field.Label>
                         Slug
                         <FieldRequiredIndicator/>
@@ -51,9 +53,10 @@ export default function CreateStaticPageForm({ onClose }: { onClose?: () => void
                         value={form.slug}
                         onChange={(e) => setForm({...form, slug: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.slug}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16}/>
                         <Text fontSize="sm">{mutation.error.message}</Text>

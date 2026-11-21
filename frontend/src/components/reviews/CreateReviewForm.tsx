@@ -107,6 +107,11 @@ export default function CreateReviewForm(
             onClose?.();
         },
     });
+    const errors: Record<string, string> = {
+        ...mutation.error?.fieldErrors,
+        ...(submitted && contactNumberInvalid ? { contactNumber: "Enter a 10-digit mobile number (digits only, without +91)" } : {}),
+        ...(submitted && ratingInvalid ? { rating: "Please give a rating of at least 0.5 stars" } : {}),
+    };
 
     const editor = useEditor({
         extensions: defaultEditorExtensions,
@@ -119,7 +124,10 @@ export default function CreateReviewForm(
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setSubmitted(true);
-        if (contactNumberInvalid || ratingInvalid) return;
+        if (contactNumberInvalid || ratingInvalid) {
+            mutation.reset();
+            return;
+        }
         mutation.mutate({...form, diagnosisFee: form.wasDiagnosed ? form.diagnosisFee : null});
     };
 
@@ -131,7 +139,7 @@ export default function CreateReviewForm(
                     <Box bg="blue.50" borderRadius="lg" p={4} borderLeft="4px solid" borderColor="blue.200">
                         <SectionHeader icon={<FiUser size={14} />} label="Professional" />
                         <Stack gap={4} mt={3}>
-                            <Field.Root required>
+                            <Field.Root invalid={!!errors.professionalName} required>
                                 <Field.Label color="gray.700">
                                     Name <FieldRequiredIndicator />
                                 </Field.Label>
@@ -141,10 +149,11 @@ export default function CreateReviewForm(
                                     value={form.professionalName}
                                     onChange={(e) => setForm({...form, professionalName: e.target.value})}
                                 />
+                                <Field.ErrorText>{errors.professionalName}</Field.ErrorText>
                             </Field.Root>
 
                             {pickType && (
-                                <Field.Root required>
+                                <Field.Root invalid={!!errors.professionalTypeTitle} required>
                                     <Field.Label color="gray.700">
                                         Professional Type <FieldRequiredIndicator />
                                     </Field.Label>
@@ -160,6 +169,7 @@ export default function CreateReviewForm(
                                         </NativeSelect.Field>
                                         <NativeSelect.Indicator />
                                     </NativeSelect.Root>
+                                    <Field.ErrorText>{errors.professionalTypeTitle}</Field.ErrorText>
                                 </Field.Root>
                             )}
 
@@ -186,7 +196,7 @@ export default function CreateReviewForm(
                                         </NativeSelect.Root>
                                     </Field.Root>
 
-                                    <Field.Root required disabled={!selectedStateID}>
+                                    <Field.Root invalid={!!errors.cityName} required disabled={!selectedStateID}>
                                         <Field.Label color="gray.700">
                                             City <FieldRequiredIndicator />
                                         </Field.Label>
@@ -202,6 +212,7 @@ export default function CreateReviewForm(
                                             </NativeSelect.Field>
                                             <NativeSelect.Indicator />
                                         </NativeSelect.Root>
+                                        <Field.ErrorText>{errors.cityName}</Field.ErrorText>
                                     </Field.Root>
                                 </Grid>
                             )}
@@ -257,7 +268,7 @@ export default function CreateReviewForm(
 
                         <Separator borderColor="blue.100" />
 
-                        <Field.Root required invalid={submitted && contactNumberInvalid}>
+                        <Field.Root required invalid={!!errors.contactNumber}>
                             <Field.Label color="gray.700">
                                 Contact Number <FieldRequiredIndicator />
                             </Field.Label>
@@ -271,10 +282,10 @@ export default function CreateReviewForm(
                                     onChange={(e) => setForm({...form, contactNumber: e.currentTarget.value})}
                                 />
                             </InputGroup>
-                            <Field.ErrorText>Enter a 10-digit mobile number (digits only, without +91)</Field.ErrorText>
+                            <Field.ErrorText>{errors.contactNumber}</Field.ErrorText>
                         </Field.Root>
 
-                        <Field.Root required>
+                        <Field.Root invalid={!!errors.address} required>
                             <Field.Label color="gray.700">
                                 <HStack gap={1}>
                                     <Box color="blue.400"><HiOfficeBuilding size={14} /></Box>
@@ -289,6 +300,7 @@ export default function CreateReviewForm(
                                 value={form.address}
                                 onChange={(e) => setForm({...form, address: e.currentTarget.value})}
                             />
+                            <Field.ErrorText>{errors.address}</Field.ErrorText>
                         </Field.Root>
                     </Stack>
                 </Box>
@@ -296,7 +308,7 @@ export default function CreateReviewForm(
                 <Box bg="blue.50" borderRadius="lg" p={4} borderLeft="4px solid" borderColor="blue.200">
                     <SectionHeader icon={<FaRupeeSign size={13} />} label="Fees" />
                     <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={4} mt={3}>
-                        <Field.Root required>
+                        <Field.Root invalid={!!errors.consultationFee} required>
                             <Field.Label color="gray.700">
                                 Consultation Fee <FieldRequiredIndicator />
                             </Field.Label>
@@ -309,9 +321,10 @@ export default function CreateReviewForm(
                                     <NumberInput.Input placeholder="0" />
                                 </NumberInput.Root>
                             </InputGroup>
+                            <Field.ErrorText>{errors.consultationFee}</Field.ErrorText>
                         </Field.Root>
 
-                        <Field.Root disabled={!form.wasDiagnosed}>
+                        <Field.Root invalid={!!errors.diagnosisFee} disabled={!form.wasDiagnosed}>
                             <Field.Label color="gray.700">Diagnosis Fee</Field.Label>
                             <InputGroup startAddon="₹">
                                 <NumberInput.Root
@@ -328,6 +341,7 @@ export default function CreateReviewForm(
                                     <Text>Only if this professional diagnosed you</Text>
                                 </HStack>
                             </Field.HelperText>
+                            <Field.ErrorText>{errors.diagnosisFee}</Field.ErrorText>
                         </Field.Root>
                     </Grid>
                 </Box>
@@ -335,7 +349,7 @@ export default function CreateReviewForm(
                 <Box bg="blue.50" borderRadius="lg" p={4} borderLeft="4px solid" borderColor="blue.200">
                     <SectionHeader icon={<FiEdit2 size={14} />} label="Your Review" />
                     <Stack gap={4} mt={3}>
-                        <Field.Root required invalid={submitted && ratingInvalid}>
+                        <Field.Root required invalid={!!errors.rating}>
                             <Field.Label color="gray.700">
                                 Rating <FieldRequiredIndicator />
                             </Field.Label>
@@ -356,10 +370,10 @@ export default function CreateReviewForm(
                                     </Text>
                                 )}
                             </VStack>
-                            <Field.ErrorText>Please give a rating of at least 0.5 stars</Field.ErrorText>
+                            <Field.ErrorText>{errors.rating}</Field.ErrorText>
                         </Field.Root>
 
-                        <Field.Root required>
+                        <Field.Root invalid={!!errors.content} required>
                             <Field.Label color="gray.700">
                                 Share your experience <FieldRequiredIndicator />
                             </Field.Label>
@@ -387,11 +401,12 @@ export default function CreateReviewForm(
                                 </RichTextEditor.Toolbar>
                                 <RichTextEditor.Content />
                             </RichTextEditor.Root>
+                            <Field.ErrorText>{errors.content}</Field.ErrorText>
                         </Field.Root>
                     </Stack>
                 </Box>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>

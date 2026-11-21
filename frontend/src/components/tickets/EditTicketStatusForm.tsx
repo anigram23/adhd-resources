@@ -19,6 +19,7 @@ export default function EditTicketStatusForm({ ticket, onClose }: { ticket: Tick
             onClose?.();
         }
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -28,7 +29,7 @@ export default function EditTicketStatusForm({ ticket, onClose }: { ticket: Tick
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={6}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.status} required>
                     <Field.Label color="gray.700">
                         Status <FieldRequiredIndicator />
                     </Field.Label>
@@ -43,9 +44,10 @@ export default function EditTicketStatusForm({ ticket, onClose }: { ticket: Tick
                         </NativeSelect.Field>
                         <NativeSelect.Indicator />
                     </NativeSelect.Root>
+                    <Field.ErrorText>{errors.status}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={22} />
                         <Text fontSize="sm">{mutation.error.message}</Text>

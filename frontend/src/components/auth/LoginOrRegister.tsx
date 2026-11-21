@@ -15,6 +15,7 @@ function LoginForm() {
             await queryClient.invalidateQueries({queryKey: ["currentUser"]});
         },
     });
+    const errors = mutation.error?.fieldErrors ?? {};
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -24,7 +25,7 @@ function LoginForm() {
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.email} required>
                     <Field.Label color="gray.700">
                         Email ID <FieldRequiredIndicator />
                     </Field.Label>
@@ -34,9 +35,10 @@ function LoginForm() {
                         value={form.email}
                         onChange={(e) => setForm({...form, email: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.email}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.password} required>
                     <Field.Label color="gray.700">
                         Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -46,9 +48,10 @@ function LoginForm() {
                         value={form.password}
                         onChange={(e) => setForm({...form, password: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.password}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16} />
                         <Text fontSize="sm">{mutation.error.message}</Text>
@@ -74,12 +77,17 @@ function RegisterForm() {
             await queryClient.invalidateQueries({queryKey: ["currentUser"]});
         },
     });
+    const errors: Record<string, string> = {
+        ...mutation.error?.fieldErrors,
+        ...(passwordsNotMatching ? { confirmPassword: "Your passwords do not match" } : {}),
+    };
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setPasswordsNotMatching(false);
         if (form.password !== form.confirmPassword) {
             setPasswordsNotMatching(true);
+            mutation.reset();
             return;
         }
         mutation.mutate(form);
@@ -88,7 +96,7 @@ function RegisterForm() {
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <Field.Root required>
+                <Field.Root invalid={!!errors.email} required>
                     <Field.Label color="gray.700">
                         Email ID <FieldRequiredIndicator />
                     </Field.Label>
@@ -98,9 +106,10 @@ function RegisterForm() {
                         value={form.email}
                         onChange={(e) => setForm({...form, email: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.email}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.password} required>
                     <Field.Label color="gray.700">
                         Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -109,9 +118,10 @@ function RegisterForm() {
                         placeholder="Enter your password"
                         onChange={(e) => setForm({...form, password: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.password}</Field.ErrorText>
                 </Field.Root>
 
-                <Field.Root required>
+                <Field.Root invalid={!!errors.confirmPassword} required>
                     <Field.Label color="gray.700">
                         Confirm Password <FieldRequiredIndicator />
                     </Field.Label>
@@ -121,19 +131,13 @@ function RegisterForm() {
                         value={form.confirmPassword}
                         onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
                     />
+                    <Field.ErrorText>{errors.confirmPassword}</Field.ErrorText>
                 </Field.Root>
 
-                {mutation.isError && (
+                {mutation.isError && !mutation.error.fieldErrors && (
                     <HStack gap={2} color="red.500">
                         <FiAlertCircle size={16} />
                         <Text fontSize="sm">{mutation.error.message}</Text>
-                    </HStack>
-                )}
-
-                {passwordsNotMatching && (
-                    <HStack gap={2} color="red.500">
-                        <FiAlertCircle size={16} />
-                        <Text fontSize="sm">Your passwords do not match</Text>
                     </HStack>
                 )}
 
