@@ -240,7 +240,7 @@ export default function AllReviews() {
                                                     year: "numeric", month: "short", day: "numeric"
                                                 })}</Text>
                                             </VStack>
-                                            <RatingGroup.Root readOnly allowHalf defaultValue={review.rating} count={5} size="sm">
+                                            <RatingGroup.Root readOnly allowHalf value={review.rating} count={5} size="sm">
                                                 <RatingGroup.HiddenInput />
                                                 <RatingGroup.Control />
                                             </RatingGroup.Root>

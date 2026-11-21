@@ -52,7 +52,7 @@ export default function Reviews() {
                     </Text>
                     {data.length > 0 && (
                         <HStack gap={2}>
-                            <RatingGroup.Root readOnly allowHalf defaultValue={averageRating} count={5} size="sm">
+                            <RatingGroup.Root readOnly allowHalf value={averageRating} count={5} size="sm">
                                 <RatingGroup.HiddenInput />
                                 <RatingGroup.Control />
                             </RatingGroup.Root>
@@ -117,7 +117,7 @@ export default function Reviews() {
                                 <Card.Header pb={2}>
                                     <HStack justify="space-between" w="full">
                                         <VStack align="start" gap={1}>
-                                            <RatingGroup.Root readOnly allowHalf defaultValue={review.rating} count={5} size="sm">
+                                            <RatingGroup.Root readOnly allowHalf value={review.rating} count={5} size="sm">
                                                 <RatingGroup.HiddenInput />
                                                 <RatingGroup.Control />
                                             </RatingGroup.Root>

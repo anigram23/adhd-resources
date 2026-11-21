@@ -100,7 +100,7 @@ export default function MyReviews() {
                                                     />
                                                 </HStack>
                                             </HStack>
-                                            <RatingGroup.Root readOnly allowHalf defaultValue={review.rating} count={5} size="sm">
+                                            <RatingGroup.Root readOnly allowHalf value={review.rating} count={5} size="sm">
                                                 <RatingGroup.HiddenInput />
                                                 <RatingGroup.Control />
                                             </RatingGroup.Root>

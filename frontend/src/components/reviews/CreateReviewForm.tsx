@@ -103,7 +103,7 @@ export default function CreateReviewForm(
         mutationFn: createReview,
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({queryKey: ["reviews", String(data.professional.id)]});
-            await queryClient.invalidateQueries({ queryKey: ["professionals", form.professionalTypeTitle, form.cityName] });
+            await queryClient.invalidateQueries({ queryKey: ["professionals"] });
             onClose?.();
         },
     });
